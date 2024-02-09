@@ -1,4 +1,4 @@
-import tinycolor from "@ctrl/tinycolor";
+import { TinyColor } from "@ctrl/tinycolor";
 
 import { mergeDeepRight } from "./merge";
 import type { ButtonProps } from "../components/Button";
@@ -45,7 +45,7 @@ export function getButtonVariants({
       width: "100%",
     },
     soft: {
-      onPressColor: { custom: tinycolor(resolveThemeColor(themeColor)).tint(85).toHexString() },
+      onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).tint(85).toHexString() },
       textColor: themeColor,
       borderWidth: 1,
       width: "100%",
@@ -53,7 +53,7 @@ export function getButtonVariants({
     ghost: {
       backgroundColor: { custom: parentBackGroundColor },
       borderColor: { custom: parentBackGroundColor },
-      onPressColor: { custom: tinycolor(resolveThemeColor(themeColor)).mix("#fff", 92).toHexString() },
+      onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).mix("#fff", 92).toHexString() },
       textColor: themeColor,
       borderWidth: 0,
       width: "100%",

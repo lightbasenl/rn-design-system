@@ -32,7 +32,8 @@
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "clean": "del-cli lib",
     "prepare": "bob build",
-    "release": "release-it"
+    "release": "release-it",
+    "updates": "npx npm-check-updates -i"
   },
   "keywords": [
     "react-native",
@@ -53,33 +54,33 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@capsizecss/core": "^3.1.0",
-    "@ctrl/tinycolor": "^3.6.0",
-    "react-keyed-flatten-children": "^1.3.0"
+    "@capsizecss/core": "^3.1.1",
+    "@ctrl/tinycolor": "^4.0.3",
+    "react-keyed-flatten-children": "^3.0.0"
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "^17.6.3",
-    "@react-navigation/bottom-tabs": "^6.5.7",
-    "@react-navigation/elements": "^1.3.17",
-    "@react-navigation/native": "^6.1.6",
-    "@react-navigation/native-stack": "^6.9.12",
-    "@release-it/conventional-changelog": "^7.0.0",
-    "@types/react": "~18.2.20",
+    "@commitlint/config-conventional": "^18.6.0",
+    "@react-navigation/bottom-tabs": "^6.5.12",
+    "@react-navigation/elements": "^1.3.22",
+    "@react-navigation/native": "^6.1.10",
+    "@react-navigation/native-stack": "^6.9.18",
+    "@release-it/conventional-changelog": "^8.0.1",
+    "@types/react": "~18.2.55",
     "babel-plugin-module-resolver": "5.0.0",
-    "commitlint": "^17.6.3",
-    "del-cli": "^5.0.0",
-    "eslint": "^8.40.0",
+    "commitlint": "^18.6.0",
+    "del-cli": "^5.1.0",
+    "eslint": "^8.56.0",
     "eslint-config-universe": "^12.0.0",
-    "pod-install": "^0.1.0",
-    "prettier": "^3.0.2",
+    "pod-install": "^0.2.0",
+    "prettier": "^3.2.5",
     "react": "18.2.0",
-    "react-native": "0.72.4",
-    "react-native-builder-bob": "^0.21.3",
-    "react-native-keyboard-controller": "^1.8.0",
-    "react-native-reanimated": "3.3.0",
-    "react-native-safe-area-context": "4.7.1",
-    "release-it": "^16.1.5",
-    "typescript": "^5.1.6"
+    "react-native": "0.73.4",
+    "react-native-builder-bob": "^0.23.2",
+    "react-native-keyboard-controller": "^1.10.6",
+    "react-native-reanimated": "3.7.0",
+    "react-native-safe-area-context": "4.9.0",
+    "release-it": "^17.0.3",
+    "typescript": "^5.3.3"
   },
   "peerDependencies": {
     "@react-navigation/bottom-tabs": "*",

@@ -1,4 +1,4 @@
-import tinycolor from "@ctrl/tinycolor";
+import { TinyColor } from "@ctrl/tinycolor";
 import * as React from "react";
 import { createContext, useCallback, useContext, useMemo } from "react";
 import type { PressableProps, PressableStateCallbackType } from "react-native";
@@ -146,10 +146,10 @@ export function Button({
     animateTo(0, 200);
   };
 
-  const endBackgroundColor = tinycolor(pressColor).toHex8String();
+  const endBackgroundColor = new TinyColor(pressColor).toHex8String();
   const startBackgroundColor =
     resolvedBackgroundColor === "transparent"
-      ? tinycolor(pressColor).setAlpha(0).toHex8String()
+      ? new TinyColor(pressColor).setAlpha(0).toHex8String()
       : resolvedBackgroundColor;
 
   const animatedBackgroundColor = useDerivedValue(() => {
