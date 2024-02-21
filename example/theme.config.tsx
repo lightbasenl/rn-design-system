@@ -2,17 +2,17 @@ import { createtheme } from "@lightbase/rn-design-system";
 
 import { fontConfig } from "./theme.typography";
 
-declare module "@lightbase/rn-design-system" {
-  export interface LBCustomConfig extends CustomTheme {}
-  // function useInternalTheme(mode?: "light" | "dark"): {
-  //   colors: LBCustomConfig["colors"]["light"];
-  //   typography: LBCustomConfig["typography"];
-  //   variants: LBCustomConfig["variants"];
-  //   spacing: LBCustomConfig["spacing"];
-  //   radius: LBCustomConfig["radius"];
-  //   defaults: LBCustomConfig["defaults"];
-  // };
-}
+// declare module "@lightbase/rn-design-system" {
+//   export interface LBCustomConfig extends CustomTheme {}
+//   // function useInternalTheme(mode?: "light" | "dark"): {
+//   //   colors: LBCustomConfig["colors"]["light"];
+//   //   typography: LBCustomConfig["typography"];
+//   //   variants: LBCustomConfig["variants"];
+//   //   spacing: LBCustomConfig["spacing"];
+//   //   radius: LBCustomConfig["radius"];
+//   //   defaults: LBCustomConfig["defaults"];
+//   // };
+// }
 
 const colors = {
   "red-800": "#570600",
