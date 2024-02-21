@@ -175,7 +175,7 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
             return;
           }
 
-          if (fontImports[fontName]) {
+          if (!fontImports[fontName]) {
             fontImports[fontName] = [importedFontName];
           } else {
             if (!fontImports[fontName]?.includes(importedFontName)) {
