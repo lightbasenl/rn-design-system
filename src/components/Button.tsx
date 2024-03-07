@@ -113,6 +113,7 @@ export function Button({
     space,
     alignVertical = "center",
     alignHorizontal = "center",
+    height,
     ...remainingProps
   } = combinedProps;
 
@@ -176,6 +177,7 @@ export function Button({
               },
             ]
           : undefined,
+      height,
     };
   }, [
     anim.value,
@@ -184,13 +186,14 @@ export function Button({
     onPressBorderColor,
     pressBorderColor,
     resolvedBorderColor,
+    height,
   ]);
 
   const pressableStyle = useCallback(
     (state: PressableStateCallbackType) => {
-      return [{ flex: 1 }, paddingValues, typeof style === "function" ? style(state) : style];
+      return [{ height }, paddingValues, typeof style === "function" ? style(state) : style];
     },
-    [paddingValues, style]
+    [paddingValues, style, height]
   );
 
   const _LoadingComponent = LoadingComponent ?? (
@@ -213,7 +216,7 @@ export function Button({
           style={pressableStyle}
           {...rest}
         >
-          <Row space={space} alignVertical={alignVertical} alignHorizontal={alignHorizontal} flex={1}>
+          <Row space={space} alignVertical={alignVertical} alignHorizontal={alignHorizontal} height={height}>
             {isLoading ? _LoadingComponent : children}
           </Row>
         </Pressable>
