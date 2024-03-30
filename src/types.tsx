@@ -34,6 +34,7 @@ export type CreateLBConfig<
   spacing: TSpacing;
   radius: TRadius;
   defaults: Defaults<TMetrics, TFontSizes, TColors, TSpacing, TTextVariant, TRadius>;
+  capsize: CapSizeConfig<TFontSizes, FontMetrics>;
 };
 
 export type GenericLBConfig = CreateLBConfig<
@@ -52,6 +53,14 @@ export type GenericLBConfig = CreateLBConfig<
     SpacingConfig
   >
 >;
+
+export type CapSizeConfig<S extends GenericFontSizes, K extends FontMetrics> = {
+  [sizeToken in keyof S]: CapsizeCon<K>;
+};
+
+type CapsizeCon<K extends FontMetrics> = {
+  [family in keyof K]: { marginTop?: number; marginBottom?: number };
+};
 
 export type FontVariant = keyof LBConfig["variants"]["Text"];
 export type FontFamily = keyof LBConfig["typography"]["fonts"];

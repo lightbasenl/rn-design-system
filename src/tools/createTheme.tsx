@@ -3,6 +3,7 @@ import { PixelRatio } from "react-native";
 import { createTextSize } from "../theme/typography";
 import type {
   ButtonVariant,
+  CapSizeConfig,
   CreateLBConfig,
   FontMetrics,
   GenericFontSizes,
@@ -29,24 +30,26 @@ export function createtheme<
 
   config.colors = themeColors;
 
-  const fonts = Object.entries(config.typography.sizes).reduce((prev, cur) => {
-    Object.entries(config.typography.fonts).forEach(([fontKey, fontValue]) => {
-      const [key, value] = cur;
-      const { fontSize, lineHeight, marginBottom, marginTop } = createTextSize({
-        fontMetrics: fontValue,
-        fontSize: PixelRatio.roundToNearestPixel(value.fontSize),
-        lineHeight: PixelRatio.roundToNearestPixel(value.lineHeight),
+  const fonts = Object.entries(config.typography.sizes).reduce(
+    (prev, cur) => {
+      Object.entries(config.typography.fonts).forEach(([fontKey, fontValue]) => {
+        const [key, value] = cur;
+        const { marginBottom, marginTop } = createTextSize({
+          fontMetrics: fontValue,
+          fontSize: PixelRatio.roundToNearestPixel(value.fontSize),
+          lineHeight: PixelRatio.roundToNearestPixel(value.lineHeight),
+        });
+        prev[key as keyof S] = {
+          ...prev[key],
+          [fontKey]: { marginTop, marginBottom },
+        };
       });
-      prev[key] = {
-        fontSize,
-        lineHeight,
-        [fontKey]: { marginTop, marginBottom },
-      };
-    });
-    return prev;
-  }, {} as any);
+      return prev;
+    },
+    {} as CapSizeConfig<S, FontMetrics>
+  );
 
-  config.typography.sizes = fonts;
+  config.capsize = fonts;
 
   return config;
 }

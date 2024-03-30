@@ -10,6 +10,7 @@ export function useInternalTheme(mode?: "light" | "dark"): {
   spacing: LBConfig["spacing"];
   radius: LBConfig["radius"];
   defaults: LBConfig["defaults"];
+  capsize: LBConfig["capsize"];
 } {
   const theme = useContext(ThemeContext);
 
