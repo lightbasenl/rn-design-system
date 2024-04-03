@@ -70,9 +70,9 @@ export function Text({ variant, ...props }: TextProps) {
 	const fontSize = sizes.fontSize;
 	const lineHeight = sizes.lineHeight;
 
-	const styles = useStyle(() => {
-		return [
-			{
+	const styles = useStyle(
+		() =>
+			({
 				textTransform,
 				textDecorationLine,
 				textAlign,
@@ -85,34 +85,32 @@ export function Text({ variant, ...props }: TextProps) {
 				lineHeight,
 				marginTop,
 				marginBottom,
-			},
-			style,
-		] as TextStyle[];
-	}, [
-		textTransform,
-		textDecorationLine,
-		textAlign,
-		customColor,
-		flex,
-		fontWeight,
-		fontStyle,
-		fontFamily,
-		fontSize,
-		lineHeight,
-		marginTop,
-		marginBottom,
-		style,
-	]);
+			}) as const,
+		[
+			textTransform,
+			textDecorationLine,
+			textAlign,
+			customColor,
+			flex,
+			fontWeight,
+			fontStyle,
+			fontFamily,
+			fontSize,
+			lineHeight,
+			marginTop,
+			marginBottom,
+		]
+	);
 
 	if (Platform.OS === "ios") {
 		return (
-			<UITextView uiTextView={selectable} selectable={selectable} style={styles} {...rest}>
+			<UITextView uiTextView={selectable} selectable={selectable} style={[styles, style]} {...rest}>
 				{children}
 			</UITextView>
 		);
 	}
 	return (
-		<RNText style={styles} selectable={selectable} {...rest}>
+		<RNText style={[styles, style]} selectable={selectable} {...rest}>
 			{children}
 			{/* https://github.com/facebook/react-native/issues/29232#issuecomment-889767516 */}
 			{Platform.OS === "android" && "lineHeight" in sizes && !!sizes.lineHeight && (
