@@ -1,9 +1,8 @@
 import type { ReactElement } from "react";
-import { Fragment } from "react";
+import { Fragment, useMemo } from "react";
 
 import { useInternalTheme } from "../hooks/useInternalTheme";
 import { getValidChildren } from "../tools/getValidChildren";
-import { useStyle } from "../tools/useStyle";
 import type { Spacing } from "../types";
 import type { BoxProps } from "./Box/Box";
 import { Box } from "./Box/Box";
@@ -79,7 +78,7 @@ export function Row({
 	const horizontalSpace = horizontalSpaceProp ?? space;
 	const rowGap = spaceMap(verticalSpace);
 	const columnGap = spaceMap(horizontalSpace);
-	const rowStyle = useStyle(() => ({ rowGap, columnGap }), [rowGap, columnGap]);
+	const rowStyle = useMemo(() => ({ rowGap, columnGap }), [rowGap, columnGap]);
 
 	return (
 		<Box

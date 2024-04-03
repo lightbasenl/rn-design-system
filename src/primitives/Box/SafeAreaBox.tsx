@@ -6,11 +6,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BackgroundContext } from "../../hooks/useBackgroundColor";
 import type { BoxTokens } from "../../hooks/useResolveBoxTokens";
 import { useResolveBoxTokens } from "../../hooks/useResolveBoxTokens";
-import type { RemoveStyle } from "../../tools/useStyle";
 
 // If an emtpy SafeAreaView is placed to handle insets then its ignored, this ensures the insets area always applied
 const styleFix = { minHeight: 1 };
-export type SafeAreaBoxProps = BoxTokens & RemoveStyle<SafeAreaViewProps>;
+export type SafeAreaBoxProps = BoxTokens & Omit<SafeAreaViewProps, "style">;
 export const SafeAreaBox = ({
 	children,
 	edges,

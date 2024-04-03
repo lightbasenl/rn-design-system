@@ -14,8 +14,8 @@ import type { ReactElement } from "react";
 import type { ViewStyle } from "react-native";
 import type { SafeAreaViewProps } from "react-native-safe-area-context";
 
-// biome-ignore lint/complexity/noBannedTypes: <explanation>
-export type LBCustomConfig = {};
+// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
+export interface LBCustomConfig {}
 export interface LBConfig extends Omit<GenericLBConfig, keyof LBCustomConfig>, LBCustomConfig {}
 
 // CONFIG

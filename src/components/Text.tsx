@@ -2,9 +2,9 @@ import type { TextProps as RNTextProps, TextStyle } from "react-native";
 import { Platform, Text as RNText } from "react-native";
 import { UITextView } from "react-native-uitextview";
 
+import { useMemo } from "react";
 import { useInternalTheme } from "../hooks/useInternalTheme";
 import { getTextDecoration, weights } from "../theme/typography";
-import { useStyle } from "../tools/useStyle";
 import type { ColorThemeKeys, FontFamily, FontSizes, FontVariant, FontWeights } from "../types";
 
 export type TextProps = RNTextProps & {
@@ -70,7 +70,7 @@ export function Text({ variant, ...props }: TextProps) {
 	const fontSize = sizes.fontSize;
 	const lineHeight = sizes.lineHeight;
 
-	const styles = useStyle(
+	const styles = useMemo(
 		() =>
 			({
 				textTransform,

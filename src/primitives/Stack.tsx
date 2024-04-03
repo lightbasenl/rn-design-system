@@ -1,9 +1,8 @@
 import type { ReactElement, ReactNode } from "react";
-import { Fragment, isValidElement } from "react";
+import { Fragment, isValidElement, useMemo } from "react";
 
 import { useInternalTheme } from "../hooks/useInternalTheme";
 import { getValidChildren } from "../tools/getValidChildren";
-import { useStyle } from "../tools/useStyle";
 import type { Spacing } from "../types";
 import type { BoxProps } from "./Box/Box";
 import { Box } from "./Box/Box";
@@ -67,7 +66,7 @@ export function Stack({
 	const validChildren = getValidChildren(children);
 	const rowGap = spaceMap(space);
 
-	const gapStyles = useStyle(() => ({ rowGap }), [rowGap]);
+	const gapStyles = useMemo(() => ({ rowGap }), [rowGap]);
 
 	const clones = validChildren.map((child, index) => {
 		const key = typeof child.key !== "undefined" ? child.key : index;

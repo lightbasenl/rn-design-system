@@ -13,7 +13,6 @@ export * from "./primitives/Box/SectionListBox";
 export * from "./components/Button";
 export * from "./components/Text";
 export * from "./components/Screen";
-export * from "./tools/useStyle";
 export * from "./tools/createTheme";
 export * from "./tools/colorUtils";
 export * from "./context/ThemeProvider";

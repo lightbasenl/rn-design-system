@@ -46,11 +46,6 @@
 					"options": {
 						"hooks": [
 							{
-								"name": "useStyle",
-								"closureIndex": 0,
-								"dependenciesIndex": 1
-							},
-							{
 								"name": "useAnimatedStyle",
 								"closureIndex": 0,
 								"dependenciesIndex": 1

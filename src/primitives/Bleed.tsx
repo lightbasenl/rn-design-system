@@ -3,12 +3,11 @@ import { View } from "react-native";
 
 import { useInternalTheme } from "../hooks/useInternalTheme";
 import { mapValues } from "../tools/mapValues";
-import type { RemoveStyle } from "../tools/useStyle";
 import type { SpaceKey } from "../types";
 import type { BoxProps } from "./Box/Box";
 
 type BleedNumber = SpaceKey | { custom: number };
-export type BleedProps = RemoveStyle<ViewProps> & {
+export type BleedProps = Omit<ViewProps, "style"> & {
 	children: BoxProps["children"];
 	space?: BleedNumber;
 	top?: BleedNumber;
