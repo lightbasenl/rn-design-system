@@ -9,7 +9,7 @@ import flattenChildren from "react-keyed-flatten-children";
  * @param children the children
  */
 export function getValidChildren(children: ReactNode) {
-  return Children.toArray(flattenChildren(children)).filter((child) =>
-    isValidElement(child)
-  ) as React.ReactElement[];
+	return Children.toArray(flattenChildren(children)).filter((child) =>
+		isValidElement(child)
+	) as React.ReactElement[];
 }

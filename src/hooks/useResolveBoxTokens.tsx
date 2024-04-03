@@ -4,173 +4,173 @@ import type { StyleProp, ViewStyle } from "react-native";
 import { useInternalTheme } from "../hooks/useInternalTheme";
 import { mapMarginValue, mapPaddingValues, mapValues } from "../tools/mapValues";
 import type {
-  SpacingStyles,
-  RadiusStyles,
-  ColorStyles,
-  MarginValues,
-  ColorValues,
-  BorderRadiusValues,
-  PaddingValues,
-  BorderValues,
-  AlignmentValues,
+	AlignmentValues,
+	BorderRadiusValues,
+	BorderValues,
+	ColorStyles,
+	ColorValues,
+	MarginValues,
+	PaddingValues,
+	RadiusStyles,
+	SpacingStyles,
 } from "../types";
 
 type BoxStyleTokens = SpacingStyles | RadiusStyles | ColorStyles | "shadow";
 type ViewStyleModded = StyleProp<Omit<ViewStyle, BoxStyleTokens>>;
 
 export type BoxTokens = {
-  style?: ViewStyleModded;
-  children?: ReactNode;
-  testID?: string;
-  width?: ViewStyle["width"];
-  height?: ViewStyle["height"];
+	style?: ViewStyleModded;
+	children?: ReactNode;
+	testID?: string;
+	width?: ViewStyle["width"];
+	height?: ViewStyle["height"];
 } & MarginValues &
-  ColorValues &
-  BorderRadiusValues &
-  PaddingValues &
-  BorderValues &
-  AlignmentValues;
+	ColorValues &
+	BorderRadiusValues &
+	PaddingValues &
+	BorderValues &
+	AlignmentValues;
 
 export function useResolveBoxTokens(props: BoxTokens) {
-  const {
-    backgroundColor,
-    borderBottomColor,
-    borderBottomLeftRadius,
-    borderBottomRadius,
-    borderBottomRightRadius,
-    borderBottomWidth,
-    borderColor,
-    borderLeftColor,
-    borderLeftRadius,
-    borderLeftWidth,
-    borderRadius,
-    borderRightColor,
-    borderRightRadius,
-    borderRightWidth,
-    borderTopColor,
-    borderTopLeftRadius,
-    borderTopRadius,
-    borderTopRightRadius,
-    borderTopWidth,
-    borderWidth,
+	const {
+		backgroundColor,
+		borderBottomColor,
+		borderBottomLeftRadius,
+		borderBottomRadius,
+		borderBottomRightRadius,
+		borderBottomWidth,
+		borderColor,
+		borderLeftColor,
+		borderLeftRadius,
+		borderLeftWidth,
+		borderRadius,
+		borderRightColor,
+		borderRightRadius,
+		borderRightWidth,
+		borderTopColor,
+		borderTopLeftRadius,
+		borderTopRadius,
+		borderTopRightRadius,
+		borderTopWidth,
+		borderWidth,
 
-    flex,
-    alignItems,
-    alignSelf,
-    flexDirection,
-    flexWrap,
-    justifyContent,
+		flex,
+		alignItems,
+		alignSelf,
+		flexDirection,
+		flexWrap,
+		justifyContent,
 
-    padding,
-    paddingBottom,
-    paddingHorizontal,
-    paddingLeft,
-    paddingRight,
-    paddingTop,
-    paddingVertical,
+		padding,
+		paddingBottom,
+		paddingHorizontal,
+		paddingLeft,
+		paddingRight,
+		paddingTop,
+		paddingVertical,
 
-    margin,
-    marginBottom,
-    marginHorizontal,
-    marginLeft,
-    marginRight,
-    marginTop,
-    marginVertical,
+		margin,
+		marginBottom,
+		marginHorizontal,
+		marginLeft,
+		marginRight,
+		marginTop,
+		marginVertical,
 
-    width,
-    height,
+		width,
+		height,
 
-    ...rest
-  } = props;
+		...rest
+	} = props;
 
-  const theme = useInternalTheme();
-  const marginValues = mapMarginValue(
-    {
-      margin,
-      marginBottom,
-      marginHorizontal,
-      marginLeft,
-      marginRight,
-      marginTop,
-      marginVertical,
-    },
-    theme.spacing
-  );
+	const theme = useInternalTheme();
+	const marginValues = mapMarginValue(
+		{
+			margin,
+			marginBottom,
+			marginHorizontal,
+			marginLeft,
+			marginRight,
+			marginTop,
+			marginVertical,
+		},
+		theme.spacing
+	);
 
-  const paddingValues = mapPaddingValues(
-    {
-      padding,
-      paddingBottom,
-      paddingHorizontal,
-      paddingLeft,
-      paddingRight,
-      paddingTop,
-      paddingVertical,
-    },
-    theme.spacing
-  );
+	const paddingValues = mapPaddingValues(
+		{
+			padding,
+			paddingBottom,
+			paddingHorizontal,
+			paddingLeft,
+			paddingRight,
+			paddingTop,
+			paddingVertical,
+		},
+		theme.spacing
+	);
 
-  const colorValues = mapValues(
-    {
-      borderColor,
-      borderBottomColor,
-      borderLeftColor,
-      borderRightColor,
-      borderTopColor,
-      backgroundColor,
-    },
-    (value) => {
-      if (typeof value === "object") {
-        return value.custom;
-      }
-      if (typeof value === "string") {
-        return theme.colors[value];
-      }
-      return undefined;
-    }
-  );
+	const colorValues = mapValues(
+		{
+			borderColor,
+			borderBottomColor,
+			borderLeftColor,
+			borderRightColor,
+			borderTopColor,
+			backgroundColor,
+		},
+		(value) => {
+			if (typeof value === "object") {
+				return value.custom;
+			}
+			if (typeof value === "string") {
+				return theme.colors[value];
+			}
+			return undefined;
+		}
+	);
 
-  const borderRadiusValues = mapValues(
-    {
-      borderBottomLeftRadius:
-        borderBottomLeftRadius ?? borderBottomRadius ?? borderLeftRadius ?? borderRadius,
-      borderBottomRightRadius:
-        borderBottomRightRadius ?? borderBottomRadius ?? borderRightRadius ?? borderRadius,
-      borderTopLeftRadius: borderTopLeftRadius ?? borderTopRadius ?? borderLeftRadius ?? borderRadius,
-      borderTopRightRadius: borderTopRightRadius ?? borderTopRadius ?? borderRightRadius ?? borderRadius,
-      borderRadius,
-    },
-    (value) => {
-      if (typeof value === "object") {
-        return value.custom;
-      }
-      if (typeof value === "string") {
-        return theme.radius[value];
-      }
-      return undefined;
-    }
-  );
+	const borderRadiusValues = mapValues(
+		{
+			borderBottomLeftRadius:
+				borderBottomLeftRadius ?? borderBottomRadius ?? borderLeftRadius ?? borderRadius,
+			borderBottomRightRadius:
+				borderBottomRightRadius ?? borderBottomRadius ?? borderRightRadius ?? borderRadius,
+			borderTopLeftRadius: borderTopLeftRadius ?? borderTopRadius ?? borderLeftRadius ?? borderRadius,
+			borderTopRightRadius: borderTopRightRadius ?? borderTopRadius ?? borderRightRadius ?? borderRadius,
+			borderRadius,
+		},
+		(value) => {
+			if (typeof value === "object") {
+				return value.custom;
+			}
+			if (typeof value === "string") {
+				return theme.radius[value];
+			}
+			return undefined;
+		}
+	);
 
-  return {
-    tokenStyles: {
-      alignItems,
-      alignSelf,
-      flexDirection,
-      flex,
-      flexWrap,
-      justifyContent,
-      borderBottomWidth,
-      borderLeftWidth,
-      borderRightWidth,
-      borderTopWidth,
-      borderWidth,
-      width,
-      height,
-      ...marginValues,
-      ...colorValues,
-      ...borderRadiusValues,
-    },
-    paddingValues,
-    ...rest,
-  };
+	return {
+		tokenStyles: {
+			alignItems,
+			alignSelf,
+			flexDirection,
+			flex,
+			flexWrap,
+			justifyContent,
+			borderBottomWidth,
+			borderLeftWidth,
+			borderRightWidth,
+			borderTopWidth,
+			borderWidth,
+			width,
+			height,
+			...marginValues,
+			...colorValues,
+			...borderRadiusValues,
+		},
+		paddingValues,
+		...rest,
+	};
 }

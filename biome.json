@@ -1,0 +1,69 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.5.3/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"files": {
+		"ignore": [
+			"lib/**/*",
+			"src/generated/**/*",
+			".expo/**/*",
+			"node_modules/**/*",
+			"ios/**/*",
+			"android/**/*",
+			"src/graphql-env.d.ts",
+			"theme.typography.tsx"
+		]
+	},
+
+	"json": {
+		"formatter": {
+			"enabled": true
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"trailingComma": "es5",
+			"jsxQuoteStyle": "double",
+			"quoteStyle": "double",
+			"lineWidth": 110
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"performance": {
+				"noDelete": "off",
+				"noAccumulatingSpread": "off"
+			},
+			"suspicious": {
+				"noExplicitAny": "warn"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": {
+					"level": "error",
+					"options": {
+						"hooks": [
+							{
+								"name": "useStyle",
+								"closureIndex": 0,
+								"dependenciesIndex": 1
+							},
+							{
+								"name": "useAnimatedStyle",
+								"closureIndex": 0,
+								"dependenciesIndex": 1
+							},
+							{
+								"name": "useDerivedValue",
+								"closureIndex": 0,
+								"dependenciesIndex": 1
+							}
+						]
+					}
+				}
+			}
+		}
+	}
+}
