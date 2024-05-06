@@ -1,9 +1,10 @@
 import { TinyColor } from "@ctrl/tinycolor";
 
-import { createContext, useCallback, useContext, useMemo } from "react";
-import type { PressableProps, PressableStateCallbackType } from "react-native";
+import { createContext, useContext, useMemo } from "react";
+import type { PressableProps } from "react-native";
 import { ActivityIndicator, Pressable } from "react-native";
 import Animated, {
+	type AnimatedStyle,
 	Easing,
 	interpolate,
 	interpolateColor,
@@ -54,8 +55,9 @@ type ButtonSpecificProps = {
 	 */
 	isLoading?: boolean;
 	LoadingComponent?: JSX.Element;
+	style?: AnimatedStyle;
 };
-export type ButtonProps = PressableProps & OmittedBoxProps & ButtonSpecificProps;
+export type ButtonProps = Omit<PressableProps, "style"> & OmittedBoxProps & ButtonSpecificProps;
 
 const ButtonContext = createContext<Partial<ButtonProps> | null>(null);
 function useButtonContext() {
@@ -113,7 +115,6 @@ export function Button({
 		space,
 		alignVertical = "center",
 		alignHorizontal = "center",
-		height,
 		...remainingProps
 	} = combinedProps;
 
@@ -177,7 +178,6 @@ export function Button({
 							},
 						]
 					: undefined,
-			height,
 		};
 	}, [
 		anim.value,
@@ -186,15 +186,7 @@ export function Button({
 		onPressBorderColor,
 		pressBorderColor,
 		resolvedBorderColor,
-		height,
 	]);
-
-	const pressableStyle = useCallback(
-		(state: PressableStateCallbackType) => {
-			return [{ height }, paddingValues, typeof style === "function" ? style(state) : style];
-		},
-		[paddingValues, style, height]
-	);
 
 	const _LoadingComponent = LoadingComponent ?? (
 		<ActivityIndicator
@@ -204,23 +196,28 @@ export function Button({
 
 	return (
 		<ButtonContext.Provider value={combinedProps}>
-			<Animated.View style={[animatedStyle, tokens]}>
-				<Pressable
-					onPressIn={handlePressIn}
-					onPressOut={handlePressOut}
-					android_ripple={{
-						color: pressColor === "transparent" ? undefined : pressColor,
-					}}
-					onPress={onPress}
-					disabled={!!isLoading || !!disabled}
-					style={pressableStyle}
-					{...rest}
-				>
-					<Row space={space} alignVertical={alignVertical} alignHorizontal={alignHorizontal} height={height}>
+			<Pressable
+				onPressIn={handlePressIn}
+				onPressOut={handlePressOut}
+				android_ripple={{
+					color: pressColor === "transparent" ? undefined : pressColor,
+				}}
+				onPress={onPress}
+				disabled={!!isLoading || !!disabled}
+				{...rest}
+			>
+				<Animated.View style={[animatedStyle, paddingValues, tokens, style]}>
+					<Row
+						space={space}
+						alignVertical={alignVertical}
+						alignHorizontal={alignHorizontal}
+						height={tokens.height ? "100%" : undefined}
+						width={tokens.width ? "100%" : undefined}
+					>
 						{isLoading ? _LoadingComponent : children}
 					</Row>
-				</Pressable>
-			</Animated.View>
+				</Animated.View>
+			</Pressable>
 		</ButtonContext.Provider>
 	);
 }
