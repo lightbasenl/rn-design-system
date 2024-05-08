@@ -204,6 +204,7 @@ export function Button({
 				}}
 				onPress={onPress}
 				disabled={!!isLoading || !!disabled}
+				style={{ flex: tokens.flex, width: tokens.width, height: tokens.height }}
 				{...rest}
 			>
 				<Animated.View style={[animatedStyle, paddingValues, tokens, style]}>
