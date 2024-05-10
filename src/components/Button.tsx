@@ -148,15 +148,17 @@ export function Button({
 		animateTo(0, 200);
 	};
 
-	const endBackgroundColor = new TinyColor(pressColor).toHex8String();
+	const endBackgroundColor = new TinyColor(pressColor).toHexString();
 	const startBackgroundColor =
 		resolvedBackgroundColor === "transparent"
-			? new TinyColor(pressColor).setAlpha(0).toHex8String()
+			? new TinyColor(pressColor).setAlpha(0).toHexString()
 			: resolvedBackgroundColor;
 
 	const animatedBackgroundColor = useDerivedValue(() => {
 		if (onPressColor !== null) {
-			const value = interpolateColor(anim.value, [0, 1], [startBackgroundColor, endBackgroundColor]);
+			const value = interpolateColor(anim.value, [0, 1], [startBackgroundColor, endBackgroundColor], "RGB", {
+				gamma: 2.1,
+			});
 			return value;
 		}
 		return undefined;
@@ -167,7 +169,9 @@ export function Button({
 			backgroundColor: animatedBackgroundColor.value,
 			borderColor:
 				onPressBorderColor !== null
-					? interpolateColor(anim.value, [0, 1], [resolvedBorderColor, pressBorderColor])
+					? interpolateColor(anim.value, [0, 1], [resolvedBorderColor, pressBorderColor], "RGB", {
+							gamma: 2.1,
+						})
 					: undefined,
 			overflow: "hidden",
 			transform:
