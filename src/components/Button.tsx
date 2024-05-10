@@ -9,7 +9,6 @@ import Animated, {
 	interpolate,
 	interpolateColor,
 	useAnimatedStyle,
-	useDerivedValue,
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
@@ -154,19 +153,14 @@ export function Button({
 			? new TinyColor(pressColor).setAlpha(0).toHexString()
 			: resolvedBackgroundColor;
 
-	const animatedBackgroundColor = useDerivedValue(() => {
-		if (onPressColor !== null) {
-			const value = interpolateColor(anim.value, [0, 1], [startBackgroundColor, endBackgroundColor], "RGB", {
-				gamma: 2.1,
-			});
-			return value;
-		}
-		return undefined;
-	}, [anim.value, endBackgroundColor, onPressColor, startBackgroundColor]);
-
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
-			backgroundColor: animatedBackgroundColor.value,
+			backgroundColor:
+				onPressColor !== null
+					? interpolateColor(anim.value, [0, 1], [startBackgroundColor, endBackgroundColor], "RGB", {
+							gamma: 2.1,
+						})
+					: undefined,
 			borderColor:
 				onPressBorderColor !== null
 					? interpolateColor(anim.value, [0, 1], [resolvedBorderColor, pressBorderColor], "RGB", {
@@ -183,14 +177,7 @@ export function Button({
 						]
 					: undefined,
 		};
-	}, [
-		anim.value,
-		animatedBackgroundColor.value,
-		onPressAnimatedScale,
-		onPressBorderColor,
-		pressBorderColor,
-		resolvedBorderColor,
-	]);
+	});
 
 	const _LoadingComponent = LoadingComponent ?? (
 		<ActivityIndicator
