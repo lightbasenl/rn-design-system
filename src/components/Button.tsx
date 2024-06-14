@@ -117,19 +117,15 @@ export function Button({
 		...remainingProps
 	} = combinedProps;
 
-	const {
-		tokenStyles: { borderColor, backgroundColor, ...tokens },
-		paddingValues,
-		...rest
-	} = useResolveBoxTokens(remainingProps);
+	const { tokenStyles, paddingValues, ...rest } = useResolveBoxTokens(remainingProps);
 
 	const pressColor = onPressColor
 		? resolveThemeColor(onPressColor)
-		: getActiveColor(backgroundColor ?? parentBackGroundColor);
+		: getActiveColor(tokenStyles.backgroundColor ?? parentBackGroundColor);
 
 	const pressBorderColor = resolveThemeColor(onPressBorderColor ?? { custom: pressColor });
-	const resolvedBackgroundColor = backgroundColor ?? parentBackGroundColor;
-	const resolvedBorderColor = borderColor ?? resolvedBackgroundColor;
+	const resolvedBackgroundColor = tokenStyles.backgroundColor ?? parentBackGroundColor;
+	const resolvedBorderColor = tokenStyles.borderColor ?? resolvedBackgroundColor;
 
 	const anim = useSharedValue(0);
 	const animateTo = (toValue: number, duration: number) => {
@@ -195,16 +191,16 @@ export function Button({
 				}}
 				onPress={onPress}
 				disabled={!!isLoading || !!disabled}
-				style={{ flex: tokens.flex, width: tokens.width, height: tokens.height }}
+				style={{ flex: tokenStyles.flex, width: tokenStyles.width, height: tokenStyles.height }}
 				{...rest}
 			>
-				<Animated.View style={[animatedStyle, paddingValues, tokens, style]}>
+				<Animated.View style={[animatedStyle, paddingValues, tokenStyles, style]}>
 					<Row
 						space={space}
 						alignVertical={alignVertical}
 						alignHorizontal={alignHorizontal}
-						height={tokens.height ? "100%" : undefined}
-						width={tokens.width ? "100%" : undefined}
+						height={tokenStyles.height ? "100%" : undefined}
+						width={tokenStyles.width ? "100%" : undefined}
 					>
 						{isLoading ? _LoadingComponent : children}
 					</Row>
