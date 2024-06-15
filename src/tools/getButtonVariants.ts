@@ -33,7 +33,6 @@ export function getButtonVariants({
 		solid: {
 			backgroundColor: themeColor,
 			borderColor: themeColor,
-			textColor: "text-contrast",
 			borderWidth: 1,
 			width: "100%",
 		},
