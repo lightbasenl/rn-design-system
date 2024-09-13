@@ -188,6 +188,7 @@ export function Button({
 				onPressOut={handlePressOut}
 				android_ripple={{
 					color: pressColor === "transparent" ? undefined : pressColor,
+					radius: tokenStyles.borderRadius,
 				}}
 				onPress={onPress}
 				disabled={!!isLoading || !!disabled}
