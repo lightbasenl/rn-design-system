@@ -17,12 +17,15 @@ export function useInternalTheme(mode?: "light" | "dark"): {
 	if (!theme) {
 		throw new Error("No Theme found");
 	}
-	const { colors, ...rest } = theme;
+	const { colors, typography, variants, spacing, radius, defaults, capsize } = theme;
 
 	const themeColors = colors[mode ?? "light"] as LBConfig["colors"]["light"];
 	if (!themeColors) {
 		throw new Error("No colors found");
 	}
 
-	return useMemo(() => ({ colors: themeColors, ...rest }), [rest, themeColors]);
+	return useMemo(
+		() => ({ colors: themeColors, typography, variants, spacing, radius, defaults, capsize }),
+		[typography, variants, spacing, radius, defaults, capsize, themeColors]
+	);
 }
