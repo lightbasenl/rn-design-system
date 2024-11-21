@@ -36,11 +36,7 @@
 		"release": "release-it",
 		"updates": "npx npm-check-updates -i"
 	},
-	"keywords": [
-		"react-native",
-		"ios",
-		"android"
-	],
+	"keywords": ["react-native", "ios", "android"],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/lightbasenl/rn-design-system.git"
@@ -100,9 +96,7 @@
 		"react-native-safe-area-context": "*",
 		"react-native-uitextview": "*"
 	},
-	"workspaces": [
-		"example"
-	],
+	"workspaces": ["example"],
 	"engines": {
 		"node": ">= 20.0.0"
 	},
@@ -114,9 +108,7 @@
 		]
 	},
 	"commitlint": {
-		"extends": [
-			"@commitlint/config-conventional"
-		]
+		"extends": ["@commitlint/config-conventional"]
 	},
 	"release-it": {
 		"git": {
@@ -138,15 +130,6 @@
 	"react-native-builder-bob": {
 		"source": "src",
 		"output": "lib",
-		"targets": [
-			"commonjs",
-			"module",
-			[
-				"typescript",
-				{
-					"project": "tsconfig.build.json"
-				}
-			]
-		]
+		"targets": ["commonjs", "module", "typescript"]
 	}
 }
