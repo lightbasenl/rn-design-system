@@ -1,6 +1,6 @@
 {
 	"name": "@lightbase/rn-design-system",
-	"version": "1.2.15",
+	"version": "1.2.16",
 	"description": "Lightbase internal react native design system",
 	"main": "lib/commonjs/index",
 	"module": "lib/module/index",
@@ -35,7 +35,11 @@
 		"release": "release-it",
 		"updates": "npx npm-check-updates -i"
 	},
-	"keywords": ["react-native", "ios", "android"],
+	"keywords": [
+		"react-native",
+		"ios",
+		"android"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/lightbasenl/rn-design-system.git"
@@ -105,7 +109,9 @@
 		]
 	},
 	"commitlint": {
-		"extends": ["@commitlint/config-conventional"]
+		"extends": [
+			"@commitlint/config-conventional"
+		]
 	},
 	"release-it": {
 		"git": {
@@ -127,6 +133,10 @@
 	"react-native-builder-bob": {
 		"source": "src",
 		"output": "lib",
-		"targets": ["commonjs", "module", "typescript"]
+		"targets": [
+			"commonjs",
+			"module",
+			"typescript"
+		]
 	}
 }
