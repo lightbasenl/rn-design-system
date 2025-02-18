@@ -83,6 +83,7 @@
 		"react-native-reanimated": "3.7.0",
 		"react-native-safe-area-context": "4.9.0",
 		"react-native-uitextview": "^1.1.5",
+		"react-native-gesture-handler": "~2.20.2",
 		"release-it": "^17.0.3",
 		"typescript": "^5.4.5"
 	},
@@ -96,7 +97,8 @@
 		"react-native-keyboard-controller": "*",
 		"react-native-reanimated": "*",
 		"react-native-safe-area-context": "*",
-		"react-native-uitextview": "*"
+		"react-native-uitextview": "*",
+		"react-native-gesture-handler": "*"
 	},
 	"engines": {
 		"node": ">= 20.0.0"
