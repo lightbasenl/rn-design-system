@@ -45,10 +45,7 @@ export type ScreenProps<T, S> = ScreenBaseProps &
 		| ({ as: "KeyboardAwareScrollView"; ref?: RefObject<ScrollView> } & KeyboardAwareScrollViewBoxProps)
 	);
 
-type ScreenComponentType = <T, S = any>(
-	props: ScreenProps<T, S>,
-	ref: ForwardedRef<any>
-) => React.JSX.Element;
+type ScreenComponentType = <T, S = any>(props: ScreenProps<T, S>, ref: ForwardedRef<any>) => ReactElement;
 
 export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S>, ref: ForwardedRef<any>) {
 	const { defaults } = useInternalTheme();

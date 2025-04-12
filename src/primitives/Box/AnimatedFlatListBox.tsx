@@ -1,4 +1,4 @@
-import type { ForwardedRef } from "react";
+import type { ForwardedRef, ReactElement } from "react";
 import { forwardRef, useContext } from "react";
 import type { FlatList } from "react-native";
 import type { FlatListPropsWithLayout } from "react-native-reanimated";
@@ -12,7 +12,7 @@ export type AnimatedFlatListBoxProps<T> = ScrollableBoxProps & FlatListPropsWith
 type AnimatedFlatListComponentType = <T>(
 	props: AnimatedFlatListBoxProps<T>,
 	ref: ForwardedRef<FlatList>
-) => React.JSX.Element;
+) => ReactElement;
 
 export const AnimatedFlatListBox = forwardRef(function FlatListBox<T>(
 	{ style, contentContainerStyle, ...props }: AnimatedFlatListBoxProps<T>,

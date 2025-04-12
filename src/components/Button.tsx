@@ -1,6 +1,6 @@
 import { TinyColor } from "@ctrl/tinycolor";
 
-import { createContext, useContext, useMemo } from "react";
+import { type ReactElement, createContext, useContext, useMemo } from "react";
 import { ActivityIndicator } from "react-native";
 import Animated, {
 	type AnimatedStyle,
@@ -53,7 +53,7 @@ type ButtonSpecificProps = {
 	 * If true, the button will show a spinner instead of the children components
 	 */
 	isLoading?: boolean;
-	LoadingComponent?: React.JSX.Element;
+	LoadingComponent?: ReactElement;
 	style?: AnimatedStyle;
 };
 export type ButtonProps = Omit<PressableProps, "style"> & OmittedBoxProps & ButtonSpecificProps;

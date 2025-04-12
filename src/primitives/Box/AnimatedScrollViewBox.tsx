@@ -1,4 +1,4 @@
-import type { ForwardedRef, RefAttributes } from "react";
+import type { ForwardedRef, ReactElement, RefAttributes } from "react";
 import { forwardRef, useContext } from "react";
 import type { ScrollViewProps as RNScrollViewProps } from "react-native";
 import type { AnimateProps } from "react-native-reanimated";
@@ -20,7 +20,7 @@ export type AnimatedScrollViewBoxProps = ScrollableBoxProps &
 type AnimatedScrollViewComponentType = (
 	props: AnimatedScrollViewBoxProps,
 	ref: ForwardedRef<Animated.ScrollView>
-) => React.JSX.Element;
+) => ReactElement;
 
 export const AnimatedScrollViewBox = forwardRef(function ScrollViewBox(
 	{ style, contentContainerStyle, ...props }: AnimatedScrollViewBoxProps,

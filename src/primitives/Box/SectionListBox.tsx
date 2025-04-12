@@ -1,4 +1,4 @@
-import type { ForwardedRef } from "react";
+import type { ForwardedRef, ReactElement } from "react";
 import { forwardRef, useContext } from "react";
 import type { SectionListProps as RNSectionListProps } from "react-native";
 import { SectionList } from "react-native";
@@ -17,7 +17,7 @@ export type SectionListBoxProps<T, S> = ScrollableBoxProps & SectionListProps<T,
 type SectionComponentFunctionType = <T, S>(
 	props: SectionListBoxProps<T, S>,
 	ref: ForwardedRef<SectionList<T, S>>
-) => React.JSX.Element;
+) => ReactElement;
 
 export const SectionListBox = forwardRef(function SectionListBox<T, S>(
 	{ style, contentContainerStyle, ...props }: SectionListBoxProps<T, S>,
