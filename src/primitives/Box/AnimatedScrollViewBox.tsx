@@ -20,7 +20,7 @@ export type AnimatedScrollViewBoxProps = ScrollableBoxProps &
 type AnimatedScrollViewComponentType = (
 	props: AnimatedScrollViewBoxProps,
 	ref: ForwardedRef<Animated.ScrollView>
-) => JSX.Element;
+) => React.JSX.Element;
 
 export const AnimatedScrollViewBox = forwardRef(function ScrollViewBox(
 	{ style, contentContainerStyle, ...props }: AnimatedScrollViewBoxProps,

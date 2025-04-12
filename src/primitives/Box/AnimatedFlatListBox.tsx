@@ -12,7 +12,7 @@ export type AnimatedFlatListBoxProps<T> = ScrollableBoxProps & FlatListPropsWith
 type AnimatedFlatListComponentType = <T>(
 	props: AnimatedFlatListBoxProps<T>,
 	ref: ForwardedRef<FlatList>
-) => JSX.Element;
+) => React.JSX.Element;
 
 export const AnimatedFlatListBox = forwardRef(function FlatListBox<T>(
 	{ style, contentContainerStyle, ...props }: AnimatedFlatListBoxProps<T>,

@@ -53,7 +53,7 @@ type ButtonSpecificProps = {
 	 * If true, the button will show a spinner instead of the children components
 	 */
 	isLoading?: boolean;
-	LoadingComponent?: JSX.Element;
+	LoadingComponent?: React.JSX.Element;
 	style?: AnimatedStyle;
 };
 export type ButtonProps = Omit<PressableProps, "style"> & OmittedBoxProps & ButtonSpecificProps;

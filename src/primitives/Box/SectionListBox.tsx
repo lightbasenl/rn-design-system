@@ -17,7 +17,7 @@ export type SectionListBoxProps<T, S> = ScrollableBoxProps & SectionListProps<T,
 type SectionComponentFunctionType = <T, S>(
 	props: SectionListBoxProps<T, S>,
 	ref: ForwardedRef<SectionList<T, S>>
-) => JSX.Element;
+) => React.JSX.Element;
 
 export const SectionListBox = forwardRef(function SectionListBox<T, S>(
 	{ style, contentContainerStyle, ...props }: SectionListBoxProps<T, S>,
