@@ -17,16 +17,15 @@ export function KeyboardAwareScrollViewBox({
 }: KeyboardAwareScrollViewBoxProps) {
 	useResizeMode();
 
-	const { contentContainerStyles, styles, ...rest } = useResolveBoxListTokens(props);
+	const { contentContainerStyles, styles, ref, ...rest } = useResolveBoxListTokens(props);
 	const color = useContext(BackgroundContext);
 
 	const scrollViewAnimatedRef = useAnimatedRef<Reanimated.ScrollView>();
 
 	return (
 		<BackgroundContext.Provider value={styles.backgroundColor ?? color}>
-			{/* @ts-ignore */}
 			<KeyboardAwareScrollView
-				ref={scrollViewAnimatedRef}
+				ref={ref ?? scrollViewAnimatedRef}
 				contentContainerStyle={[contentContainerStyles, contentContainerStyle]}
 				style={[styles, style]}
 				keyboardShouldPersistTaps="handled"

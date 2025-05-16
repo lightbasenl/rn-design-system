@@ -11,7 +11,7 @@ type ScrollViewProps = RemoveStyles<RNScrollViewProps> & {
 	style?: FilterStyles<RNScrollViewProps["style"]>;
 };
 
-export type ScrollViewBoxProps = ScrollableBoxProps & ScrollViewProps;
+export type ScrollViewBoxProps = ScrollableBoxProps & ScrollViewProps & { ref?: React.RefObject<ScrollView> };
 
 export function ScrollViewBox({ style, contentContainerStyle, ...props }: ScrollViewBoxProps) {
 	const { contentContainerStyles, styles, ...rest } = useResolveBoxListTokens(props);

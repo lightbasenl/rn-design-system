@@ -9,7 +9,7 @@ import { useResolveBoxTokens } from "../../hooks/useResolveBoxTokens";
 
 // If an emtpy SafeAreaView is placed to handle insets then its ignored, this ensures the insets area always applied
 const styleFix = { minHeight: 1 };
-export type SafeAreaBoxProps = BoxTokens & Omit<SafeAreaViewProps, "style">;
+export type SafeAreaBoxProps = BoxTokens & Omit<SafeAreaViewProps, "style"> & { ref?: React.RefObject<View> };
 export const SafeAreaBox = ({
 	children,
 	edges,

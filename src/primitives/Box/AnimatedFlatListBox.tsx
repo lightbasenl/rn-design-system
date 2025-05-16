@@ -6,7 +6,8 @@ import { BackgroundContext } from "../../hooks/useBackgroundColor";
 import type { ScrollableBoxProps } from "../../hooks/useResolveBoxListTokens";
 import { useResolveBoxListTokens } from "../../hooks/useResolveBoxListTokens";
 
-export type AnimatedFlatListBoxProps<T> = ScrollableBoxProps & FlatListPropsWithLayout<T>;
+export type AnimatedFlatListBoxProps<T> = ScrollableBoxProps &
+	FlatListPropsWithLayout<T> & { ref?: React.RefObject<Animated.FlatList<T>> };
 
 export function AnimatedFlatListBox<T>({
 	style,

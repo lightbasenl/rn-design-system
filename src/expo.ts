@@ -192,8 +192,7 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
 					if (!fontMetrics[fontName]) {
 						const validMetric = (obj: FontMetric) => {
 							for (const key in obj) {
-								// @ts-ignore
-								if (typeof obj[key] !== "number") {
+								if (typeof obj[key as keyof FontMetric] !== "number") {
 									return false; // Found a number value, return false
 								}
 							}
