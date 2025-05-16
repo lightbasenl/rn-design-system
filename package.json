@@ -1,6 +1,6 @@
 {
 	"name": "@lightbase/rn-design-system",
-	"version": "1.3.0",
+	"version": "1.3.1",
 	"description": "Lightbase internal react native design system",
 	"main": "lib/commonjs/index",
 	"module": "lib/module/index",
@@ -34,7 +34,11 @@
 		"release": "release-it",
 		"updates": "npx npm-check-updates -i"
 	},
-	"keywords": ["react-native", "ios", "android"],
+	"keywords": [
+		"react-native",
+		"ios",
+		"android"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/lightbasenl/rn-design-system.git"
