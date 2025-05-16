@@ -6,7 +6,7 @@ import { BackgroundContext } from "../../hooks/useBackgroundColor";
 import type { BoxTokens } from "../../hooks/useResolveBoxTokens";
 import { useResolveBoxTokens } from "../../hooks/useResolveBoxTokens";
 
-export type BoxProps = BoxTokens & Omit<SafeAreaViewProps, "style"> & { ref?: React.RefObject<View> };
+export type BoxProps = BoxTokens & Omit<SafeAreaViewProps, "style"> & { ref?: React.RefObject<View | null> };
 export function Box({ style, children, ...props }: BoxProps) {
 	const { tokenStyles, style: updatedStyle, paddingValues, ...rest } = useResolveBoxTokens(props);
 	const color = useContext(BackgroundContext);

@@ -7,7 +7,7 @@ import type { ScrollableBoxProps } from "../../hooks/useResolveBoxListTokens";
 import { useResolveBoxListTokens } from "../../hooks/useResolveBoxListTokens";
 
 export type AnimatedFlatListBoxProps<T> = ScrollableBoxProps &
-	FlatListPropsWithLayout<T> & { ref?: React.RefObject<Animated.FlatList<T>> };
+	FlatListPropsWithLayout<T> & { ref?: React.RefObject<Animated.FlatList<T> | null> };
 
 export function AnimatedFlatListBox<T>({
 	style,

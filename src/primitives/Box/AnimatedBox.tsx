@@ -8,7 +8,7 @@ import { useResolveBoxTokens } from "../../hooks/useResolveBoxTokens";
 
 // Make sure to use the default style prop to allow any animation
 export type AnimatedBoxProps = Omit<BoxTokens, "style"> &
-	SafeAreaViewProps & { ref?: React.RefObject<Animated.View> };
+	SafeAreaViewProps & { ref?: React.RefObject<Animated.View | null> };
 export function AnimatedBox({ style, children, ...props }: AnimatedBoxProps) {
 	const { tokenStyles, paddingValues, ...rest } = useResolveBoxTokens(props);
 	const color = useContext(BackgroundContext);

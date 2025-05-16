@@ -15,7 +15,7 @@ type ScrollViewProps = RemoveStyles<RNScrollViewProps> & {
 
 export type AnimatedScrollViewBoxProps = ScrollableBoxProps &
 	AnimatedProps<ScrollViewProps> &
-	RefAttributes<Animated.ScrollView> & { ref?: React.RefObject<Animated.ScrollView> };
+	RefAttributes<Animated.ScrollView> & { ref?: React.RefObject<Animated.ScrollView | null> };
 
 export function AnimatedScrollViewBox({
 	style,

@@ -11,15 +11,17 @@ type ScrollViewProps = RemoveStyles<RNScrollViewProps> & {
 	style?: FilterStyles<RNScrollViewProps["style"]>;
 };
 
-export type ScrollViewBoxProps = ScrollableBoxProps & ScrollViewProps & { ref?: React.RefObject<ScrollView> };
+export type ScrollViewBoxProps = ScrollableBoxProps &
+	ScrollViewProps & { ref?: React.RefObject<ScrollView | null> };
 
-export function ScrollViewBox({ style, contentContainerStyle, ...props }: ScrollViewBoxProps) {
+export function ScrollViewBox({ style, contentContainerStyle, ref, ...props }: ScrollViewBoxProps) {
 	const { contentContainerStyles, styles, ...rest } = useResolveBoxListTokens(props);
 	const color = useContext(BackgroundContext);
 
 	return (
 		<BackgroundContext.Provider value={styles.backgroundColor ?? color}>
 			<ScrollView
+				ref={ref}
 				contentContainerStyle={[contentContainerStyles, contentContainerStyle]}
 				style={[styles, style]}
 				{...rest}

@@ -14,7 +14,7 @@ type FlatListProps<T> = RemoveStyles<RNFlatListProps<T>> & {
 
 export type FlatListBoxProps<T> = ScrollableBoxProps &
 	FlatListProps<T> &
-	RefAttributes<FlatList<T>> & { ref?: React.RefObject<FlatList<T>> };
+	RefAttributes<FlatList<T>> & { ref?: React.RefObject<FlatList<T> | null> };
 
 export function FlatListBox<T>({ style, contentContainerStyle, ...props }: FlatListBoxProps<T>) {
 	const { contentContainerStyles, styles, ...rest } = useResolveBoxListTokens(props);

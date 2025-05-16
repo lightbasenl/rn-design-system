@@ -12,7 +12,7 @@ type SectionListProps<T, S> = RemoveStyles<RNSectionListProps<T, S>> & {
 };
 
 export type SectionListBoxProps<T, S> = ScrollableBoxProps &
-	SectionListProps<T, S> & { ref?: React.RefObject<SectionList<T, S>> };
+	SectionListProps<T, S> & { ref?: React.RefObject<SectionList<T, S> | null> };
 
 export function SectionListBox<T, S>({ style, contentContainerStyle, ...props }: SectionListBoxProps<T, S>) {
 	const { contentContainerStyles, styles, ...rest } = useResolveBoxListTokens(props);
