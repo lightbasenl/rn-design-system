@@ -1,7 +1,7 @@
 import { TinyColor } from "@ctrl/tinycolor";
 
 import { type ReactElement, createContext, useContext, useMemo } from "react";
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, Pressable, type PressableProps } from "react-native";
 import Animated, {
 	type AnimatedStyle,
 	Easing,
@@ -12,7 +12,6 @@ import Animated, {
 	withTiming,
 } from "react-native-reanimated";
 
-import { Pressable, type PressableProps } from "react-native-gesture-handler";
 import { useBackgroundColor } from "../hooks/useBackgroundColor";
 import { useInternalTheme } from "../hooks/useInternalTheme";
 import { useResolveBoxTokens } from "../hooks/useResolveBoxTokens";
