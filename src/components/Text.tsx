@@ -1,6 +1,5 @@
 import type { TextProps as RNTextProps, TextStyle } from "react-native";
 import { Platform, Text as RNText } from "react-native";
-import { UITextView } from "react-native-uitextview";
 
 import { useMemo } from "react";
 import { useInternalTheme } from "../hooks/useInternalTheme";
@@ -40,7 +39,6 @@ export function Text({ variant, ...props }: TextProps) {
 		style,
 		textTransform,
 		flex,
-		selectable,
 		...rest
 	} = combined;
 	if (!size) {
@@ -102,15 +100,8 @@ export function Text({ variant, ...props }: TextProps) {
 		]
 	);
 
-	if (Platform.OS === "ios") {
-		return (
-			<UITextView uiTextView={selectable} selectable={selectable} style={[styles, style]} {...rest}>
-				{children}
-			</UITextView>
-		);
-	}
 	return (
-		<RNText style={[styles, style]} selectable={selectable} {...rest}>
+		<RNText style={[styles, style]} {...rest}>
 			{children}
 			{/* https://github.com/facebook/react-native/issues/29232#issuecomment-889767516 */}
 			{Platform.OS === "android" && "lineHeight" in sizes && !!sizes.lineHeight && (

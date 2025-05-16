@@ -1,7 +1,7 @@
-import type { ForwardedRef, ReactElement, RefAttributes } from "react";
-import { forwardRef, useContext } from "react";
+import type { RefAttributes } from "react";
+import { useContext } from "react";
 import type { ScrollViewProps as RNScrollViewProps } from "react-native";
-import type { AnimateProps } from "react-native-reanimated";
+import type { AnimatedProps } from "react-native-reanimated";
 import Animated from "react-native-reanimated";
 
 import { BackgroundContext } from "../../hooks/useBackgroundColor";
@@ -14,29 +14,24 @@ type ScrollViewProps = RemoveStyles<RNScrollViewProps> & {
 };
 
 export type AnimatedScrollViewBoxProps = ScrollableBoxProps &
-	AnimateProps<ScrollViewProps> &
+	AnimatedProps<ScrollViewProps> &
 	RefAttributes<Animated.ScrollView>;
 
-type AnimatedScrollViewComponentType = (
-	props: AnimatedScrollViewBoxProps,
-	ref: ForwardedRef<Animated.ScrollView>
-) => ReactElement;
-
-export const AnimatedScrollViewBox = forwardRef(function ScrollViewBox(
-	{ style, contentContainerStyle, ...props }: AnimatedScrollViewBoxProps,
-	ref: ForwardedRef<Animated.ScrollView>
-) {
+export function AnimatedScrollViewBox({
+	style,
+	contentContainerStyle,
+	...props
+}: AnimatedScrollViewBoxProps) {
 	const { contentContainerStyles, styles, ...rest } = useResolveBoxListTokens(props);
 	const color = useContext(BackgroundContext);
 
 	return (
 		<BackgroundContext.Provider value={styles.backgroundColor ?? color}>
 			<Animated.ScrollView
-				ref={ref as ForwardedRef<Animated.ScrollView>}
 				contentContainerStyle={[contentContainerStyles, contentContainerStyle]}
 				style={[styles, style]}
 				{...rest}
 			/>
 		</BackgroundContext.Provider>
 	);
-}) as AnimatedScrollViewComponentType;
+}

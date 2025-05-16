@@ -1,5 +1,4 @@
-import type { ForwardedRef, ReactElement } from "react";
-import { forwardRef, useContext } from "react";
+import { useContext } from "react";
 import type { SectionListProps as RNSectionListProps } from "react-native";
 import { SectionList } from "react-native";
 
@@ -14,26 +13,17 @@ type SectionListProps<T, S> = RemoveStyles<RNSectionListProps<T, S>> & {
 
 export type SectionListBoxProps<T, S> = ScrollableBoxProps & SectionListProps<T, S>;
 
-type SectionComponentFunctionType = <T, S>(
-	props: SectionListBoxProps<T, S>,
-	ref: ForwardedRef<SectionList<T, S>>
-) => ReactElement;
-
-export const SectionListBox = forwardRef(function SectionListBox<T, S>(
-	{ style, contentContainerStyle, ...props }: SectionListBoxProps<T, S>,
-	ref: ForwardedRef<SectionList<T, S>>
-) {
+export function SectionListBox<T, S>({ style, contentContainerStyle, ...props }: SectionListBoxProps<T, S>) {
 	const { contentContainerStyles, styles, ...rest } = useResolveBoxListTokens(props);
 	const color = useContext(BackgroundContext);
 
 	return (
 		<BackgroundContext.Provider value={styles.backgroundColor ?? color}>
 			<SectionList<T, S>
-				ref={ref}
 				contentContainerStyle={[contentContainerStyles, contentContainerStyle]}
 				style={[styles, style]}
 				{...rest}
 			/>
 		</BackgroundContext.Provider>
 	);
-}) as SectionComponentFunctionType;
+}

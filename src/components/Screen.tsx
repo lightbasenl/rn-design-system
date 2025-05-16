@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import type { ForwardedRef, ReactElement, ReactNode, RefObject } from "react";
-import { forwardRef, useLayoutEffect } from "react";
+import type { ReactElement, ReactNode, RefObject } from "react";
+import { useLayoutEffect } from "react";
 import type { FlatList, ScrollView, SectionList, View } from "react-native";
 import { StyleSheet } from "react-native";
 import type Animated from "react-native-reanimated";
@@ -45,9 +45,7 @@ export type ScreenProps<T, S> = ScreenBaseProps &
 		| ({ as: "KeyboardAwareScrollView"; ref?: RefObject<ScrollView> } & KeyboardAwareScrollViewBoxProps)
 	);
 
-type ScreenComponentType = <T, S = any>(props: ScreenProps<T, S>, ref: ForwardedRef<any>) => ReactElement;
-
-export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S>, ref: ForwardedRef<any>) {
+export function Screen<T, S = any>(p: ScreenProps<T, S>) {
 	const { defaults } = useInternalTheme();
 	const navigation = useNavigation();
 	const insets = useSafeAreaInsets();
@@ -96,7 +94,7 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
 		const { children, ...rest } = props;
 		return (
 			<ScreenContainer {...containerprops}>
-				<ScrollViewBox ref={ref} flex={1} {...rest}>
+				<ScrollViewBox flex={1} {...rest}>
 					<SafeAreaBox
 						edges={edgeArray}
 						paddingTop={{ custom: headerHeight }}
@@ -115,7 +113,6 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
 		return (
 			<ScreenContainer backgroundColor={backgroundColor}>
 				<KeyboardAwareScrollViewBox
-					ref={ref}
 					flex={1}
 					paddingTop={{ custom: headerHeight }}
 					paddingBottom={{ custom: bottomTabHeight }}
@@ -133,7 +130,7 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
 		const { children, ...rest } = props;
 		return (
 			<ScreenContainer {...containerprops}>
-				<AnimatedScrollViewBox ref={ref} flex={1} {...rest}>
+				<AnimatedScrollViewBox flex={1} {...rest}>
 					<SafeAreaBox
 						edges={edgeArray}
 						paddingTop={{ custom: headerHeight }}
@@ -152,7 +149,6 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
 		return (
 			<ScreenContainer {...containerprops}>
 				<FlatListBox
-					ref={ref}
 					flex={1}
 					ListHeaderComponent={
 						<SafeAreaBox
@@ -183,7 +179,6 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
 		return (
 			<ScreenContainer {...containerprops}>
 				<AnimatedFlatListBox
-					ref={ref}
 					flex={1}
 					ListHeaderComponent={
 						<SafeAreaBox
@@ -214,7 +209,6 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
 		return (
 			<ScreenContainer {...containerprops}>
 				<SectionListBox
-					ref={ref}
 					flex={1}
 					ListHeaderComponent={
 						<SafeAreaBox
@@ -267,7 +261,7 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
 			</SafeAreaBox>
 		</ScreenContainer>
 	);
-}) as ScreenComponentType;
+}
 
 function ScreenContainer({
 	backgroundColor,

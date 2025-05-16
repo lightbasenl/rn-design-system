@@ -1,5 +1,4 @@
-import type { ForwardedRef } from "react";
-import { forwardRef, useContext } from "react";
+import { useContext } from "react";
 import type { ScrollViewProps as RNScrollViewProps } from "react-native";
 import { ScrollView } from "react-native";
 
@@ -14,21 +13,17 @@ type ScrollViewProps = RemoveStyles<RNScrollViewProps> & {
 
 export type ScrollViewBoxProps = ScrollableBoxProps & ScrollViewProps;
 
-export const ScrollViewBox = forwardRef(function ScrollViewBox(
-	{ style, contentContainerStyle, ...props }: ScrollViewBoxProps,
-	ref: ForwardedRef<ScrollView>
-) {
+export function ScrollViewBox({ style, contentContainerStyle, ...props }: ScrollViewBoxProps) {
 	const { contentContainerStyles, styles, ...rest } = useResolveBoxListTokens(props);
 	const color = useContext(BackgroundContext);
 
 	return (
 		<BackgroundContext.Provider value={styles.backgroundColor ?? color}>
 			<ScrollView
-				ref={ref as ForwardedRef<ScrollView>}
 				contentContainerStyle={[contentContainerStyles, contentContainerStyle]}
 				style={[styles, style]}
 				{...rest}
 			/>
 		</BackgroundContext.Provider>
 	);
-});
+}
