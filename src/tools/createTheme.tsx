@@ -2,7 +2,6 @@ import { PixelRatio } from "react-native";
 
 import { createTextSize } from "../theme/typography";
 import type {
-	AppThemes,
 	ButtonVariant,
 	CapSizeConfig,
 	CapsizeCon,
@@ -12,24 +11,8 @@ import type {
 	LightColors,
 	SpacingConfig,
 	TextVariant,
+	ThemeType,
 } from "../types";
-
-type ThemeType<
-	T extends LightColors,
-	K extends FontMetrics,
-	S extends GenericFontSizes,
-	Spacing extends SpacingConfig,
-	Radius extends SpacingConfig,
-	TTextVariant extends TextVariant<K, S, T>,
-	TButtonVariant extends ButtonVariant<K, T, S, TTextVariant, Spacing, Radius>,
-> = Omit<CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant>, "colors"> & {
-	capsize: CapSizeConfig<S, K>;
-	colors: T;
-};
-
-declare module "react-native-unistyles" {
-	export interface UnistylesThemes extends AppThemes {}
-}
 
 export function createtheme<
 	T extends LightColors,

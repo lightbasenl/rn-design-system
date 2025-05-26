@@ -14,21 +14,34 @@ import type { ReactElement, ReactNode } from "react";
 import type { StyleProp, ViewProps, ViewStyle } from "react-native";
 import type { SafeAreaViewProps } from "react-native-safe-area-context";
 
-// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-export interface LBCustomConfig {}
-export interface LBConfig extends Omit<GenericLBConfig, keyof LBCustomConfig>, LBCustomConfig {}
-
 // CONFIG
-type GenericAppThemes = {
-	light: Omit<LBConfig, "colors"> & { colors: LBConfig["colors"]["light"] };
-	dark: Omit<LBConfig, "colors"> & { colors: LBConfig["colors"]["dark"] };
-};
+interface GenericAppThemes {
+	light: Omit<GenericLBConfig, "colors"> & { colors: GenericLBConfig["colors"]["light"] };
+	dark: Omit<GenericLBConfig, "colors"> & { colors: GenericLBConfig["colors"]["dark"] };
+}
 
 // biome-ignore lint/suspicious/noEmptyInterface: <explanation>
-export interface AppThemesCustomConfig {}
-export interface AppThemes
-	extends Omit<GenericAppThemes, keyof AppThemesCustomConfig>,
-		AppThemesCustomConfig {}
+export interface LBCustomAppThemes {}
+export interface LBAppThemes extends Omit<GenericAppThemes, keyof LBCustomAppThemes>, LBCustomAppThemes {}
+
+declare module "react-native-unistyles" {
+	export interface UnistylesThemes extends LBAppThemes {}
+}
+
+export type LBConfig = LBAppThemes["light"];
+
+export type ThemeType<
+	T extends LightColors,
+	K extends FontMetrics,
+	S extends GenericFontSizes,
+	Spacing extends SpacingConfig,
+	Radius extends SpacingConfig,
+	TTextVariant extends TextVariant<K, S, T>,
+	TButtonVariant extends ButtonVariant<K, T, S, TTextVariant, Spacing, Radius>,
+> = Omit<CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant>, "colors"> & {
+	capsize: CapSizeConfig<S, K>;
+	colors: T;
+};
 
 export type CreateLBConfig<
 	TMetrics extends FontMetrics,
@@ -96,7 +109,7 @@ export type FontWeights =
 	| "800"
 	| "900";
 
-export type ColorConfig = LBConfig["colors"]["light"];
+export type ColorConfig = LBConfig["colors"];
 export type ColorThemeKeys = keyof ColorConfig | { custom: string };
 
 export type SpaceKey = keyof LBConfig["spacing"];
