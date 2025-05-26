@@ -1,4 +1,5 @@
 import { FlatList, type FlatListProps as RNFlatListProps } from "react-native";
+import Animated from "react-native-reanimated";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import type { RemoveStyles, ScrollableBoxProps } from "../types";
 import type { FilterStyles } from "../types";
@@ -72,3 +73,6 @@ const styles = StyleSheet.create((theme, rt) => ({
 		return styles;
 	},
 }));
+
+/** @deprecated Use FlatListBox instead */
+export const AnimatedFlatListBox = Animated.createAnimatedComponent(FlatListBox);

@@ -139,3 +139,6 @@ const styles = StyleSheet.create((theme, rt) => ({
 		};
 	},
 }));
+
+/** @deprecated Use HStack instead */
+export const Row = HStack;

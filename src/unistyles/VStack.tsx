@@ -2,6 +2,7 @@ import type { BoxProps, Spacing } from "@lightbase/rn-design-system";
 import type { ReactElement, ReactNode } from "react";
 import { isValidElement } from "react";
 import { View } from "react-native";
+import { createAnimatedComponent } from "react-native-reanimated/lib/typescript/createAnimatedComponent";
 import { StyleSheet } from "react-native-unistyles";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
@@ -107,3 +108,15 @@ const styles = StyleSheet.create((theme, rt) => ({
 		};
 	},
 }));
+
+/** @deprecated Use VStack instead */
+export const AnimatedBox = createAnimatedComponent(VStack);
+
+/** @deprecated Use VStack instead */
+export const Box = VStack;
+
+/** @deprecated Use VStack instead */
+export const SafeAreaBox = VStack;
+
+/** @deprecated Use VStack instead */
+export const Stack = VStack;

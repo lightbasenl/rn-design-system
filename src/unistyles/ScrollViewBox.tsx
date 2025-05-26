@@ -1,7 +1,10 @@
 import { type ScrollViewProps as RNScrollViewProps, ScrollView } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
+import Animated from "react-native-reanimated";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import type { FilterStyles, ScrollableBoxProps } from "../types";
 import type { RemoveStyles } from "../types";
+import { createScrollableBox } from "./createScrollableBox";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
 import { extractBoxTokens } from "./utils";
@@ -70,3 +73,9 @@ const styles = StyleSheet.create((theme, rt) => ({
 		return styles;
 	},
 }));
+
+/** @deprecated Use ScrollViewBox instead */
+export const AnimatedScrollViewBox = Animated.createAnimatedComponent(ScrollViewBox);
+
+/** @deprecated Use createScrollableBox at project level instead */
+export const KeyBoardAwareScrollViewBox = createScrollableBox(KeyboardAwareScrollView);
