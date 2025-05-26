@@ -13,17 +13,15 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { useBackgroundColor } from "../hooks/useBackgroundColor";
-import { useInternalTheme } from "../hooks/useInternalTheme";
-import { useResolveBoxTokens } from "../hooks/useResolveBoxTokens";
-import { useResolveColorToken } from "../hooks/useResolveColorToken";
-import type { BoxProps } from "../primitives/Box/Box";
-import type { RowProps } from "../primitives/Row";
-import { Row } from "../primitives/Row";
+
+import { UnistylesRuntime } from "react-native-unistyles";
 import { getActiveColor } from "../tools/colorUtils";
 import { getButtonVariants } from "../tools/getButtonVariants";
-import type { ButtonVariants, ColorThemeKeys } from "../types";
-import type { TextProps } from "./Text";
-import { Text } from "./Text";
+import type { BoxProps, ButtonVariants, ColorThemeKeys } from "../types";
+import { HStack, type HStackProps } from "../unistyles/HStack";
+import { Text, type TextProps } from "../unistyles/Text";
+import { resolveBoxTokens } from "../unistyles/resolveBoxTokens";
+import { resolveColor } from "../unistyles/utils";
 
 type OmittedBoxProps = Omit<
 	BoxProps,
@@ -40,9 +38,9 @@ type ButtonSpecificProps = {
 	/**
 	 * Row Props
 	 */
-	space?: RowProps["space"];
-	alignVertical?: RowProps["alignVertical"];
-	alignHorizontal?: RowProps["alignHorizontal"];
+	space?: HStackProps["space"];
+	alignVertical?: HStackProps["alignVertical"];
+	alignHorizontal?: HStackProps["alignHorizontal"];
 	/**
 	 * ReanimatedV2 value representing the scale of the Button when onPressIn is trigger
 	 * @default 0.99
@@ -74,31 +72,22 @@ export function Button({
 	LoadingComponent,
 	...props
 }: ButtonProps) {
-	const theme = useInternalTheme();
+	const theme = UnistylesRuntime.getTheme();
+	const defaultButtonVariant = theme.defaults.Button.variant;
+	const defaultButtonThemeColor = theme.defaults.Button.themeColor;
+
 	const parentBackGroundColor = useBackgroundColor();
 
-	const resolveThemeColor = useResolveColorToken();
-
-	const defaultVariant = variant ?? theme.defaults.Button.variant ?? "solid";
+	const defaultVariant = variant ?? defaultButtonVariant ?? "solid";
 
 	const variants = useMemo(
 		() =>
 			getButtonVariants({
-				themeColor: themeColor ?? theme.defaults.Button.themeColor,
+				themeColor: themeColor ?? defaultButtonThemeColor,
 				parentBackGroundColor,
-				resolveThemeColor,
-				overrides: theme.variants.Button,
-				defaultProps: theme.defaults.Button,
 				variant: defaultVariant,
 			}),
-		[
-			themeColor,
-			theme.defaults.Button,
-			theme.variants.Button,
-			parentBackGroundColor,
-			resolveThemeColor,
-			defaultVariant,
-		]
+		[themeColor, parentBackGroundColor, defaultVariant, defaultButtonThemeColor]
 	);
 
 	const combinedProps = { ...variants, ...props };
@@ -116,22 +105,30 @@ export function Button({
 		...remainingProps
 	} = combinedProps;
 
-	const { tokenStyles, paddingValues, ...rest } = useResolveBoxTokens(remainingProps);
+	const { tokenStyles, paddingValues, ...rest } = resolveBoxTokens(
+		remainingProps,
+		UnistylesRuntime.getTheme()
+	);
 
 	const pressColor = onPressColor
-		? resolveThemeColor(onPressColor)
+		? resolveColor(onPressColor, theme.colors)
 		: getActiveColor(tokenStyles.backgroundColor ?? parentBackGroundColor);
 
-	const pressBorderColor = resolveThemeColor(onPressBorderColor ?? { custom: pressColor });
+	const pressBorderColor = resolveColor(
+		onPressBorderColor ?? (pressColor ? { custom: pressColor } : undefined),
+		theme.colors
+	);
 	const resolvedBackgroundColor = tokenStyles.backgroundColor ?? parentBackGroundColor;
 	const resolvedBorderColor = tokenStyles.borderColor ?? resolvedBackgroundColor;
 
 	const anim = useSharedValue(0);
 	const animateTo = (toValue: number, duration: number) => {
-		anim.value = withTiming(toValue, {
-			duration,
-			easing: Easing.inOut(Easing.quad),
-		});
+		anim.set(
+			withTiming(toValue, {
+				duration,
+				easing: Easing.inOut(Easing.quad),
+			})
+		);
 	};
 
 	const handlePressIn = () => {
@@ -142,42 +139,38 @@ export function Button({
 		animateTo(0, 200);
 	};
 
-	const endBackgroundColor = new TinyColor(pressColor).toHexString();
+	const endBackgroundColor = pressColor ? new TinyColor(pressColor).toHexString() : undefined;
 	const startBackgroundColor =
 		resolvedBackgroundColor === "transparent"
-			? new TinyColor(pressColor).setAlpha(0).toHexString()
+			? pressColor
+				? new TinyColor(pressColor).setAlpha(0).toHexString()
+				: undefined
 			: resolvedBackgroundColor;
 
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
 			backgroundColor:
-				onPressColor !== null
-					? interpolateColor(anim.value, [0, 1], [startBackgroundColor, endBackgroundColor], "RGB", {
+				onPressColor !== null && startBackgroundColor && endBackgroundColor
+					? interpolateColor(anim.get(), [0, 1], [startBackgroundColor, endBackgroundColor], "RGB", {
 							gamma: 2.1,
 						})
 					: undefined,
 			borderColor:
-				onPressBorderColor !== null
-					? interpolateColor(anim.value, [0, 1], [resolvedBorderColor, pressBorderColor], "RGB", {
+				onPressBorderColor !== null && resolvedBorderColor && pressBorderColor
+					? interpolateColor(anim.get(), [0, 1], [resolvedBorderColor, pressBorderColor], "RGB", {
 							gamma: 2.1,
 						})
 					: undefined,
 			overflow: "hidden",
 			transform:
 				onPressAnimatedScale != null
-					? [
-							{
-								scale: interpolate(anim.value, [0, 1], [1, onPressAnimatedScale]),
-							},
-						]
+					? [{ scale: interpolate(anim.get(), [0, 1], [1, onPressAnimatedScale]) }]
 					: undefined,
 		};
 	});
 
 	const _LoadingComponent = LoadingComponent ?? (
-		<ActivityIndicator
-			color={combinedProps.textColor ? resolveThemeColor(combinedProps.textColor) : undefined}
-		/>
+		<ActivityIndicator color={resolveColor(combinedProps.textColor, theme.colors)} />
 	);
 
 	return (
@@ -195,7 +188,7 @@ export function Button({
 				{...rest}
 			>
 				<Animated.View style={[animatedStyle, paddingValues, tokenStyles, style]}>
-					<Row
+					<HStack
 						space={space}
 						alignVertical={alignVertical}
 						alignHorizontal={alignHorizontal}
@@ -203,21 +196,22 @@ export function Button({
 						width={tokenStyles.width ? "100%" : undefined}
 					>
 						{isLoading ? _LoadingComponent : children}
-					</Row>
+					</HStack>
 				</Animated.View>
 			</Pressable>
 		</ButtonContext.Provider>
 	);
 }
 
+const defaultTextVariant = UnistylesRuntime.getTheme().defaults.Button.textVariant;
 function ButtonText({ children, variant: textVariant, ...props }: Omit<TextProps, "family">) {
 	const variant = useButtonContext();
-	const theme = useInternalTheme();
-	const variantText = textVariant ?? variant.textVariant ?? theme.defaults.Button.textVariant;
+
+	const variantText = textVariant ?? variant.textVariant ?? defaultTextVariant;
+	const textVariants = UnistylesRuntime.getTheme().variants.Text;
+
 	const variantTextColor =
-		variantText && theme.variants.Text[variantText]?.color
-			? theme.variants.Text[variantText]?.color
-			: undefined;
+		variantText && textVariants[variantText]?.color ? textVariants[variantText]?.color : undefined;
 
 	return (
 		<Text textAlign="center" color={variant.textColor ?? variantTextColor} variant={variantText} {...props}>

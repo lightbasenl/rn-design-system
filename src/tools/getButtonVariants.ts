@@ -1,8 +1,10 @@
 import { TinyColor } from "@ctrl/tinycolor";
 
+import { useCallback } from "react";
+import { UnistylesRuntime } from "react-native-unistyles";
 import type { ButtonProps } from "../components/Button";
-import type { TextProps } from "../components/Text";
-import type { ButtonVariants, ColorThemeKeys, DefaultButton } from "../types";
+import type { ButtonVariants, ColorThemeKeys } from "../types";
+import type { TextProps } from "../unistyles/Text";
 import { mergeDeepRight } from "./merge";
 
 type ButtonVariantType = Partial<ButtonProps> & {
@@ -16,19 +18,26 @@ export type ButtonVariantProps = Record<ButtonVariants, ButtonVariantType>;
 type Props = {
 	themeColor: ColorThemeKeys;
 	parentBackGroundColor: string;
-	resolveThemeColor: (color: ColorThemeKeys) => string;
-	overrides: Partial<ButtonVariantProps>;
-	defaultProps: DefaultButton;
 	variant: ButtonVariants;
 };
 export function getButtonVariants({
-	themeColor,
+	themeColor = UnistylesRuntime.getTheme().defaults.Button.themeColor,
 	parentBackGroundColor,
-	resolveThemeColor,
-	overrides,
-	defaultProps,
-	variant,
+	variant = UnistylesRuntime.getTheme().defaults.Button.variant ?? "solid",
 }: Props) {
+	const overrides = UnistylesRuntime.getTheme().variants.Button;
+	const defaultProps = UnistylesRuntime.getTheme().defaults.Button;
+	const colors = UnistylesRuntime.getTheme().colors;
+	const resolveThemeColor = useCallback(
+		(color: ColorThemeKeys) => {
+			if (typeof color === "object") {
+				return color.custom;
+			}
+			return colors[color] as string;
+		},
+		[colors]
+	);
+
 	const variants: ButtonVariantProps = {
 		solid: {
 			backgroundColor: themeColor,

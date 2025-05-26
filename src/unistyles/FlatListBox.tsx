@@ -1,0 +1,62 @@
+import { FlatList, type FlatListProps as RNFlatListProps } from "react-native";
+import { StyleSheet, withUnistyles } from "react-native-unistyles";
+import type { RemoveStyles, ScrollableBoxProps } from "../types";
+import type { FilterStyles } from "../types";
+import { resolveBoxTokens } from "./resolveBoxTokens";
+import { BackgroundContext } from "./useBackgroundColor";
+import { extractBoxTokens } from "./utils";
+
+type RNProps<T> = RNFlatListProps<T>;
+
+type FlatListProps<T> = RemoveStyles<RNProps<T>> & {
+	contentContainerStyle?: FilterStyles<RNProps<T>["contentContainerStyle"]>;
+	style?: FilterStyles<RNProps<T>["style"]>;
+};
+
+export type FlatListBoxProps<T> = ScrollableBoxProps & FlatListProps<T>;
+
+// Define a properly typed version of the component
+const FlatListUniStyle = withUnistyles(FlatList) as unknown as typeof FlatList;
+
+export function FlatListBox<T>({
+	style,
+	contentContainerStyle,
+	backgroundColor,
+	...props
+}: FlatListBoxProps<T>) {
+	const { boxProps, viewProps } = extractBoxTokens<RNProps<T>>({ backgroundColor, ...props });
+
+	if (!backgroundColor) {
+		return (
+			<FlatListUniStyle<T>
+				contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
+				style={[styles.container(boxProps), style]}
+				{...viewProps}
+			/>
+		);
+	}
+	return (
+		<BackgroundContext.Provider value={backgroundColor}>
+			<FlatListUniStyle<T>
+				contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
+				style={[styles.container(boxProps), style]}
+				{...viewProps}
+			/>
+		</BackgroundContext.Provider>
+	);
+}
+
+const styles = StyleSheet.create((theme) => ({
+	contentContainer: (rest: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
+		const { tokenStyles, paddingValues } = resolveBoxTokens(rest, theme);
+		return {
+			flexGrow: tokenStyles.flex,
+			...paddingValues,
+		};
+	},
+	container: (rest: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
+		const { tokenStyles } = resolveBoxTokens(rest, theme);
+		const { flex, ...styles } = tokenStyles;
+		return styles;
+	},
+}));

@@ -1,12 +1,17 @@
 {
 	"name": "@lightbase/rn-design-system",
-	"version": "1.3.4",
+	"version": "2.0.0",
 	"description": "Lightbase internal react native design system",
-	"main": "lib/commonjs/index",
-	"module": "lib/module/index",
-	"types": "lib/typescript/src/index.d.ts",
-	"react-native": "src/index",
-	"source": "src/index",
+	"main": "./lib/module/index.js",
+	"types": "./lib/typescript/src/index.d.ts",
+	"exports": {
+		".": {
+			"source": "./src/index.tsx",
+			"types": "./lib/typescript/src/index.d.ts",
+			"default": "./lib/module/index.js"
+		},
+		"./package.json": "./package.json"
+	},
 	"files": [
 		"src",
 		"lib",
@@ -34,11 +39,7 @@
 		"release": "release-it",
 		"updates": "npx npm-check-updates -i"
 	},
-	"keywords": [
-		"react-native",
-		"ios",
-		"android"
-	],
+	"keywords": ["react-native", "ios", "android"],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/lightbasenl/rn-design-system.git"
@@ -79,6 +80,7 @@
 		"react-native-reanimated": "3.17.4",
 		"react-native-safe-area-context": "5.4.0",
 		"react-native-gesture-handler": "2.24.0",
+		"react-native-unistyles": "^3.0.0-rc.4",
 		"release-it": "19.0.2",
 		"typescript": "5.8.3"
 	},
@@ -101,18 +103,8 @@
 		"source": "src",
 		"output": "lib",
 		"targets": [
-			[
-				"module",
-				{
-					"esm": true
-				}
-			],
-			[
-				"typescript",
-				{
-					"project": "tsconfig.build.json"
-				}
-			]
+			["module", { "esm": true }],
+			["typescript", { "project": "tsconfig.build.json" }]
 		]
 	},
 	"create-react-native-library": {
