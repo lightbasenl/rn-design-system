@@ -2,6 +2,7 @@ import { PixelRatio } from "react-native";
 
 import { createTextSize } from "../theme/typography";
 import type {
+	AppThemes,
 	ButtonVariant,
 	CapSizeConfig,
 	CapsizeCon,
@@ -24,12 +25,6 @@ type ThemeType<
 > = Omit<CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant>, "colors"> & {
 	capsize: CapSizeConfig<S, K>;
 	colors: T;
-};
-
-// if you defined themes
-type AppThemes = {
-	light: ReturnType<typeof createtheme>["light"];
-	dark: ReturnType<typeof createtheme>["dark"];
 };
 
 declare module "react-native-unistyles" {

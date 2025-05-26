@@ -19,6 +19,16 @@ export interface LBCustomConfig {}
 export interface LBConfig extends Omit<GenericLBConfig, keyof LBCustomConfig>, LBCustomConfig {}
 
 // CONFIG
+type GenericAppThemes = {
+	light: Omit<LBConfig, "colors"> & { colors: LBConfig["colors"]["light"] };
+	dark: Omit<LBConfig, "colors"> & { colors: LBConfig["colors"]["dark"] };
+};
+
+// biome-ignore lint/suspicious/noEmptyInterface: <explanation>
+export interface AppThemesCustomConfig {}
+export interface AppThemes
+	extends Omit<GenericAppThemes, keyof AppThemesCustomConfig>,
+		AppThemesCustomConfig {}
 
 export type CreateLBConfig<
 	TMetrics extends FontMetrics,
