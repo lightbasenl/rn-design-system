@@ -1,6 +1,6 @@
 {
 	"name": "@lightbase/rn-design-system",
-	"version": "2.0.0",
+	"version": "2.1.0",
 	"description": "Lightbase internal react native design system",
 	"main": "./lib/module/index.js",
 	"types": "./lib/typescript/src/index.d.ts",
@@ -39,7 +39,11 @@
 		"release": "release-it",
 		"updates": "npx npm-check-updates -i"
 	},
-	"keywords": ["react-native", "ios", "android"],
+	"keywords": [
+		"react-native",
+		"ios",
+		"android"
+	],
 	"repository": {
 		"type": "git",
 		"url": "git+https://github.com/lightbasenl/rn-design-system.git"
@@ -103,8 +107,18 @@
 		"source": "src",
 		"output": "lib",
 		"targets": [
-			["module", { "esm": true }],
-			["typescript", { "project": "tsconfig.build.json" }]
+			[
+				"module",
+				{
+					"esm": true
+				}
+			],
+			[
+				"typescript",
+				{
+					"project": "tsconfig.build.json"
+				}
+			]
 		]
 	},
 	"create-react-native-library": {
