@@ -192,6 +192,8 @@ export function extractBoxTokens<T = ViewProps>(props: BoxTokens & T) {
 
 		width,
 		height,
+		edges,
+
 		...remainingProps
 	} = props;
 
@@ -243,6 +245,7 @@ export function extractBoxTokens<T = ViewProps>(props: BoxTokens & T) {
 
 			width,
 			height,
+			edges,
 		},
 		viewProps: remainingProps,
 	};

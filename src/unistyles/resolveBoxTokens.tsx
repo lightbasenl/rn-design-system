@@ -1,25 +1,7 @@
-import type { ViewProps, ViewStyle } from "react-native";
+import type { ViewProps } from "react-native";
 
-import type {
-	AlignmentValues,
-	BorderRadiusValues,
-	BorderValues,
-	ColorValues,
-	MarginValues,
-	PaddingValues,
-	SpaceKey,
-} from "@lightbase/rn-design-system";
+import type { BoxTokens, MarginValues, PaddingValues, SpaceKey } from "@lightbase/rn-design-system";
 import type { UnistylesThemes } from "react-native-unistyles";
-
-export type BoxTokens = {
-	width?: ViewStyle["width"];
-	height?: ViewStyle["height"];
-} & MarginValues &
-	ColorValues &
-	BorderRadiusValues &
-	PaddingValues &
-	BorderValues &
-	AlignmentValues;
 
 export function resolveBoxTokens<T = ViewProps>(
 	props: BoxTokens & T,

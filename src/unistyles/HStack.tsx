@@ -102,7 +102,7 @@ export function HStack({
 	);
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
 	container: ({
 		space,
 		alignHorizontal,
@@ -110,12 +110,26 @@ const styles = StyleSheet.create((theme) => ({
 		horizontalSpace,
 		verticalSpace,
 		wrap,
+		edges,
 		...rest
 	}: ReturnType<typeof extractBoxTokens>["boxProps"] & RowPropAlignments & { wrap?: boolean }) => {
 		const { tokenStyles, paddingValues } = resolveBoxTokens(rest, theme);
+
 		return {
 			...tokenStyles,
 			...paddingValues,
+			paddingTop: edges?.includes("top")
+				? (paddingValues.paddingTop ?? 0) + rt.insets.top
+				: paddingValues.paddingTop,
+			paddingBottom: edges?.includes("bottom")
+				? (paddingValues.paddingBottom ?? 0) + rt.insets.bottom
+				: paddingValues.paddingBottom,
+			paddingLeft: edges?.includes("left")
+				? (paddingValues.paddingLeft ?? 0) + rt.insets.left
+				: paddingValues.paddingLeft,
+			paddingRight: edges?.includes("right")
+				? (paddingValues.paddingRight ?? 0) + rt.insets.right
+				: paddingValues.paddingRight,
 			flexDirection: "row",
 			justifyContent: alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined,
 			alignItems: alignVertical && !wrap ? alignVerticalToFlexAlign[alignVertical] : undefined,

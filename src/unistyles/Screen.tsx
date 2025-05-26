@@ -19,7 +19,7 @@ export type AsChildProps<DefaultElementProps> =
 	| ({ asChild?: false } & DefaultElementProps & ScreenBaseProps)
 	| ({ asChild: true; children: ReactNode } & ScreenBaseProps);
 
-export const ScreenBase = function Screen({ asChild, children, options, ...props }: AsChildProps<BoxProps>) {
+export function Screen({ asChild, children, options, ...props }: AsChildProps<BoxProps>) {
 	const navigation = useNavigation();
 
 	useLayoutEffect(() => {
@@ -51,15 +51,31 @@ export const ScreenBase = function Screen({ asChild, children, options, ...props
 			{!!childrenAfterSlottable.length && <View>{childrenAfterSlottable}</View>}
 		</View>
 	);
-};
+}
 
-const styles = StyleSheet.create((theme) => {
+const styles = StyleSheet.create((theme, rt) => {
 	return {
-		container: (props) => {
-			const { tokenStyles, paddingValues } = resolveBoxTokens({ ...theme.defaults.Screen, ...props }, theme);
+		container: (props: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
+			const { tokenStyles, paddingValues, edges } = resolveBoxTokens(
+				{ ...theme.defaults.Screen, ...props },
+				theme
+			);
 			return {
 				...tokenStyles,
 				...paddingValues,
+				...paddingValues,
+				paddingTop: edges?.includes("top")
+					? (paddingValues.paddingTop ?? 0) + rt.insets.top
+					: paddingValues.paddingTop,
+				paddingBottom: edges?.includes("bottom")
+					? (paddingValues.paddingBottom ?? 0) + rt.insets.bottom
+					: paddingValues.paddingBottom,
+				paddingLeft: edges?.includes("left")
+					? (paddingValues.paddingLeft ?? 0) + rt.insets.left
+					: paddingValues.paddingLeft,
+				paddingRight: edges?.includes("right")
+					? (paddingValues.paddingRight ?? 0) + rt.insets.right
+					: paddingValues.paddingRight,
 			};
 		},
 	};

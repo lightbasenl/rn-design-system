@@ -90,8 +90,8 @@ export type ColorConfig = LBConfig["colors"]["light"];
 export type ColorThemeKeys = keyof ColorConfig | { custom: string };
 
 export type SpaceKey = keyof LBConfig["spacing"];
-export type Spacing = SpaceKey | { custom: ViewStyle["margin"] } | undefined;
-export type NegativeSpace = `-${SpaceKey}` | { custom: ViewStyle["margin"] } | undefined;
+export type Spacing = SpaceKey | { custom: number } | undefined;
+export type NegativeSpace = `-${SpaceKey}` | { custom: number } | undefined;
 export type Radius = keyof LBConfig["radius"] | { custom: number };
 
 export type DefaultButton = LBConfig["defaults"]["Button"];
@@ -343,9 +343,9 @@ type ViewStyleModded = StyleProp<Omit<ViewStyle, BoxStyleTokens>>;
 export type BoxTokens = {
 	style?: ViewStyleModded;
 	children?: ReactNode;
-	testID?: string;
 	width?: ViewStyle["width"];
 	height?: ViewStyle["height"];
+	edges?: ("top" | "bottom" | "left" | "right")[];
 } & MarginValues &
 	ColorValues &
 	BorderRadiusValues &

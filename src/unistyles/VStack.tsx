@@ -77,17 +77,30 @@ export function VStack({
 	);
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, rt) => ({
 	container: ({
 		space,
 		alignHorizontal,
 		alignVertical,
+		edges,
 		...rest
 	}: ReturnType<typeof extractBoxTokens>["boxProps"] & Omit<VStackProps, "children" | "separator">) => {
 		const { tokenStyles, paddingValues } = resolveBoxTokens(rest, theme);
 		return {
 			...tokenStyles,
 			...paddingValues,
+			paddingTop: edges?.includes("top")
+				? (paddingValues.paddingTop ?? 0) + rt.insets.top
+				: paddingValues.paddingTop,
+			paddingBottom: edges?.includes("bottom")
+				? (paddingValues.paddingBottom ?? 0) + rt.insets.bottom
+				: paddingValues.paddingBottom,
+			paddingLeft: edges?.includes("left")
+				? (paddingValues.paddingLeft ?? 0) + rt.insets.left
+				: paddingValues.paddingLeft,
+			paddingRight: edges?.includes("right")
+				? (paddingValues.paddingRight ?? 0) + rt.insets.right
+				: paddingValues.paddingRight,
 			alignItems: alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined,
 			justifyContent: alignVertical ? alignVerticalToFlexAlign[alignVertical] : undefined,
 			rowGap: resolveSpace(space, theme.spacing),
