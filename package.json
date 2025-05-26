@@ -1,6 +1,6 @@
 {
 	"name": "@lightbase/rn-design-system",
-	"version": "2.2.2",
+	"version": "2.2.3",
 	"description": "Lightbase internal react native design system",
 	"main": "./lib/commonjs/index.js",
 	"module": "./lib/module/index.js",
