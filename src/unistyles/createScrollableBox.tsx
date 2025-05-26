@@ -11,10 +11,14 @@ export interface InitialComponentProps extends Record<string, unknown> {
 	collapsable?: boolean;
 }
 
+export interface InitialComponentProps extends Record<string, unknown> {
+	ref?: Ref<Component>;
+	collapsable?: boolean;
+}
 // Don't change the order of overloads, since such a change breaks current behavior
-export function createScrollableBox<P extends ScrollViewProps>(
-	component: FunctionComponent<P>
-): FunctionComponent<P>;
+export function createScrollableBox<T extends ScrollViewProps>(
+	component: FunctionComponent<ScrollableBoxProps & T>
+): FunctionComponent<ScrollableBoxProps & T>;
 
 export function createScrollableBox<T extends ScrollViewProps>(
 	Component: ComponentType<InitialComponentProps>
@@ -27,7 +31,6 @@ export function createScrollableBox<T extends ScrollViewProps>(
 		...props
 	}: ScrollableBoxProps & T) => {
 		const { viewProps, boxProps } = extractBoxTokens<ScrollViewProps>({ backgroundColor, ...props });
-
 		if (!backgroundColor) {
 			return (
 				<ComponentWithUnistyles

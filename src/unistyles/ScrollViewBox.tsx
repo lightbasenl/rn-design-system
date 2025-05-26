@@ -78,4 +78,4 @@ const styles = StyleSheet.create((theme, rt) => ({
 export const AnimatedScrollViewBox = Animated.createAnimatedComponent(ScrollViewBox);
 
 /** @deprecated Use createScrollableBox at project level instead */
-export const KeyBoardAwareScrollViewBox = createScrollableBox(KeyboardAwareScrollView);
+export const KeyboardAwareScrollViewBox = createScrollableBox(KeyboardAwareScrollView);

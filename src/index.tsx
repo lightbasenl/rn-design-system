@@ -10,5 +10,5 @@ export * from "./tools/createTheme";
 export * from "./tools/colorUtils";
 export * from "./context/ThemeProvider";
 export * from "./hooks/useBackgroundColor";
-
+export * from "./unistyles/createScrollableBox";
 export * from "./types";
