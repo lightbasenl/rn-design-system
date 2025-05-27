@@ -2,7 +2,7 @@ import type { BoxProps, Spacing } from "@lightbase/rn-design-system";
 import type { ReactElement, ReactNode } from "react";
 import { isValidElement } from "react";
 import { View } from "react-native";
-import { createAnimatedComponent } from "react-native-reanimated/lib/typescript/createAnimatedComponent";
+import Animated from "react-native-reanimated";
 import { StyleSheet } from "react-native-unistyles";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
@@ -24,12 +24,14 @@ const alignVerticalToFlexAlign = {
 
 type AlignVertical = keyof typeof alignVerticalToFlexAlign;
 
-export type VStackProps = {
+export type VStackProps = Omit<BoxProps, "justifyContent" | "alignItems"> & {
 	children?: ReactNode;
 	alignHorizontal?: AlignHorizontal;
 	alignVertical?: AlignVertical;
 	space?: Spacing;
 	separator?: ReactElement;
+} & {
+	ref?: React.RefObject<View>;
 };
 
 /**
@@ -110,7 +112,7 @@ const styles = StyleSheet.create((theme, rt) => ({
 }));
 
 /** @deprecated Use VStack instead */
-export const AnimatedBox = createAnimatedComponent(VStack);
+export const AnimatedBox = Animated.createAnimatedComponent(VStack);
 
 /** @deprecated Use VStack instead */
 export const Box = VStack;

@@ -14,7 +14,10 @@ type FlatListProps<T> = RemoveStyles<RNProps<T>> & {
 	style?: FilterStyles<RNProps<T>["style"]>;
 };
 
-export type FlatListBoxProps<T> = ScrollableBoxProps & FlatListProps<T>;
+export type FlatListBoxProps<T> = ScrollableBoxProps &
+	FlatListProps<T> & {
+		ref?: React.RefObject<FlatList<T>>;
+	};
 
 // Define a properly typed version of the component
 const FlatListUniStyle = withUnistyles(FlatList) as unknown as typeof FlatList;
@@ -23,6 +26,7 @@ export function FlatListBox<T>({
 	style,
 	contentContainerStyle,
 	backgroundColor,
+	ref,
 	...props
 }: FlatListBoxProps<T>) {
 	const { boxProps, viewProps } = extractBoxTokens<RNProps<T>>({ backgroundColor, ...props });
@@ -75,4 +79,4 @@ const styles = StyleSheet.create((theme, rt) => ({
 }));
 
 /** @deprecated Use FlatListBox instead */
-export const AnimatedFlatListBox = Animated.createAnimatedComponent(FlatListBox);
+export const AnimatedFlatListBox = Animated.createAnimatedComponent(FlatListBox) as typeof FlatListBox;

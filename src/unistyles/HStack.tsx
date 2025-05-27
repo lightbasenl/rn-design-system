@@ -32,7 +32,9 @@ export type RowPropAlignments = {
 };
 export type HStackProps = Omit<BoxProps, "justifyContent" | "alignItems"> &
 	RowPropAlignments &
-	({ separator?: undefined; wrap?: true } | { separator?: ReactElement<any>; wrap?: false });
+	({ separator?: undefined; wrap?: true } | { separator?: ReactElement<any>; wrap?: false }) & {
+		ref?: React.RefObject<View>;
+	};
 
 /**
  * @description Arranges child nodes horizontally with equal spacing between
