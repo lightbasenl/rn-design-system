@@ -1,5 +1,5 @@
-import type { ColorThemeKeys } from "@lightbase/rn-design-system";
 import { createContext, useContext } from "react";
+import type { ColorThemeKeys } from "../types";
 
 export const BackgroundContext = createContext<ColorThemeKeys | null>(null);
 export function useBackgroundColor() {

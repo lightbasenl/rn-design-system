@@ -1,9 +1,10 @@
-import type { BoxProps, Spacing } from "@lightbase/rn-design-system";
 import type { ReactElement, ReactNode } from "react";
 import { isValidElement } from "react";
 import { View } from "react-native";
 import Animated from "react-native-reanimated";
 import { StyleSheet } from "react-native-unistyles";
+import type { BoxProps } from "../types";
+import type { Spacing } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
 import { extractBoxTokens, flattenChildren, getValidChildren, intersperse, resolveSpace } from "./utils";
@@ -106,7 +107,7 @@ const styles = StyleSheet.create((theme, rt) => ({
 				: paddingValues.paddingRight,
 			alignItems: alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined,
 			justifyContent: alignVertical ? alignVerticalToFlexAlign[alignVertical] : undefined,
-			rowGap: resolveSpace(space, theme.spacing),
+			rowGap: space ? resolveSpace(space, theme.spacing) : undefined,
 		};
 	},
 }));

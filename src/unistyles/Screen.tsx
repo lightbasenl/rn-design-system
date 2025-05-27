@@ -1,23 +1,23 @@
-import type { BoxProps } from "@lightbase/rn-design-system";
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import type { ReactNode } from "react";
 import { Children, useLayoutEffect } from "react";
 import { View } from "react-native";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
+import type { BoxProps } from "../types";
 import { Slot, isSlottable } from "./Slot";
 import { VStack } from "./VStack";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { extractBoxTokens } from "./utils";
 
-export type ScreenBaseProps = {
+export type ScreenProps = {
 	options?: NativeStackNavigationOptions;
 } & BoxProps;
 
 const UISlot = withUnistyles(Slot);
 export type AsChildProps<DefaultElementProps> =
-	| ({ asChild?: false } & DefaultElementProps & ScreenBaseProps)
-	| ({ asChild: true; children: ReactNode } & ScreenBaseProps);
+	| ({ asChild?: false } & DefaultElementProps & ScreenProps)
+	| ({ asChild: true; children: ReactNode } & ScreenProps);
 
 export function Screen({ asChild, children, options, ...props }: AsChildProps<BoxProps>) {
 	const navigation = useNavigation();

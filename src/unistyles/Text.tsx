@@ -1,14 +1,8 @@
 import type { TextProps as RNTextProps, TextStyle } from "react-native";
 import { Text as RNText } from "react-native";
 
-import type {
-	ColorThemeKeys,
-	FontFamily,
-	FontSizes,
-	FontVariant,
-	FontWeights,
-} from "@lightbase/rn-design-system";
 import { StyleSheet } from "react-native-unistyles";
+import type { ColorThemeKeys, FontFamily, FontSizes, FontVariant, FontWeights } from "../types";
 import { WEIGHTS, getTextDecoration, resolveColor } from "./utils";
 
 type CustomTextProps = {

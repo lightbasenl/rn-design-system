@@ -1,5 +1,5 @@
-import type { BoxProps } from "@lightbase/rn-design-system";
 import * as React from "react";
+import type { BoxProps } from "../types";
 
 /* -------------------------------------------------------------------------------------------------
  * Slot

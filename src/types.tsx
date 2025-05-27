@@ -4,11 +4,10 @@
 // const theme = createTheme(...)
 // type MyConfig = typeof theme
 // declare module '@lightbase/rn-design-system' {
-//   export interface LBCustomConfig extends MyConfig {}
+// 	export interface LBCustomAppThemes extends CustomTheme {}
 // }
 // now your whole app/kit should be typed correctly
 //
-
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import type { ReactElement, ReactNode } from "react";
 import type { StyleProp, ViewProps, ViewStyle } from "react-native";

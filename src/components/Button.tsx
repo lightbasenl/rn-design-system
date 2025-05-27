@@ -1,6 +1,6 @@
 import { TinyColor } from "@ctrl/tinycolor";
 
-import { type ReactElement, createContext, useContext, useMemo } from "react";
+import { type ReactElement, createContext, useContext } from "react";
 import { ActivityIndicator, Pressable, type PressableProps } from "react-native";
 import Animated, {
 	type AnimatedStyle,
@@ -14,7 +14,7 @@ import Animated, {
 
 import { useBackgroundColor } from "../hooks/useBackgroundColor";
 
-import { UnistylesRuntime } from "react-native-unistyles";
+import { StyleSheet, UnistylesRuntime, withUnistyles } from "react-native-unistyles";
 import { getActiveColor } from "../tools/colorUtils";
 import { getButtonVariants } from "../tools/getButtonVariants";
 import type { BoxProps, ButtonVariants, ColorThemeKeys } from "../types";
@@ -64,6 +64,9 @@ function useButtonContext() {
 	return variant;
 }
 
+const UniActivityIndicator = withUnistyles(ActivityIndicator);
+const UniPressable = withUnistyles(Pressable);
+
 export function Button({
 	variant,
 	themeColor,
@@ -80,15 +83,12 @@ export function Button({
 
 	const defaultVariant = variant ?? defaultButtonVariant ?? "solid";
 
-	const variants = useMemo(
-		() =>
-			getButtonVariants({
-				themeColor: themeColor ?? defaultButtonThemeColor,
-				parentBackGroundColor,
-				variant: defaultVariant,
-			}),
-		[themeColor, parentBackGroundColor, defaultVariant, defaultButtonThemeColor]
-	);
+	const variants = getButtonVariants({
+		themeColor: themeColor ?? defaultButtonThemeColor,
+		parentBackGroundColor,
+		variant: defaultVariant,
+		theme: UnistylesRuntime.getTheme(),
+	});
 
 	const combinedProps = { ...variants, ...props };
 
@@ -105,10 +105,7 @@ export function Button({
 		...remainingProps
 	} = combinedProps;
 
-	const { tokenStyles, paddingValues, ...rest } = resolveBoxTokens(
-		remainingProps,
-		UnistylesRuntime.getTheme()
-	);
+	const { tokenStyles, paddingValues, ...rest } = resolveBoxTokens(remainingProps, theme);
 
 	const pressColor = onPressColor
 		? resolveColor(onPressColor, theme.colors)
@@ -170,45 +167,72 @@ export function Button({
 	});
 
 	const _LoadingComponent = LoadingComponent ?? (
-		<ActivityIndicator color={resolveColor(combinedProps.textColor, theme.colors)} />
+		<UniActivityIndicator
+			uniProps={(theme) => ({
+				color: resolveColor(combinedProps.textColor, theme.colors),
+			})}
+		/>
 	);
 
 	return (
 		<ButtonContext.Provider value={combinedProps}>
-			<Pressable
+			<UniPressable
 				onPressIn={handlePressIn}
 				onPressOut={handlePressOut}
-				android_ripple={{
-					color: pressColor === "transparent" ? undefined : pressColor,
-					radius: tokenStyles.borderRadius,
+				uniProps={(theme) => {
+					const { tokenStyles } = resolveBoxTokens(remainingProps, theme);
+					return {
+						android_ripple: {
+							color: pressColor === "transparent" ? undefined : pressColor,
+							radius: tokenStyles.borderRadius,
+						},
+					};
 				}}
 				onPress={onPress}
 				disabled={!!isLoading || !!disabled}
-				style={{ flex: tokenStyles.flex, width: tokenStyles.width, height: tokenStyles.height }}
+				style={styles.button(remainingProps)}
 				{...rest}
 			>
-				<Animated.View style={[animatedStyle, paddingValues, tokenStyles, style]}>
+				<Animated.View style={[animatedStyle, styles.container(remainingProps), style]}>
 					<HStack
 						space={space}
 						alignVertical={alignVertical}
 						alignHorizontal={alignHorizontal}
-						height={tokenStyles.height ? "100%" : undefined}
-						width={tokenStyles.width ? "100%" : undefined}
+						style={styles.hStack(remainingProps)}
 					>
 						{isLoading ? _LoadingComponent : children}
 					</HStack>
 				</Animated.View>
-			</Pressable>
+			</UniPressable>
 		</ButtonContext.Provider>
 	);
 }
 
-const defaultTextVariant = UnistylesRuntime.getTheme().defaults.Button.textVariant;
+const styles = StyleSheet.create((theme) => ({
+	button: (props) => {
+		const { tokenStyles } = resolveBoxTokens(props, theme);
+		return { flex: tokenStyles.flex, width: tokenStyles.width, height: tokenStyles.height };
+	},
+	container: (props) => {
+		const { paddingValues, tokenStyles } = resolveBoxTokens(props, theme);
+		return { ...paddingValues, ...tokenStyles };
+	},
+	hStack: (props) => {
+		const { tokenStyles } = resolveBoxTokens(props, theme);
+		return {
+			height: tokenStyles.height ?? "100%",
+			width: tokenStyles.width ?? "100%",
+		};
+	},
+}));
+
 function ButtonText({ children, variant: textVariant, ...props }: Omit<TextProps, "family">) {
 	const variant = useButtonContext();
+	const defaults = UnistylesRuntime.getTheme().defaults;
+	const variants = UnistylesRuntime.getTheme().variants;
 
-	const variantText = textVariant ?? variant.textVariant ?? defaultTextVariant;
-	const textVariants = UnistylesRuntime.getTheme().variants.Text;
+	const variantText = textVariant ?? variant.textVariant ?? defaults.Button.textVariant;
+	const textVariants = variants.Text;
 
 	const variantTextColor =
 		variantText && textVariants[variantText]?.color ? textVariants[variantText]?.color : undefined;

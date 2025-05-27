@@ -1,8 +1,9 @@
-import type { BoxProps, Spacing } from "@lightbase/rn-design-system";
 import type { ReactElement } from "react";
 import { isValidElement } from "react";
 import { View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
+import type { BoxProps } from "../types";
+import type { Spacing } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
 import { extractBoxTokens, flattenChildren, getValidChildren, intersperse, resolveSpace } from "./utils";
@@ -135,8 +136,8 @@ const styles = StyleSheet.create((theme, rt) => ({
 			flexDirection: "row",
 			justifyContent: alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined,
 			alignItems: alignVertical && !wrap ? alignVerticalToFlexAlign[alignVertical] : undefined,
-			rowGap: resolveSpace(verticalSpace ?? space, theme.spacing),
-			columnGap: resolveSpace(horizontalSpace ?? space, theme.spacing),
+			rowGap: verticalSpace || space ? resolveSpace(verticalSpace ?? space, theme.spacing) : undefined,
+			columnGap: horizontalSpace || space ? resolveSpace(horizontalSpace ?? space, theme.spacing) : undefined,
 			flexWrap: wrap ? "wrap" : undefined,
 		};
 	},

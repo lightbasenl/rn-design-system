@@ -1,8 +1,8 @@
-import type { BoxTokens, ColorThemeKeys, FontWeights, Spacing } from "@lightbase/rn-design-system";
 import type React from "react";
 import { Children, type ReactNode, cloneElement, isValidElement } from "react";
 import type { TextStyle, ViewProps } from "react-native";
 import type { UnistylesThemes } from "react-native-unistyles";
+import type { BoxTokens, ColorThemeKeys, FontWeights, Spacing } from "../types";
 
 export function isFragment(value: any): value is React.ReactElement<{ children: ReactNode } | null>;
 export function isFragment(object: any): boolean {
@@ -28,7 +28,6 @@ export function getValidChildren(children: ReactNode) {
 
 export function flattenChildren(children: ReactNode, depth = 0, keys: (string | number)[] = []): ReactNode[] {
 	return Children.toArray(children).reduce((acc: ReactNode[], node, nodeIndex) => {
-		console.log("isFragment(node)", isFragment(node));
 		if (isFragment(node)) {
 			acc.push.apply(
 				acc,
