@@ -220,8 +220,8 @@ const styles = StyleSheet.create((theme) => ({
 	hStack: (props) => {
 		const { tokenStyles } = resolveBoxTokens(props, theme);
 		return {
-			height: tokenStyles.height ?? "100%",
-			width: tokenStyles.width ?? "100%",
+			height: tokenStyles.height ? "100%" : undefined,
+			width: tokenStyles.width ? "100%" : undefined,
 		};
 	},
 }));
