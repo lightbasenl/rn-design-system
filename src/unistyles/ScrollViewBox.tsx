@@ -26,7 +26,6 @@ export function ScrollViewBox({
 	style,
 	contentContainerStyle,
 	backgroundColor,
-	ref,
 	...props
 }: ScrollViewBoxProps) {
 	const { viewProps, boxProps } = extractBoxTokens<RNProps>({ backgroundColor, ...props });

@@ -26,7 +26,6 @@ export function FlatListBox<T>({
 	style,
 	contentContainerStyle,
 	backgroundColor,
-	ref,
 	...props
 }: FlatListBoxProps<T>) {
 	const { boxProps, viewProps } = extractBoxTokens<RNProps<T>>({ backgroundColor, ...props });
