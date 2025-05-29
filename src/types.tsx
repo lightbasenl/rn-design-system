@@ -10,7 +10,7 @@
 //
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import type { ReactElement, ReactNode } from "react";
-import type { StyleProp, ViewProps, ViewStyle } from "react-native";
+import type { ViewProps, ViewStyle } from "react-native";
 import type { SafeAreaViewProps } from "react-native-safe-area-context";
 
 // CONFIG
@@ -359,11 +359,7 @@ export type Defaults<
 	};
 };
 
-type BoxStyleTokens = SpacingStyles | RadiusStyles | ColorStyles | "shadow";
-type ViewStyleModded = StyleProp<Omit<ViewStyle, BoxStyleTokens>>;
-
 export type BoxTokens = {
-	style?: ViewStyleModded;
 	children?: ReactNode;
 	width?: ViewStyle["width"];
 	height?: ViewStyle["height"];
@@ -375,12 +371,7 @@ export type BoxTokens = {
 	BorderValues &
 	AlignmentValues;
 
-export type BoxProps = BoxTokens & Omit<ViewProps, "style">;
-
-export type RemoveStyles<T> = Omit<T, "contentContainerStyle" | "style">;
-export type FilterStyles<T> = StyleProp<
-	Omit<T, MarginStyles | PaddingStyles | RadiusStyles | "backgroundColor">
->;
+export type BoxProps = BoxTokens & ViewProps;
 
 export type ScrollableBoxProps = Pick<
 	BoxProps,

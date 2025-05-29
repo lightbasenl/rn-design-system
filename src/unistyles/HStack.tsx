@@ -34,7 +34,7 @@ export type RowPropAlignments = {
 export type HStackProps = Omit<BoxProps, "justifyContent" | "alignItems"> &
 	RowPropAlignments &
 	({ separator?: undefined; wrap?: true } | { separator?: ReactElement<any>; wrap?: false }) & {
-		ref?: React.RefObject<View>;
+		ref?: React.RefObject<View | null>;
 	};
 
 /**

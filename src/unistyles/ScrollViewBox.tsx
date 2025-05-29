@@ -2,23 +2,15 @@ import { type ScrollViewProps as RNScrollViewProps, ScrollView } from "react-nat
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import Animated from "react-native-reanimated";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
-import type { FilterStyles, ScrollableBoxProps } from "../types";
-import type { RemoveStyles } from "../types";
+import type { ScrollableBoxProps } from "../types";
 import { createScrollableBox } from "./createScrollableBox";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
 import { extractBoxTokens } from "./utils";
 
-type RNProps = RNScrollViewProps;
-
-type ScrollViewProps = RemoveStyles<RNProps> & {
-	contentContainerStyle?: FilterStyles<RNProps["contentContainerStyle"]>;
-	style?: FilterStyles<RNProps["style"]>;
-};
-
 export type ScrollViewBoxProps = ScrollableBoxProps &
-	ScrollViewProps & {
-		ref?: React.RefObject<ScrollView>;
+	RNScrollViewProps & {
+		ref?: React.RefObject<ScrollView | null>;
 	};
 
 const ScrollViewUniStyle = withUnistyles(ScrollView);
@@ -28,8 +20,7 @@ export function ScrollViewBox({
 	backgroundColor,
 	...props
 }: ScrollViewBoxProps) {
-	const { viewProps, boxProps } = extractBoxTokens<RNProps>({ backgroundColor, ...props });
-
+	const { viewProps, boxProps } = extractBoxTokens<RNScrollViewProps>({ backgroundColor, ...props });
 	if (!backgroundColor) {
 		return (
 			<ScrollViewUniStyle

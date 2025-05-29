@@ -1,22 +1,16 @@
-import { FlatList, type FlatListProps as RNFlatListProps } from "react-native";
+import { FlatList, type FlatListProps, type FlatListProps as RNFlatListProps } from "react-native";
 import Animated from "react-native-reanimated";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
-import type { RemoveStyles, ScrollableBoxProps } from "../types";
-import type { FilterStyles } from "../types";
+import type { ScrollableBoxProps } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
 import { extractBoxTokens } from "./utils";
 
 type RNProps<T> = RNFlatListProps<T>;
 
-type FlatListProps<T> = RemoveStyles<RNProps<T>> & {
-	contentContainerStyle?: FilterStyles<RNProps<T>["contentContainerStyle"]>;
-	style?: FilterStyles<RNProps<T>["style"]>;
-};
-
 export type FlatListBoxProps<T> = ScrollableBoxProps &
 	FlatListProps<T> & {
-		ref?: React.RefObject<FlatList<T>>;
+		ref?: React.RefObject<FlatList<T> | null>;
 	};
 
 // Define a properly typed version of the component

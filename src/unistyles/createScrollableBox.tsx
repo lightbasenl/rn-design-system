@@ -6,22 +6,18 @@ import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
 import { extractBoxTokens } from "./utils";
 
-export interface InitialComponentProps extends Record<string, unknown> {
-	ref?: Ref<Component>;
+interface InitialComponentProps<T extends ScrollViewProps> extends Record<string, unknown> {
+	ref?: Ref<Component<T>>;
 	collapsable?: boolean;
 }
 
-export interface InitialComponentProps extends Record<string, unknown> {
-	ref?: Ref<Component>;
-	collapsable?: boolean;
-}
 // Don't change the order of overloads, since such a change breaks current behavior
 export function createScrollableBox<T extends ScrollViewProps>(
 	component: FunctionComponent<ScrollableBoxProps & T>
 ): FunctionComponent<ScrollableBoxProps & T>;
 
 export function createScrollableBox<T extends ScrollViewProps>(
-	Component: ComponentType<InitialComponentProps>
+	Component: ComponentType<InitialComponentProps<T>>
 ) {
 	const ComponentWithUnistyles = withUnistyles(Component);
 	const ScrollableBox = ({

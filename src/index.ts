@@ -8,6 +8,7 @@ export * from "./unistyles/Text";
 export * from "./components/Button";
 export * from "./tools/colorUtils";
 export * from "./hooks/useBackgroundColor";
+export * from "./unistyles/createBox";
 export * from "./unistyles/createScrollableBox";
 export * from "./types";
 export * from "./hooks/useInternalTheme";

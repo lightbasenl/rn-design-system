@@ -32,7 +32,7 @@ export type VStackProps = Omit<BoxProps, "justifyContent" | "alignItems"> & {
 	space?: Spacing;
 	separator?: ReactElement;
 } & {
-	ref?: React.RefObject<View>;
+	ref?: React.RefObject<View | null>;
 };
 
 /**
