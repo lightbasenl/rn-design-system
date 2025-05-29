@@ -10,3 +10,4 @@ export * from "./tools/colorUtils";
 export * from "./hooks/useBackgroundColor";
 export * from "./unistyles/createScrollableBox";
 export * from "./types";
+export * from "./hooks/useInternalTheme";
