@@ -7,7 +7,14 @@ import type { BoxProps } from "../types";
 import type { Spacing } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
-import { extractBoxTokens, flattenChildren, getValidChildren, intersperse, resolveSpace } from "./utils";
+import {
+	addInsetPadding,
+	extractBoxTokens,
+	flattenChildren,
+	getValidChildren,
+	intersperse,
+	resolveSpace,
+} from "./utils";
 
 const alignHorizontalToFlexAlign = {
 	center: "center",
@@ -92,19 +99,7 @@ const styles = StyleSheet.create((theme, rt) => ({
 		const { tokenStyles, paddingValues } = resolveBoxTokens(rest, theme);
 		return {
 			...tokenStyles,
-			...paddingValues,
-			paddingTop: edges?.includes("top")
-				? (paddingValues.paddingTop ?? 0) + rt.insets.top
-				: paddingValues.paddingTop,
-			paddingBottom: edges?.includes("bottom")
-				? (paddingValues.paddingBottom ?? 0) + rt.insets.bottom
-				: paddingValues.paddingBottom,
-			paddingLeft: edges?.includes("left")
-				? (paddingValues.paddingLeft ?? 0) + rt.insets.left
-				: paddingValues.paddingLeft,
-			paddingRight: edges?.includes("right")
-				? (paddingValues.paddingRight ?? 0) + rt.insets.right
-				: paddingValues.paddingRight,
+			...addInsetPadding({ paddingValues, edges, insets: rt.insets }),
 			alignItems: alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined,
 			justifyContent: alignVertical ? alignVerticalToFlexAlign[alignVertical] : undefined,
 			rowGap: space ? resolveSpace(space, theme.spacing) : undefined,

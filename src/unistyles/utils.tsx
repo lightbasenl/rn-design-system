@@ -249,3 +249,32 @@ export function extractBoxTokens<T = ViewProps>(props: BoxTokens & T) {
 		viewProps: remainingProps,
 	};
 }
+
+export const addInsetPadding = ({
+	paddingValues,
+	edges,
+	insets,
+}: {
+	paddingValues: {
+		paddingTop?: number;
+		paddingBottom?: number;
+		paddingLeft?: number;
+		paddingRight?: number;
+		paddingVertical?: number;
+		paddingHorizontal?: number;
+		padding?: number;
+	};
+	edges: BoxTokens["edges"];
+	insets: { top: number; bottom: number; left: number; right: number };
+}) => {
+	const top = paddingValues.paddingTop ?? paddingValues.paddingVertical ?? paddingValues.padding ?? 0;
+	const bottom = paddingValues.paddingBottom ?? paddingValues.paddingVertical ?? paddingValues.padding ?? 0;
+	const left = paddingValues.paddingLeft ?? paddingValues.paddingHorizontal ?? paddingValues.padding ?? 0;
+	const right = paddingValues.paddingRight ?? paddingValues.paddingHorizontal ?? paddingValues.padding ?? 0;
+	return {
+		paddingTop: edges?.includes("top") ? top + insets.top : top,
+		paddingBottom: edges?.includes("bottom") ? bottom + insets.bottom : bottom,
+		paddingLeft: edges?.includes("left") ? left + insets.left : left,
+		paddingRight: edges?.includes("right") ? right + insets.right : right,
+	};
+};

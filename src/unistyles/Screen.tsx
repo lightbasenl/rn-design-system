@@ -8,7 +8,7 @@ import type { BoxProps } from "../types";
 import { Slot, isSlottable } from "./Slot";
 import { VStack } from "./VStack";
 import { resolveBoxTokens } from "./resolveBoxTokens";
-import { extractBoxTokens } from "./utils";
+import { addInsetPadding, extractBoxTokens } from "./utils";
 
 export type ScreenProps = {
 	options?: NativeStackNavigationOptions;
@@ -45,7 +45,7 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 	const childrenBeforeSlottable = childrenArray.slice(0, slottable);
 	const childrenAfterSlottable = childrenArray.slice(slottable + 1);
 	return (
-		<View style={{ flex: 1 }}>
+		<View style={styles.flex}>
 			{!!childrenBeforeSlottable.length && <View>{childrenBeforeSlottable}</View>}
 			<Comp {...props}>{children}</Comp>
 			{!!childrenAfterSlottable.length && <View>{childrenAfterSlottable}</View>}
@@ -55,6 +55,7 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 
 const styles = StyleSheet.create((theme, rt) => {
 	return {
+		flex: { flex: 1 },
 		container: (props: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
 			const { tokenStyles, paddingValues, edges } = resolveBoxTokens(
 				{ ...theme.defaults.Screen, ...props },
@@ -62,20 +63,7 @@ const styles = StyleSheet.create((theme, rt) => {
 			);
 			return {
 				...tokenStyles,
-				...paddingValues,
-				...paddingValues,
-				paddingTop: edges?.includes("top")
-					? (paddingValues.paddingTop ?? 0) + rt.insets.top
-					: paddingValues.paddingTop,
-				paddingBottom: edges?.includes("bottom")
-					? (paddingValues.paddingBottom ?? 0) + rt.insets.bottom
-					: paddingValues.paddingBottom,
-				paddingLeft: edges?.includes("left")
-					? (paddingValues.paddingLeft ?? 0) + rt.insets.left
-					: paddingValues.paddingLeft,
-				paddingRight: edges?.includes("right")
-					? (paddingValues.paddingRight ?? 0) + rt.insets.right
-					: paddingValues.paddingRight,
+				...addInsetPadding({ paddingValues, edges, insets: rt.insets }),
 			};
 		},
 	};

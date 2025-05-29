@@ -6,7 +6,7 @@ import type { ScrollableBoxProps } from "../types";
 import { createScrollableBox } from "./createScrollableBox";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
-import { extractBoxTokens } from "./utils";
+import { addInsetPadding, extractBoxTokens } from "./utils";
 
 export type ScrollViewBoxProps = ScrollableBoxProps &
 	RNScrollViewProps & {
@@ -46,19 +46,7 @@ const styles = StyleSheet.create((theme, rt) => ({
 		const { tokenStyles, paddingValues, edges } = resolveBoxTokens(rest, theme);
 		return {
 			flexGrow: tokenStyles.flex,
-			...paddingValues,
-			paddingTop: edges?.includes("top")
-				? (paddingValues.paddingTop ?? 0) + rt.insets.top
-				: paddingValues.paddingTop,
-			paddingBottom: edges?.includes("bottom")
-				? (paddingValues.paddingBottom ?? 0) + rt.insets.bottom
-				: paddingValues.paddingBottom,
-			paddingLeft: edges?.includes("left")
-				? (paddingValues.paddingLeft ?? 0) + rt.insets.left
-				: paddingValues.paddingLeft,
-			paddingRight: edges?.includes("right")
-				? (paddingValues.paddingRight ?? 0) + rt.insets.right
-				: paddingValues.paddingRight,
+			...addInsetPadding({ paddingValues, edges, insets: rt.insets }),
 		};
 	},
 	container: (rest: ReturnType<typeof extractBoxTokens>["boxProps"]) => {

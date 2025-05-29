@@ -6,7 +6,14 @@ import type { BoxProps } from "../types";
 import type { Spacing } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
-import { extractBoxTokens, flattenChildren, getValidChildren, intersperse, resolveSpace } from "./utils";
+import {
+	addInsetPadding,
+	extractBoxTokens,
+	flattenChildren,
+	getValidChildren,
+	intersperse,
+	resolveSpace,
+} from "./utils";
 
 export const alignHorizontalToFlexAlign = {
 	center: "center",
@@ -120,19 +127,7 @@ const styles = StyleSheet.create((theme, rt) => ({
 
 		return {
 			...tokenStyles,
-			...paddingValues,
-			paddingTop: edges?.includes("top")
-				? (paddingValues.paddingTop ?? 0) + rt.insets.top
-				: paddingValues.paddingTop,
-			paddingBottom: edges?.includes("bottom")
-				? (paddingValues.paddingBottom ?? 0) + rt.insets.bottom
-				: paddingValues.paddingBottom,
-			paddingLeft: edges?.includes("left")
-				? (paddingValues.paddingLeft ?? 0) + rt.insets.left
-				: paddingValues.paddingLeft,
-			paddingRight: edges?.includes("right")
-				? (paddingValues.paddingRight ?? 0) + rt.insets.right
-				: paddingValues.paddingRight,
+			...addInsetPadding({ paddingValues, edges, insets: rt.insets }),
 			flexDirection: "row",
 			justifyContent: alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined,
 			alignItems: alignVertical && !wrap ? alignVerticalToFlexAlign[alignVertical] : undefined,
