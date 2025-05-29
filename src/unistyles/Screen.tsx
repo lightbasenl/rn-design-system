@@ -36,7 +36,7 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 
 	if (slottable === -1) {
 		return (
-			<Comp style={styles.container(boxProps)} {...props}>
+			<Comp style={[styles.flex, styles.container(boxProps)]} {...props}>
 				{children}
 			</Comp>
 		);

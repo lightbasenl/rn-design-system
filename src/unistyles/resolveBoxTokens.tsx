@@ -144,8 +144,8 @@ export function resolveBoxTokens<T = ViewProps>(
 	};
 
 	return {
-		tokenStyles,
-		paddingValues,
+		tokenStyles: JSON.parse(JSON.stringify(tokenStyles)) as typeof tokenStyles,
+		paddingValues: JSON.parse(JSON.stringify(paddingValues)) as typeof paddingValues,
 		...remainingProps,
 	};
 }
