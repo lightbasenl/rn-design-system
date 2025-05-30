@@ -75,7 +75,13 @@ export function intersperse<A>(arr: readonly A[], delimiter: A) {
 	});
 }
 
-export const resolveSpace = (space: Spacing, spacing: UnistylesThemes[keyof UnistylesThemes]["spacing"]) => {
+export const resolveSpace = (
+	space: Spacing | undefined,
+	spacing: UnistylesThemes[keyof UnistylesThemes]["spacing"]
+) => {
+	if (space == null) {
+		return undefined;
+	}
 	if (typeof space === "object") {
 		return space.custom as number;
 	}
@@ -92,6 +98,9 @@ export const resolveColor = (
 	color: ColorThemeKeys | undefined,
 	themeColors: UnistylesThemes[keyof UnistylesThemes]["colors"]
 ) => {
+	if (color == null) {
+		return undefined;
+	}
 	if (typeof color === "object") {
 		return color.custom;
 	}
