@@ -32,11 +32,11 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 
 	const childrenArray = Children.toArray(children);
 	const slottable = childrenArray.findIndex(isSlottable);
-	const { boxProps } = extractBoxTokens(props);
+	const { boxProps, ...rest } = extractBoxTokens(props);
 
 	if (slottable === -1) {
 		return (
-			<Comp style={[styles.flex, styles.container(boxProps)]} {...props}>
+			<Comp style={[styles.flex, styles.container(boxProps)]} {...rest}>
 				{children}
 			</Comp>
 		);
@@ -47,7 +47,9 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 	return (
 		<View style={styles.flex}>
 			{!!childrenBeforeSlottable.length && <View>{childrenBeforeSlottable}</View>}
-			<Comp {...props}>{children}</Comp>
+			<Comp style={[styles.flex, styles.container(boxProps)]} {...rest}>
+				{children}
+			</Comp>
 			{!!childrenAfterSlottable.length && <View>{childrenAfterSlottable}</View>}
 		</View>
 	);
