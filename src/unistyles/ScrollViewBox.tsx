@@ -41,6 +41,8 @@ export function ScrollViewBox({
 	);
 }
 
+ScrollViewBox.displayName = "ScrollableBox(ScrollView)";
+
 const styles = StyleSheet.create((theme, rt) => ({
 	contentContainer: (rest: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
 		const { tokenStyles, paddingValues, edges } = resolveBoxTokens(rest, theme);
@@ -58,6 +60,8 @@ const styles = StyleSheet.create((theme, rt) => ({
 
 /** @deprecated Use ScrollViewBox instead */
 export const AnimatedScrollViewBox = Animated.createAnimatedComponent(ScrollViewBox);
+AnimatedScrollViewBox.displayName = "ScrollableBox(AnimatedScrollViewBox)";
 
 /** @deprecated Use createScrollableBox at project level instead */
 export const KeyboardAwareScrollViewBox = createScrollableBox(KeyboardAwareScrollView);
+KeyboardAwareScrollViewBox.displayName = "ScrollableBox(KeyboardAwareScrollViewBox)";

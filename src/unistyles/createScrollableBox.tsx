@@ -46,6 +46,7 @@ export function createScrollableBox<T extends ScrollViewProps>(
 			</BackgroundContext.Provider>
 		);
 	};
+	ScrollableBox.displayName = `ScrollableBox(${Component.displayName || Component.name})`;
 	return ScrollableBox;
 }
 

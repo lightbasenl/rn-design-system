@@ -1,9 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import type { ReactNode } from "react";
+import type { ComponentType, ReactNode } from "react";
 import { Children, useLayoutEffect } from "react";
-import { View } from "react-native";
-import { StyleSheet, withUnistyles } from "react-native-unistyles";
+import { type ScrollViewProps, View } from "react-native";
+import { StyleSheet } from "react-native-unistyles";
 import type { BoxProps } from "../types";
 import { Slot, isSlottable } from "./Slot";
 import { VStack } from "./VStack";
@@ -14,7 +14,7 @@ export type ScreenProps = {
 	options?: NativeStackNavigationOptions;
 } & BoxProps;
 
-const UISlot = withUnistyles(Slot);
+// const UISlot = withUnistyles(Slot);
 export type AsChildProps<DefaultElementProps> =
 	| ({ asChild?: false } & DefaultElementProps & ScreenProps)
 	| ({ asChild: true; children: ReactNode } & ScreenProps);
@@ -28,15 +28,31 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 		}
 	}, [navigation, options]);
 
-	const Comp = asChild ? UISlot : VStack;
+	const Comp = asChild ? Slot : VStack;
 
 	const childrenArray = Children.toArray(children);
 	const slottable = childrenArray.findIndex(isSlottable);
-	const { boxProps, ...rest } = extractBoxTokens(props);
+	const { viewProps, boxProps } = extractBoxTokens(props);
+
+	// @ts-ignore
+	const displayName = asChild ? children?.type?.displayName : "";
 
 	if (slottable === -1) {
+		if (displayName?.includes("ScrollableBox")) {
+			console.log({ asChild });
+			const ScrollComponent = Comp as ComponentType<ScrollViewProps>;
+			return (
+				<ScrollComponent
+					contentContainerStyle={[styles.contentContainer(boxProps)]}
+					style={[styles.scrollContainer(boxProps)]}
+					{...viewProps}
+				>
+					{children}
+				</ScrollComponent>
+			);
+		}
 		return (
-			<Comp style={[styles.flex, styles.container(boxProps)]} {...rest}>
+			<Comp style={[styles.flex, styles.container(boxProps)]} {...viewProps}>
 				{children}
 			</Comp>
 		);
@@ -44,10 +60,29 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 
 	const childrenBeforeSlottable = childrenArray.slice(0, slottable);
 	const childrenAfterSlottable = childrenArray.slice(slottable + 1);
+
+	if (displayName?.includes("ScrollableBox")) {
+		const ScrollComponent = Comp as ComponentType<ScrollViewProps>;
+
+		return (
+			<View style={styles.flex}>
+				{!!childrenBeforeSlottable.length && <View>{childrenBeforeSlottable}</View>}
+				<ScrollComponent
+					contentContainerStyle={[styles.contentContainer(boxProps)]}
+					style={[styles.scrollContainer(boxProps)]}
+					{...viewProps}
+				>
+					{children}
+				</ScrollComponent>
+				{!!childrenAfterSlottable.length && <View>{childrenAfterSlottable}</View>}
+			</View>
+		);
+	}
+
 	return (
 		<View style={styles.flex}>
 			{!!childrenBeforeSlottable.length && <View>{childrenBeforeSlottable}</View>}
-			<Comp style={[styles.flex, styles.container(boxProps)]} {...rest}>
+			<Comp style={[styles.flex, styles.container(boxProps)]} {...viewProps}>
 				{children}
 			</Comp>
 			{!!childrenAfterSlottable.length && <View>{childrenAfterSlottable}</View>}
@@ -67,6 +102,22 @@ const styles = StyleSheet.create((theme, rt) => {
 				...tokenStyles,
 				...addInsetPadding({ paddingValues, edges, insets: rt.insets }),
 			};
+		},
+
+		contentContainer: (props: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
+			const { tokenStyles, paddingValues, edges } = resolveBoxTokens(
+				{ ...theme.defaults.Screen, ...props },
+				theme
+			);
+			return {
+				flexGrow: tokenStyles.flex,
+				...addInsetPadding({ paddingValues, edges, insets: rt.insets }),
+			};
+		},
+		scrollContainer: (props: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
+			const { tokenStyles } = resolveBoxTokens({ ...theme.defaults.Screen, ...props }, theme);
+			const { flex, ...styles } = tokenStyles;
+			return styles;
 		},
 	};
 });

@@ -59,5 +59,8 @@ const styles = StyleSheet.create((theme, rt) => ({
 	},
 }));
 
+FlatListBox.displayName = "ScrollableBox(FlatList)";
+
 /** @deprecated Use FlatListBox instead */
 export const AnimatedFlatListBox = Animated.createAnimatedComponent(FlatListBox) as typeof FlatListBox;
+AnimatedFlatListBox.displayName = "ScrollableBox(AnimatedFlatListBox)";
