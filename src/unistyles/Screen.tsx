@@ -12,6 +12,7 @@ import { addInsetPadding, extractBoxTokens } from "./utils";
 
 export type ScreenProps = {
 	options?: NativeStackNavigationOptions;
+	contentContainerStyle?: ScrollViewProps["contentContainerStyle"];
 } & BoxProps;
 
 // const UISlot = withUnistyles(Slot);
@@ -19,7 +20,14 @@ export type AsChildProps<DefaultElementProps> =
 	| ({ asChild?: false } & DefaultElementProps & ScreenProps)
 	| ({ asChild: true; children: ReactNode } & ScreenProps);
 
-export function Screen({ asChild, children, options, ...props }: AsChildProps<BoxProps>) {
+export function Screen({
+	asChild,
+	children,
+	options,
+	style,
+	contentContainerStyle,
+	...props
+}: AsChildProps<BoxProps>) {
 	const navigation = useNavigation();
 
 	useLayoutEffect(() => {
@@ -39,12 +47,11 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 
 	if (slottable === -1) {
 		if (displayName?.includes("ScrollableBox")) {
-			console.log({ asChild });
 			const ScrollComponent = Comp as ComponentType<ScrollViewProps>;
 			return (
 				<ScrollComponent
-					contentContainerStyle={[styles.contentContainer(boxProps)]}
-					style={[styles.scrollContainer(boxProps)]}
+					contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
+					style={[styles.scrollContainer(boxProps), style]}
 					{...viewProps}
 				>
 					{children}
@@ -52,7 +59,7 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 			);
 		}
 		return (
-			<Comp style={[styles.flex, styles.container(boxProps)]} {...viewProps}>
+			<Comp style={[styles.flex, styles.container(boxProps), style]} {...viewProps}>
 				{children}
 			</Comp>
 		);
@@ -68,8 +75,8 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 			<View style={styles.flex}>
 				{!!childrenBeforeSlottable.length && <View>{childrenBeforeSlottable}</View>}
 				<ScrollComponent
-					contentContainerStyle={[styles.contentContainer(boxProps)]}
-					style={[styles.scrollContainer(boxProps)]}
+					contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
+					style={[styles.scrollContainer(boxProps), style]}
 					{...viewProps}
 				>
 					{children}
@@ -82,7 +89,7 @@ export function Screen({ asChild, children, options, ...props }: AsChildProps<Bo
 	return (
 		<View style={styles.flex}>
 			{!!childrenBeforeSlottable.length && <View>{childrenBeforeSlottable}</View>}
-			<Comp style={[styles.flex, styles.container(boxProps)]} {...viewProps}>
+			<Comp style={[styles.flex, styles.container(boxProps), style]} {...viewProps}>
 				{children}
 			</Comp>
 			{!!childrenAfterSlottable.length && <View>{childrenAfterSlottable}</View>}
