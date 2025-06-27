@@ -356,6 +356,7 @@ export type Defaults<
 		edges?: ("top" | "bottom")[];
 		options?: NativeStackNavigationOptions;
 		mode?: SafeAreaViewProps["mode"];
+		flex?: number;
 	};
 };
 
