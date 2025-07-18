@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import type { ComponentType, JSX } from "react";
+import type { ComponentType, JSX, ReactNode } from "react";
 import { Children, useLayoutEffect } from "react";
 import { type ScrollViewProps, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
@@ -18,7 +18,7 @@ export type ScreenProps = {
 // const UISlot = withUnistyles(Slot);
 export type AsChildProps<DefaultElementProps> =
 	| ({ asChild?: false } & DefaultElementProps & ScreenProps)
-	| ({ asChild: true; children: JSX.Element } & ScreenProps);
+	| ({ asChild: true; children: ReactNode } & ScreenProps);
 
 export function Screen({
 	asChild,
@@ -39,9 +39,11 @@ export function Screen({
 	const Comp = asChild ? Slot : VStack;
 
 	const childrenArray = Children.toArray(children);
+
 	const slottable = childrenArray.findIndex(isSlottable);
 	const { viewProps, boxProps } = extractBoxTokens(props);
 
+	// @ts-ignore
 	const displayName = asChild ? children?.type?.displayName : "";
 
 	if (slottable === -1) {
