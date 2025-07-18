@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import type { ComponentType, ReactNode } from "react";
+import type { ComponentType, JSX } from "react";
 import { Children, useLayoutEffect } from "react";
 import { type ScrollViewProps, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
@@ -18,7 +18,7 @@ export type ScreenProps = {
 // const UISlot = withUnistyles(Slot);
 export type AsChildProps<DefaultElementProps> =
 	| ({ asChild?: false } & DefaultElementProps & ScreenProps)
-	| ({ asChild: true; children: ReactNode } & ScreenProps);
+	| ({ asChild: true; children: JSX.Element } & ScreenProps);
 
 export function Screen({
 	asChild,
@@ -42,7 +42,6 @@ export function Screen({
 	const slottable = childrenArray.findIndex(isSlottable);
 	const { viewProps, boxProps } = extractBoxTokens(props);
 
-	// @ts-ignore
 	const displayName = asChild ? children?.type?.displayName : "";
 
 	if (slottable === -1) {
@@ -67,8 +66,10 @@ export function Screen({
 
 	const childrenBeforeSlottable = childrenArray.slice(0, slottable);
 	const childrenAfterSlottable = childrenArray.slice(slottable + 1);
+	const childSlottable = childrenArray[slottable] as JSX.Element;
 
-	if (displayName?.includes("ScrollableBox")) {
+	const childSlottableDisplayName = childSlottable?.props?.children?.type?.displayName;
+	if (childSlottableDisplayName?.includes("ScrollableBox")) {
 		const ScrollComponent = Comp as ComponentType<ScrollViewProps>;
 
 		return (
@@ -79,7 +80,7 @@ export function Screen({
 					style={[styles.scrollContainer(boxProps), style]}
 					{...viewProps}
 				>
-					{children}
+					{childSlottable}
 				</ScrollComponent>
 				{!!childrenAfterSlottable.length && <View>{childrenAfterSlottable}</View>}
 			</View>
