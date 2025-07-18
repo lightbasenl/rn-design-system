@@ -16,7 +16,7 @@ export type ScrenNewProps = Omit<ScrollableBoxProps, "edges"> &
 
 const ScrollViewUniStyle = memo(withUnistyles(ScrollView));
 
-export function ScreenNew({
+export function ScreenScroll({
 	style,
 	contentContainerStyle,
 	backgroundColor,
@@ -54,7 +54,7 @@ export function ScreenNew({
 	);
 }
 
-ScreenNew.displayName = "Screen(ScrollView)";
+ScreenScroll.displayName = "Screen(ScrollView)";
 
 const styles = StyleSheet.create((theme) => ({
 	contentContainer: (props: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
