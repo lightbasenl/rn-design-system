@@ -61,7 +61,7 @@ const styles = StyleSheet.create((theme) => ({
 		const { tokenStyles, paddingValues } = resolveBoxTokens({ ...theme.defaults.Screen, ...props }, theme);
 		return {
 			flexGrow: tokenStyles.flex,
-			paddingValues,
+			...paddingValues,
 		};
 	},
 	container: (props: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
