@@ -9,6 +9,7 @@ import type {
 	FontMetrics,
 	GenericFontSizes,
 	LightColors,
+	ShadowConfig,
 	SpacingConfig,
 	TextVariant,
 	ThemeType,
@@ -22,11 +23,12 @@ export function createtheme<
 	Radius extends SpacingConfig,
 	TTextVariant extends TextVariant<K, S, T>,
 	TButtonVariant extends ButtonVariant<K, T, S, TTextVariant, Spacing, Radius>,
+	TShadows extends ShadowConfig,
 >(
-	config: Omit<CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant>, "capsize">
+	config: Omit<CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant, TShadows>, "capsize">
 ): {
-	light: ThemeType<T, K, S, Spacing, Radius, TTextVariant, TButtonVariant>;
-	dark: ThemeType<T, K, S, Spacing, Radius, TTextVariant, TButtonVariant>;
+	light: ThemeType<T, K, S, Spacing, Radius, TTextVariant, TButtonVariant, TShadows>;
+	dark: ThemeType<T, K, S, Spacing, Radius, TTextVariant, TButtonVariant, TShadows>;
 } {
 	const themeColors = {
 		light: config.colors.light,

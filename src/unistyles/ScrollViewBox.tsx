@@ -48,12 +48,13 @@ const styles = StyleSheet.create((theme, rt) => ({
 		const { tokenStyles, paddingValues, edges } = resolveBoxTokens(rest, theme);
 		return {
 			flexGrow: tokenStyles.flex,
+			boxShadow: tokenStyles.boxShadow,
 			...addInsetPadding({ paddingValues, edges, insets: rt.insets }),
 		};
 	},
 	container: (rest: ReturnType<typeof extractBoxTokens>["boxProps"]) => {
 		const { tokenStyles } = resolveBoxTokens(rest, theme);
-		const { flex, ...styles } = tokenStyles;
+		const { flex, boxShadow, ...styles } = tokenStyles;
 		return styles;
 	},
 }));

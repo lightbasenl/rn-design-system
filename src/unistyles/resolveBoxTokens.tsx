@@ -29,6 +29,8 @@ export function resolveBoxTokens<T = ViewProps>(
 		borderTopWidth,
 		borderWidth,
 
+		boxShadow,
+
 		flex,
 		alignItems,
 		alignSelf,
@@ -103,6 +105,21 @@ export function resolveBoxTokens<T = ViewProps>(
 		}
 	);
 
+	const shadowValues = mapValues(
+		{
+			boxShadow,
+		},
+		(value) => {
+			if (typeof value === "object") {
+				return value.custom;
+			}
+			if (typeof value === "string") {
+				return theme.colors[value];
+			}
+			return undefined;
+		}
+	);
+
 	const borderRadiusValues = mapValues(
 		{
 			borderBottomLeftRadius:
@@ -138,6 +155,7 @@ export function resolveBoxTokens<T = ViewProps>(
 		borderWidth,
 		width,
 		height,
+		...shadowValues,
 		...marginValues,
 		...colorValues,
 		...borderRadiusValues,

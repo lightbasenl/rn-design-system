@@ -37,7 +37,8 @@ export type ThemeType<
 	Radius extends SpacingConfig,
 	TTextVariant extends TextVariant<K, S, T>,
 	TButtonVariant extends ButtonVariant<K, T, S, TTextVariant, Spacing, Radius>,
-> = Omit<CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant>, "colors"> & {
+	TShadows extends ShadowConfig,
+> = Omit<CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant, TShadows>, "colors"> & {
 	capsize: CapSizeConfig<S, K>;
 	colors: T;
 };
@@ -50,11 +51,13 @@ export type CreateLBConfig<
 	TRadius extends SpacingConfig,
 	TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
 	TButtonVariant extends ButtonVariant<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius>,
+	TShadows extends ShadowConfig,
 > = {
 	typography: Typography<TMetrics, TFontSizes>;
 	variants: Variants<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius, TButtonVariant>;
 	colors: ThemeColors<TColors>;
 	spacing: TSpacing;
+	shadows: TShadows;
 	radius: TRadius;
 	defaults: Defaults<TMetrics, TFontSizes, TColors, TSpacing, TTextVariant, TRadius>;
 	capsize: CapSizeConfig<TFontSizes, TMetrics>;
@@ -74,7 +77,8 @@ export type GenericLBConfig = CreateLBConfig<
 		TextVariant<FontMetrics, GenericFontSizes, LightColors>,
 		SpacingConfig,
 		SpacingConfig
-	>
+	>,
+	ShadowConfig
 >;
 
 export type CapSizeConfig<S extends GenericFontSizes, K extends FontMetrics> = {
@@ -115,6 +119,7 @@ export type SpaceKey = keyof LBConfig["spacing"];
 export type Spacing = SpaceKey | { custom: number } | undefined;
 export type NegativeSpace = `-${SpaceKey}` | { custom: number } | undefined;
 export type Radius = keyof LBConfig["radius"] | { custom: number };
+export type Shadow = keyof LBConfig["shadows"] | { custom: string };
 
 export type DefaultButton = LBConfig["defaults"]["Button"];
 
@@ -238,6 +243,8 @@ export type CustomColor<T extends LightColors> = keyof T | { custom: string };
 export type GenericFontSizes = { [sizeToken: string]: { fontSize: number; lineHeight: number } };
 export type FontMetrics = { [family: string]: FontMetric | null };
 export type SpacingConfig = { [sizeToken: string]: number };
+export type ShadowConfig = { [shadowToken: string]: string } | { custom: string };
+
 export type TextVariant<
 	TMetrics extends FontMetrics,
 	TFontSizes extends GenericFontSizes,
@@ -365,6 +372,7 @@ export type BoxTokens = {
 	width?: ViewStyle["width"];
 	height?: ViewStyle["height"];
 	edges?: ("top" | "bottom" | "left" | "right")[];
+	boxShadow?: Shadow;
 } & MarginValues &
 	ColorValues &
 	BorderRadiusValues &
@@ -376,5 +384,5 @@ export type BoxProps = BoxTokens & ViewProps;
 
 export type ScrollableBoxProps = Pick<
 	BoxProps,
-	"flex" | "backgroundColor" | RadiusStyles | PaddingStyles | MarginStyles
+	"flex" | "backgroundColor" | RadiusStyles | PaddingStyles | MarginStyles | "boxShadow"
 >;
