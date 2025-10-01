@@ -18,6 +18,7 @@ type CustomTextProps = {
 	family?: FontFamily;
 	weight?: FontWeights;
 	variant?: FontVariant;
+	fontScale?: number;
 };
 export type TextProps = RNTextProps & CustomTextProps;
 
@@ -34,6 +35,7 @@ export function Text({ selectable, style, children, ...props }: TextProps) {
 		textAlign,
 		flex,
 		variant,
+		fontScale,
 		...textProps
 	} = props;
 
@@ -49,6 +51,7 @@ export function Text({ selectable, style, children, ...props }: TextProps) {
 		textAlign,
 		flex,
 		variant,
+		fontScale,
 	};
 
 	return (
@@ -70,6 +73,7 @@ const styles = StyleSheet.create((theme) => ({
 		textTransform,
 		textAlign,
 		flex,
+		fontScale = 1,
 	}: CustomTextProps) => {
 		const variantKey = variant ?? theme.defaults.Text.variant;
 
@@ -93,8 +97,8 @@ const styles = StyleSheet.create((theme) => ({
 			marginBottom,
 			fontWeight,
 			fontStyle,
-			fontSize,
-			lineHeight,
+			fontSize: fontSize ? fontSize * fontScale : fontSize,
+			lineHeight: lineHeight ? lineHeight * fontScale : lineHeight,
 			textDecorationLine: getTextDecoration({ underline, strikeThrough }),
 			color: resolveColor(variantColor, theme.colors),
 			fontFamily: fontFamily as string,
