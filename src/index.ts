@@ -5,6 +5,7 @@ export * from "./tools/colorUtils";
 export * from "./types";
 export * from "./unistyles/createBox";
 export * from "./unistyles/createScrollableBox";
+export * from "./unistyles/createStack";
 export * from "./unistyles/FlatListBox";
 export * from "./unistyles/HStack";
 export * from "./unistyles/resolveBoxTokens";
