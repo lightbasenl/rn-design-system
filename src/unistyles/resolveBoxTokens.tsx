@@ -172,7 +172,7 @@ export function mapValues<T extends object, U>(
 	const result = {} as { [K in keyof T]: U };
 
 	for (const key in object) {
-		if (Object.prototype.hasOwnProperty.call(object, key)) {
+		if (Object.hasOwn(object, key)) {
 			result[key] = mapper(object[key]);
 		}
 	}

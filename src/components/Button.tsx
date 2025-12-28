@@ -1,6 +1,6 @@
 import { TinyColor } from "@ctrl/tinycolor";
 
-import { type ReactElement, createContext, useContext } from "react";
+import { createContext, type ReactElement, useContext } from "react";
 import { ActivityIndicator, Pressable, type PressableProps } from "react-native";
 import Animated, {
 	type AnimatedStyle,
@@ -11,16 +11,14 @@ import Animated, {
 	useSharedValue,
 	withTiming,
 } from "react-native-reanimated";
-
-import { useBackgroundColor } from "../hooks/useBackgroundColor";
-
 import { StyleSheet, UnistylesRuntime, withUnistyles } from "react-native-unistyles";
+import { useBackgroundColor } from "../hooks/useBackgroundColor";
 import { getActiveColor } from "../tools/colorUtils";
 import { getButtonVariants } from "../tools/getButtonVariants";
 import type { BoxProps, ButtonVariants, ColorThemeKeys } from "../types";
 import { HStack, type HStackProps } from "../unistyles/HStack";
-import { Text, type TextProps } from "../unistyles/Text";
 import { resolveBoxTokens } from "../unistyles/resolveBoxTokens";
+import { Text, type TextProps } from "../unistyles/Text";
 import { resolveColor } from "../unistyles/utils";
 
 type OmittedBoxProps = Omit<

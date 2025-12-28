@@ -1,5 +1,5 @@
 import type React from "react";
-import { Children, type ReactNode, cloneElement, isValidElement } from "react";
+import { Children, cloneElement, isValidElement, type ReactNode } from "react";
 import type { TextStyle, ViewProps } from "react-native";
 import type { UnistylesThemes } from "react-native-unistyles";
 import type { BoxTokens, ColorThemeKeys, FontWeights, Spacing } from "../types";
@@ -56,7 +56,7 @@ const reduceWithIndex = <A, B>(
 	let e = initialValue;
 
 	for (let t = 0, v = arr.length; t < v; ++t) {
-		// @ts-ignore
+		// @ts-expect-error
 		e = fn(e, arr[t], t);
 	}
 

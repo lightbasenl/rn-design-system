@@ -2,8 +2,7 @@ import type { ReactElement } from "react";
 import { isValidElement } from "react";
 import { View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
-import type { BoxProps } from "../types";
-import type { Spacing } from "../types";
+import type { BoxProps, Spacing } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
 import {

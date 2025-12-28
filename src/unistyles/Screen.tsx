@@ -5,10 +5,10 @@ import { Children, useLayoutEffect } from "react";
 import { type ScrollViewProps, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import type { BoxProps } from "../types";
-import { Slot, isSlottable } from "./Slot";
-import { VStack } from "./VStack";
 import { resolveBoxTokens } from "./resolveBoxTokens";
+import { isSlottable, Slot } from "./Slot";
 import { addInsetPadding, extractBoxTokens } from "./utils";
+import { VStack } from "./VStack";
 
 export type ScreenProps = {
 	options?: NativeStackNavigationOptions;
@@ -43,7 +43,7 @@ export function Screen({
 	const slottable = childrenArray.findIndex(isSlottable);
 	const { viewProps, boxProps } = extractBoxTokens(props);
 
-	// @ts-ignore
+	// @ts-expect-error
 	const displayName = asChild ? children?.type?.displayName : "";
 
 	if (slottable === -1) {

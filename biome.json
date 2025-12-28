@@ -1,18 +1,18 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
-	"organizeImports": {
-		"enabled": true
-	},
+	"$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
+
 	"files": {
-		"ignore": [
-			"lib/**/*",
-			"src/generated/**/*",
-			".expo/**/*",
-			"node_modules/**/*",
-			"ios/**/*",
-			"android/**/*",
-			"src/graphql-env.d.ts",
-			"theme.typography.tsx"
+		"includes": [
+			"**",
+			"!lib/**/*",
+			"!src/generated/**/*",
+			"!.expo/**/*",
+			"!node_modules/**/*",
+			"!ios/**/*",
+			"!android/**/*",
+			"!src/graphql-env.d.ts",
+			"!theme.typography.tsx"
 		]
 	},
 
@@ -29,6 +29,7 @@
 			"lineWidth": 110
 		}
 	},
+
 	"linter": {
 		"enabled": true,
 		"rules": {
@@ -38,9 +39,29 @@
 				"noAccumulatingSpread": "off"
 			},
 			"suspicious": {
-				"noExplicitAny": "warn"
+				"noExplicitAny": "off",
+				"noThenProperty": "off",
+				"useIterableCallbackReturn": "off"
+			},
+			"complexity": {
+				"noBannedTypes": "off"
+			},
+			"style": {
+				"noNonNullAssertion": "warn",
+				"noParameterAssign": "error",
+				"useAsConstAssertion": "error",
+				"useDefaultParameterLast": "error",
+				"useEnumInitializers": "error",
+				"useSelfClosingElements": "error",
+				"useSingleVarDeclarator": "error",
+				"noUnusedTemplateLiteral": "error",
+				"useNumberNamespace": "error",
+				"noInferrableTypes": "error",
+				"noUselessElse": "error"
 			},
 			"correctness": {
+				"useUniqueElementIds": "off",
+				"noUnusedVariables": "off",
 				"useExhaustiveDependencies": {
 					"level": "error",
 					"options": {

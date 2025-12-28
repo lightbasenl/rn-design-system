@@ -225,7 +225,7 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
 						const projectRoot = config.modRequest.projectRoot;
 						const filePath = await AndroidConfig.Paths.getResourceXMLPathAsync(projectRoot, {
 							name: `font_${postScriptName.split("_")[0]}`,
-							// @ts-ignore
+							// @ts-expect-error
 							kind: "font",
 						});
 

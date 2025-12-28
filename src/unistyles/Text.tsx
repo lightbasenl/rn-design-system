@@ -3,7 +3,7 @@ import { Text as RNText } from "react-native";
 
 import { StyleSheet } from "react-native-unistyles";
 import type { ColorThemeKeys, FontFamily, FontSizes, FontVariant, FontWeights } from "../types";
-import { WEIGHTS, getTextDecoration, resolveColor } from "./utils";
+import { getTextDecoration, resolveColor, WEIGHTS } from "./utils";
 
 type CustomTextProps = {
 	color?: ColorThemeKeys;

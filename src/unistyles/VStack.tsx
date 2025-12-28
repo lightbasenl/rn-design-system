@@ -3,8 +3,7 @@ import { isValidElement } from "react";
 import { View } from "react-native";
 import Animated from "react-native-reanimated";
 import { StyleSheet } from "react-native-unistyles";
-import type { BoxProps } from "../types";
-import type { Spacing } from "../types";
+import type { BoxProps, Spacing } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
 import { BackgroundContext } from "./useBackgroundColor";
 import {
