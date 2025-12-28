@@ -236,7 +236,7 @@ export type BorderStyles =
 	| "borderTopWidth";
 
 // Private types
-export type ButtonVariants = "solid" | "soft" | "outline" | "link" | "icon" | "unstyled" | "ghost";
+export type ButtonVariants = "solid" | "outline" | "ghost";
 export type LightColors = { [colorToken: string]: string };
 export type Shadows = { [shadow: string]: BoxShadowValue | string };
 

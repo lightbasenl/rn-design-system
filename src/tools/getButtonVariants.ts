@@ -57,12 +57,6 @@ export function getButtonVariants({
 			borderWidth: 1,
 			width: "100%",
 		},
-		soft: {
-			onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).tint(85).toHexString() },
-			textColor: themeColor,
-			borderWidth: 1,
-			width: "100%",
-		},
 		ghost: {
 			backgroundColor: { custom: parentBackGroundColor },
 			borderColor: { custom: parentBackGroundColor },
@@ -70,29 +64,6 @@ export function getButtonVariants({
 			textColor: themeColor,
 			borderWidth: 0,
 			width: "100%",
-		},
-		link: {
-			height: 30,
-			textColor: themeColor,
-			borderWidth: 0,
-			themeColor: { custom: parentBackGroundColor },
-		},
-		icon: {
-			backgroundColor: themeColor,
-			borderColor: themeColor,
-			paddingHorizontal: { custom: 0 },
-			width: 30,
-			height: 30,
-			borderRadius: { custom: 30 },
-		},
-		unstyled: {
-			onPressAnimatedScale: 1,
-			themeColor: { custom: parentBackGroundColor },
-			backgroundColor: { custom: "transparent" },
-			borderRadius: { custom: 0 },
-			paddingHorizontal: { custom: 0 },
-			paddingVertical: { custom: 0 },
-			onPressColor: { custom: "transparent" },
 		},
 	};
 	return mergeDeepRight<Omit<ButtonVariantType, "children">>(
