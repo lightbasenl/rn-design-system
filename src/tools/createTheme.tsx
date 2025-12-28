@@ -9,7 +9,7 @@ import type {
 	FontMetrics,
 	GenericFontSizes,
 	LightColors,
-	ShadowConfig,
+	Shadows,
 	SpacingConfig,
 	TextVariant,
 	ThemeType,
@@ -23,7 +23,7 @@ export function createtheme<
 	Radius extends SpacingConfig,
 	TTextVariant extends TextVariant<K, S, T>,
 	TButtonVariant extends ButtonVariant<K, T, S, TTextVariant, Spacing, Radius>,
-	TShadows extends ShadowConfig,
+	TShadows extends Shadows,
 >(
 	config: Omit<CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant, TShadows>, "capsize">
 ): {

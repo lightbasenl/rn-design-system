@@ -105,20 +105,15 @@ export function resolveBoxTokens<T = ViewProps>(
 		}
 	);
 
-	const shadowValues = mapValues(
-		{
-			boxShadow,
-		},
-		(value) => {
-			if (typeof value === "object") {
-				return value.custom;
-			}
-			if (typeof value === "string") {
-				return theme.colors[value];
-			}
-			return undefined;
+	const shadowValues = mapValues({ boxShadow }, (value) => {
+		if (typeof value === "object") {
+			return value.custom;
 		}
-	);
+		if (typeof value === "string") {
+			return theme.shadows[value];
+		}
+		return undefined;
+	});
 
 	const borderRadiusValues = mapValues(
 		{

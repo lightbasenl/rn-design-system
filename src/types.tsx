@@ -10,7 +10,7 @@
 //
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import type { ReactElement, ReactNode } from "react";
-import type { ViewProps, ViewStyle } from "react-native";
+import type { BoxShadowValue, ViewProps, ViewStyle } from "react-native";
 import type { SafeAreaViewProps } from "react-native-safe-area-context";
 
 // CONFIG
@@ -37,7 +37,7 @@ export type ThemeType<
 	Radius extends SpacingConfig,
 	TTextVariant extends TextVariant<K, S, T>,
 	TButtonVariant extends ButtonVariant<K, T, S, TTextVariant, Spacing, Radius>,
-	TShadows extends ShadowConfig,
+	TShadows extends Shadows,
 > = Omit<CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant, TShadows>, "colors"> & {
 	capsize: CapSizeConfig<S, K>;
 	colors: T;
@@ -51,16 +51,16 @@ export type CreateLBConfig<
 	TRadius extends SpacingConfig,
 	TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
 	TButtonVariant extends ButtonVariant<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius>,
-	TShadows extends ShadowConfig,
+	TShadows extends Shadows,
 > = {
 	typography: Typography<TMetrics, TFontSizes>;
 	variants: Variants<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius, TButtonVariant>;
 	colors: ThemeColors<TColors>;
 	spacing: TSpacing;
-	shadows: TShadows;
 	radius: TRadius;
 	defaults: Defaults<TMetrics, TFontSizes, TColors, TSpacing, TTextVariant, TRadius>;
 	capsize: CapSizeConfig<TFontSizes, TMetrics>;
+	shadows: ShadowConfig<TShadows>;
 };
 
 export type GenericLBConfig = CreateLBConfig<
@@ -78,7 +78,7 @@ export type GenericLBConfig = CreateLBConfig<
 		SpacingConfig,
 		SpacingConfig
 	>,
-	ShadowConfig
+	Shadows
 >;
 
 export type CapSizeConfig<S extends GenericFontSizes, K extends FontMetrics> = {
@@ -238,12 +238,15 @@ export type BorderStyles =
 // Private types
 export type ButtonVariants = "solid" | "soft" | "outline" | "link" | "icon" | "unstyled" | "ghost";
 export type LightColors = { [colorToken: string]: string };
+export type Shadows = { [shadow: string]: BoxShadowValue | string };
+
 export type ThemeColors<T extends LightColors> = { light: T; dark: Partial<T> };
 export type CustomColor<T extends LightColors> = keyof T | { custom: string };
+export type ShadowConfig<T extends Shadows> = keyof T | { custom: string };
+
 export type GenericFontSizes = { [sizeToken: string]: { fontSize: number; lineHeight: number } };
 export type FontMetrics = { [family: string]: FontMetric | null };
 export type SpacingConfig = { [sizeToken: string]: number };
-export type ShadowConfig = { [shadowToken: string]: string } | { custom: string };
 
 export type TextVariant<
 	TMetrics extends FontMetrics,
