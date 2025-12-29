@@ -6,6 +6,7 @@ export * from "./unistyles/createBox";
 export * from "./unistyles/createStack";
 export * from "./unistyles/FlatListBox";
 export * from "./unistyles/HStack";
+export * from "./unistyles/Page";
 export * from "./unistyles/resolveBoxTokens";
 export * from "./unistyles/Screen";
 export * from "./unistyles/ScreenList";
