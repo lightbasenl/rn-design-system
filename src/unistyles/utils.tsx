@@ -2,6 +2,7 @@ import type React from "react";
 import { Children, cloneElement, isValidElement, type ReactNode } from "react";
 import type { TextStyle, ViewProps } from "react-native";
 import type { UnistylesThemes } from "react-native-unistyles";
+import { stripUndefined } from "../tools/stripUndefined";
 import type { BoxTokens, ColorThemeKeys, FontWeights, Spacing } from "../types";
 
 export function isFragment(value: any): value is React.ReactElement<{ children: ReactNode } | null>;
@@ -255,7 +256,7 @@ export function extractBoxTokens<T = ViewProps>(props: BoxTokens & T) {
 		edges,
 	};
 	return {
-		boxProps: JSON.parse(JSON.stringify(boxProps)) as typeof boxProps,
+		boxProps: stripUndefined(boxProps),
 		viewProps: remainingProps,
 	};
 }

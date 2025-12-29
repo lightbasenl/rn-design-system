@@ -1,6 +1,7 @@
 import type { ViewProps } from "react-native";
 
 import type { UnistylesThemes } from "react-native-unistyles";
+import { stripUndefined } from "../tools/stripUndefined";
 import type { BoxTokens, MarginValues, PaddingValues, SpaceKey } from "../types";
 
 export function resolveBoxTokens<T = ViewProps>(
@@ -157,8 +158,8 @@ export function resolveBoxTokens<T = ViewProps>(
 	};
 
 	return {
-		tokenStyles: JSON.parse(JSON.stringify(tokenStyles)) as typeof tokenStyles,
-		paddingValues: JSON.parse(JSON.stringify(paddingValues)) as typeof paddingValues,
+		tokenStyles: stripUndefined(tokenStyles),
+		paddingValues: stripUndefined(paddingValues),
 		...remainingProps,
 	};
 }
