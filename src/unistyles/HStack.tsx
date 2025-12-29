@@ -19,6 +19,3 @@ export type RowPropAlignments = {
 };
 
 export const HStack = createStack({ direction: "horizontal", defaultAlignVertical: "center" });
-
-/** @deprecated Use HStack instead */
-export const Row = HStack;

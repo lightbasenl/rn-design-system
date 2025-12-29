@@ -58,11 +58,3 @@ const styles = StyleSheet.create((theme, rt) => ({
 		return styles;
 	},
 }));
-
-/** @deprecated Use ScrollViewBox instead */
-export const AnimatedScrollViewBox = Animated.createAnimatedComponent(ScrollViewBox);
-AnimatedScrollViewBox.displayName = "ScrollableBox(AnimatedScrollViewBox)";
-
-/** @deprecated Use createScrollableBox at project level instead */
-export const KeyboardAwareScrollViewBox = createScrollableBox(KeyboardAwareScrollView);
-KeyboardAwareScrollViewBox.displayName = "ScrollableBox(KeyboardAwareScrollViewBox)";

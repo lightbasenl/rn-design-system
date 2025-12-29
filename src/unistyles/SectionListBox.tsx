@@ -3,7 +3,6 @@ import {
 	SectionList,
 	type SectionListProps,
 } from "react-native";
-import Animated from "react-native-reanimated";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import type { ScrollableBoxProps } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
@@ -64,9 +63,3 @@ const styles = StyleSheet.create((theme, rt) => ({
 	},
 }));
 SectionListBox.displayName = "ScrollableBox(SectionList)";
-
-/** @deprecated Use SectionListBox instead */
-export const AnimatedSectionListBox = Animated.createAnimatedComponent(
-	SectionListBox
-) as typeof SectionListBox;
-AnimatedSectionListBox.displayName = "ScrollableBox(AnimatedSectionListBox)";
