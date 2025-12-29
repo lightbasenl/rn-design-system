@@ -10,7 +10,7 @@
 //
 import type { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import type { ReactElement, ReactNode } from "react";
-import type { BoxShadowValue, ViewProps, ViewStyle } from "react-native";
+import type { ViewProps, ViewStyle } from "react-native";
 import type { SafeAreaViewProps } from "react-native-safe-area-context";
 
 // CONFIG
@@ -60,7 +60,7 @@ export type CreateLBConfig<
 	radius: TRadius;
 	defaults: Defaults<TMetrics, TFontSizes, TColors, TSpacing, TTextVariant, TRadius>;
 	capsize: CapSizeConfig<TFontSizes, TMetrics>;
-	shadows: ShadowConfig<TShadows>;
+	shadows: TShadows;
 };
 
 export type GenericLBConfig = CreateLBConfig<
@@ -238,7 +238,7 @@ export type BorderStyles =
 // Private types
 export type ButtonVariants = "solid" | "outline" | "ghost";
 export type LightColors = { [colorToken: string]: string };
-export type Shadows = { [shadow: string]: BoxShadowValue | string };
+export type Shadows = { [shadow: string]: string };
 
 export type ThemeColors<T extends LightColors> = { light: T; dark: Partial<T> };
 export type CustomColor<T extends LightColors> = keyof T | { custom: string };
