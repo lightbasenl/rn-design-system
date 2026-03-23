@@ -1,7 +1,6 @@
 import { createContext, type ReactElement, useContext } from "react";
-import { ActivityIndicator, Pressable, type ViewProps } from "react-native";
+import { ActivityIndicator, Pressable, type ViewProps, type ViewStyle } from "react-native";
 import Animated, {
-	type AnimatedStyle,
 	Easing,
 	interpolate,
 	interpolateColor,
@@ -10,7 +9,6 @@ import Animated, {
 	withTiming,
 } from "react-native-reanimated";
 import { StyleSheet, UnistylesRuntime, withUnistyles } from "react-native-unistyles";
-import { runOnJS } from "react-native-worklets";
 import { getButtonVariants } from "../tools/getButtonVariants";
 import type { BoxProps, ButtonVariants, ColorThemeKeys } from "../types";
 import { HStack, type HStackProps } from "../unistyles/HStack";
@@ -46,7 +44,7 @@ type ButtonSpecificProps = {
 	 */
 	isLoading?: boolean;
 	LoadingComponent?: ReactElement;
-	style?: AnimatedStyle;
+	style?: ViewStyle;
 };
 export type ButtonProps = Omit<ViewProps, "style"> &
 	OmittedBoxProps &
