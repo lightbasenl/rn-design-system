@@ -101,12 +101,8 @@ export function Button({
 
 	const { tokenStyles, paddingValues, ...rest } = resolveBoxTokens(remainingProps, theme);
 
-	const bgColor = tokenStyles.backgroundColor
-		? resolveColor(tokenStyles.backgroundColor, theme.colors)
-		: "transparent";
-	const borderColor = tokenStyles.borderColor
-		? resolveColor(tokenStyles.borderColor, theme.colors)
-		: "transparent";
+	const bgColor = tokenStyles.backgroundColor ?? "transparent";
+	const borderColor = tokenStyles.borderColor ?? "transparent";
 
 	const pressColor = onPressColor ? resolveColor(onPressColor, theme.colors) : bgColor;
 	const pressBorderColor = onPressBorderColor ? resolveColor(onPressBorderColor, theme.colors) : bgColor;
