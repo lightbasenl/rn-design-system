@@ -3,7 +3,8 @@ import { Children, cloneElement, isValidElement, type ReactNode } from "react";
 import type { TextStyle, ViewProps } from "react-native";
 import type { UnistylesThemes } from "react-native-unistyles";
 import { stripUndefined } from "../tools/stripUndefined";
-import type { BoxTokens, ColorThemeKeys, FontWeights, Spacing } from "../types";
+import type { BoxTokens, ColorThemeKeys, FontWeights, Radius, Spacing } from "../types";
+import { TinyColor } from "@ctrl/tinycolor";
 
 export function isFragment(value: any): value is React.ReactElement<{ children: ReactNode } | null>;
 export function isFragment(object: any): boolean {
@@ -95,21 +96,37 @@ export const resolveSpace = (
 	throw new Error(`Spacing value: ${space} is not included in the current theme configuration`);
 };
 
-export const resolveColor = (
-	color: ColorThemeKeys | undefined,
-	themeColors: UnistylesThemes[keyof UnistylesThemes]["colors"]
+export const resolveBorderRadius = (
+	radius: Radius | undefined,
+	borderRadius: UnistylesThemes[keyof UnistylesThemes]["radius"]
 ) => {
-	if (color == null) {
+	if (radius == null) {
 		return undefined;
 	}
+	if (typeof radius === "object") {
+		return radius.custom as number;
+	}
+	if (typeof radius === "string") {
+		if (borderRadius[radius] == null) {
+			throw new Error(`Border radius value: ${radius} is not included in the current theme configuration`);
+		}
+		return borderRadius[radius];
+	}
+	throw new Error(`Border radius value: ${radius} is not included in the current theme configuration`);
+};
+
+export const resolveColor = (
+	color: ColorThemeKeys,
+	themeColors: UnistylesThemes[keyof UnistylesThemes]["colors"]
+) => {
 	if (typeof color === "object") {
-		return color.custom;
+		return new TinyColor(color.custom).toHexString();
 	}
 	if (typeof color === "string") {
 		if (themeColors[color] == null) {
 			throw new Error(`color value: ${color} is not included in the current theme configuration`);
 		}
-		return themeColors[color];
+		return new TinyColor(themeColors[color]).toHexString();
 	}
 	throw new Error(`color value: ${color} is not included in the current theme configuration`);
 };

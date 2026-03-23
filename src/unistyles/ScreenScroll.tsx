@@ -5,7 +5,6 @@ import { type ScrollViewProps as RNScrollViewProps, ScrollView } from "react-nat
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import type { ScrollableBoxProps } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
-import { BackgroundContext } from "./useBackgroundColor";
 import { extractBoxTokens } from "./utils";
 
 export type ScrenNewProps = Omit<ScrollableBoxProps, "edges"> &
@@ -32,25 +31,13 @@ export function ScreenScroll({
 		}
 	}, [navigation, options]);
 
-	if (!backgroundColor) {
-		return (
-			<ScrollViewUniStyle
-				contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
-				style={[styles.container(boxProps), style]}
-				contentInsetAdjustmentBehavior="automatic"
-				{...viewProps}
-			/>
-		);
-	}
 	return (
-		<BackgroundContext.Provider value={backgroundColor}>
-			<ScrollViewUniStyle
-				contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
-				style={[styles.container(boxProps), style]}
-				contentInsetAdjustmentBehavior="automatic"
-				{...viewProps}
-			/>
-		</BackgroundContext.Provider>
+		<ScrollViewUniStyle
+			contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
+			style={[styles.container(boxProps), style]}
+			contentInsetAdjustmentBehavior="automatic"
+			{...viewProps}
+		/>
 	);
 }
 

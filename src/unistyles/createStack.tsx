@@ -4,7 +4,7 @@ import { type FlexAlignType, View } from "react-native";
 import { StyleSheet } from "react-native-unistyles";
 import type { BoxProps, Spacing } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
-import { BackgroundContext } from "./useBackgroundColor";
+
 import {
 	addInsetPadding,
 	extractBoxTokens,
@@ -117,20 +117,10 @@ export function createStack<D extends StackDirection>(config: StackConfig<D>) {
 			? flattenChildren(intersperse(getValidChildren(children), separator))
 			: children;
 
-		if (!backgroundColor) {
-			return (
-				<View style={[styles.container(styleProps), style]} {...viewProps}>
-					{renderedChildren}
-				</View>
-			);
-		}
-
 		return (
-			<BackgroundContext.Provider value={backgroundColor}>
-				<View style={[styles.container(styleProps), style]} {...viewProps}>
-					{renderedChildren}
-				</View>
-			</BackgroundContext.Provider>
+			<View style={[styles.container(styleProps), style]} {...viewProps}>
+				{renderedChildren}
+			</View>
 		);
 	}
 

@@ -37,7 +37,6 @@ export function createtheme<
 
 	const fonts = Object.entries(config.typography.sizes).reduce(
 		(prev, cur) => {
-			// biome-ignore lint/complexity/noForEach: <explanation>
 			Object.entries(config.typography.fonts).forEach(([fontKey, fontValue]) => {
 				const [key, value] = cur;
 				const { marginBottom, marginTop } = createTextSize({

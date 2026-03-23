@@ -5,7 +5,7 @@ import { FlatList, type FlatListProps as RNFlatListProps } from "react-native";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import type { FlatListBoxProps } from "./FlatListBox";
 import { resolveBoxTokens } from "./resolveBoxTokens";
-import { BackgroundContext } from "./useBackgroundColor";
+
 import { extractBoxTokens } from "./utils";
 
 type RNProps<T> = RNFlatListProps<T>;
@@ -36,23 +36,12 @@ export function ScreenList<T>({
 		}
 	}, [navigation, options]);
 
-	if (!backgroundColor) {
-		return (
-			<FlatListUniStyle<T>
-				contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
-				style={[styles.container(boxProps), style]}
-				{...viewProps}
-			/>
-		);
-	}
 	return (
-		<BackgroundContext.Provider value={backgroundColor}>
-			<FlatListUniStyle<T>
-				contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
-				style={[styles.container(boxProps), style]}
-				{...viewProps}
-			/>
-		</BackgroundContext.Provider>
+		<FlatListUniStyle<T>
+			contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
+			style={[styles.container(boxProps), style]}
+			{...viewProps}
+		/>
 	);
 }
 

@@ -1,6 +1,5 @@
 import { TinyColor } from "@ctrl/tinycolor";
 
-import { useCallback } from "react";
 import type { UnistylesThemes } from "react-native-unistyles";
 import type { ButtonProps } from "../components/Button";
 import type { ButtonVariants, ColorThemeKeys } from "../types";
@@ -17,31 +16,22 @@ export type ButtonVariantProps = Record<ButtonVariants, ButtonVariantType>;
 
 type Props = {
 	themeColor: ColorThemeKeys;
-	parentBackGroundColor: string;
 	variant: ButtonVariants;
 	theme: UnistylesThemes[keyof UnistylesThemes];
 };
-export function getButtonVariants({
-	themeColor: buttonThemeColor,
-	parentBackGroundColor,
-	variant: buttonVariant,
-	theme,
-}: Props) {
+export function getButtonVariants({ themeColor: buttonThemeColor, variant: buttonVariant, theme }: Props) {
 	const overrides = theme.variants.Button;
 	const defaultProps = theme.defaults.Button;
 	const colors = theme.colors;
 
 	const variant = buttonVariant ?? defaultProps.variant ?? "solid";
 	const themeColor = buttonThemeColor ?? defaultProps.themeColor ?? "primary";
-	const resolveThemeColor = useCallback(
-		(color: ColorThemeKeys) => {
-			if (typeof color === "object") {
-				return color.custom;
-			}
-			return colors[color] as string;
-		},
-		[colors]
-	);
+	const resolveThemeColor = (color: ColorThemeKeys) => {
+		if (typeof color === "object") {
+			return color.custom;
+		}
+		return colors[color] as string;
+	};
 
 	const variants: ButtonVariantProps = {
 		solid: {
@@ -58,8 +48,8 @@ export function getButtonVariants({
 			width: "100%",
 		},
 		ghost: {
-			backgroundColor: { custom: parentBackGroundColor },
-			borderColor: { custom: parentBackGroundColor },
+			backgroundColor: "transparent",
+			borderColor: "transparent",
 			onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).mix("#fff", 92).toHexString() },
 			textColor: themeColor,
 			borderWidth: 0,

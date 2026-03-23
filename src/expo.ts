@@ -96,7 +96,6 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
 	withDangerousMod(config, [
 		"android",
 		async (config) => {
-			// biome-ignore lint/complexity/noForEach: <explanation>
 			font?.forEach(async (assets) => {
 				let xmlContent = `<?xml version="1.0" encoding="utf-8"?>\n<font-family xmlns:app="http://schemas.android.com/apk/res-auto">`;
 				assets?.forEach(async (asset, index) => {
@@ -334,7 +333,6 @@ const withLinkedAsset: ConfigPlugin<{ folders: string[]; src?: string }> = (conf
 
 	const fontMap: { [family: string]: string[] } = {};
 
-	// biome-ignore lint/complexity/noForEach: <explanation>
 	assets.font?.forEach((font) => {
 		const check = opentype.loadSync(font);
 

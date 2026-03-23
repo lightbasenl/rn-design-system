@@ -1,5 +1,3 @@
-import { TinyColor } from "@ctrl/tinycolor";
-
 import { createContext, type ReactElement, useContext } from "react";
 import { ActivityIndicator, Pressable, type PressableProps } from "react-native";
 import Animated, {
@@ -12,14 +10,12 @@ import Animated, {
 	withTiming,
 } from "react-native-reanimated";
 import { StyleSheet, UnistylesRuntime, withUnistyles } from "react-native-unistyles";
-import { useBackgroundColor } from "../hooks/useBackgroundColor";
-import { getActiveColor } from "../tools/colorUtils";
 import { getButtonVariants } from "../tools/getButtonVariants";
 import type { BoxProps, ButtonVariants, ColorThemeKeys } from "../types";
 import { HStack, type HStackProps } from "../unistyles/HStack";
 import { resolveBoxTokens } from "../unistyles/resolveBoxTokens";
 import { Text, type TextProps } from "../unistyles/Text";
-import { resolveColor } from "../unistyles/utils";
+import { resolveBorderRadius, resolveColor } from "../unistyles/utils";
 
 type OmittedBoxProps = Omit<
 	BoxProps,
@@ -77,13 +73,10 @@ export function Button({
 	const defaultButtonVariant = theme.defaults.Button.variant;
 	const defaultButtonThemeColor = theme.defaults.Button.themeColor;
 
-	const parentBackGroundColor = useBackgroundColor();
-
 	const defaultVariant = variant ?? defaultButtonVariant ?? "solid";
 
 	const variants = getButtonVariants({
 		themeColor: themeColor ?? defaultButtonThemeColor,
-		parentBackGroundColor,
 		variant: defaultVariant,
 		theme: UnistylesRuntime.getTheme(),
 	});
@@ -100,32 +93,24 @@ export function Button({
 		space,
 		alignVertical = "center",
 		alignHorizontal = "center",
+		backgroundColor: backgroundColorToken,
+		borderColor: borderColorToken,
+		borderRadius: borderRadiusToken,
 		...remainingProps
 	} = combinedProps;
 
 	const { tokenStyles, paddingValues, ...rest } = resolveBoxTokens(remainingProps, theme);
 
-	const pressColor = onPressColor
-		? resolveColor(onPressColor, theme.colors)
-		: getActiveColor(tokenStyles.backgroundColor ?? parentBackGroundColor);
+	const bgColor = backgroundColorToken ? resolveColor(backgroundColorToken, theme.colors) : "transparent";
+	const borderColor = borderColorToken ? resolveColor(borderColorToken, theme.colors) : "transparent";
 
-	const pressBorderColor = resolveColor(
-		onPressBorderColor ?? (pressColor ? { custom: pressColor } : undefined),
-		theme.colors
-	);
-	const resolvedBackgroundColor = tokenStyles.backgroundColor ?? parentBackGroundColor;
-	const resolvedBorderColor = tokenStyles.borderColor ?? resolvedBackgroundColor;
+	const pressColor = onPressColor ? resolveColor(onPressColor, theme.colors) : bgColor;
+	const pressBorderColor = onPressBorderColor ? resolveColor(onPressBorderColor, theme.colors) : bgColor;
 
 	const anim = useSharedValue(0);
 	const animateTo = (toValue: number, duration: number) => {
-		anim.set(
-			withTiming(toValue, {
-				duration,
-				easing: Easing.inOut(Easing.quad),
-			})
-		);
+		anim.set(withTiming(toValue, { duration, easing: Easing.inOut(Easing.quad) }));
 	};
-
 	const handlePressIn = () => {
 		animateTo(1, 200);
 	};
@@ -134,25 +119,12 @@ export function Button({
 		animateTo(0, 200);
 	};
 
-	const endBackgroundColor = pressColor ? new TinyColor(pressColor).toHexString() : undefined;
-	const startBackgroundColor =
-		resolvedBackgroundColor === "transparent"
-			? pressColor
-				? new TinyColor(pressColor).setAlpha(0).toHexString()
-				: undefined
-			: resolvedBackgroundColor;
-
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
-			backgroundColor:
-				onPressColor !== null && startBackgroundColor && endBackgroundColor
-					? interpolateColor(anim.get(), [0, 1], [startBackgroundColor, endBackgroundColor], "RGB", {
-							gamma: 2.1,
-						})
-					: undefined,
+			backgroundColor: interpolateColor(anim.get(), [0, 1], [bgColor, pressColor]),
 			borderColor:
-				onPressBorderColor !== null && resolvedBorderColor && pressBorderColor
-					? interpolateColor(anim.get(), [0, 1], [resolvedBorderColor, pressBorderColor], "RGB", {
+				onPressBorderColor !== null && borderColor && pressBorderColor
+					? interpolateColor(anim.get(), [0, 1], [borderColor, pressBorderColor], "RGB", {
 							gamma: 2.1,
 						})
 					: undefined,
@@ -167,7 +139,7 @@ export function Button({
 	const _LoadingComponent = LoadingComponent ?? (
 		<UniActivityIndicator
 			uniProps={(theme) => ({
-				color: resolveColor(combinedProps.textColor, theme.colors),
+				color: combinedProps.textColor ? resolveColor(combinedProps.textColor, theme.colors) : undefined,
 			})}
 		/>
 	);
@@ -178,11 +150,11 @@ export function Button({
 				onPressIn={handlePressIn}
 				onPressOut={handlePressOut}
 				uniProps={(theme) => {
-					const { tokenStyles } = resolveBoxTokens(remainingProps, theme);
+					const borderRadius = resolveBorderRadius(borderRadiusToken, theme.radius);
 					return {
 						android_ripple: {
 							color: pressColor === "transparent" ? undefined : pressColor,
-							radius: tokenStyles.borderRadius,
+							radius: borderRadius,
 						},
 					};
 				}}

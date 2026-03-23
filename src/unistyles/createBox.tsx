@@ -3,7 +3,7 @@ import type { ScrollViewProps, ViewProps } from "react-native";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import type { BoxProps, ScrollableBoxProps } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
-import { BackgroundContext } from "./useBackgroundColor";
+
 import { addInsetPadding, extractBoxTokens } from "./utils";
 
 interface InitialComponentProps<T extends ViewProps> extends Record<string, unknown> {
@@ -48,23 +48,12 @@ export function createBox(
 			...props
 		}: ScrollableBoxProps & ScrollViewProps) => {
 			const { viewProps, boxProps } = extractBoxTokens<ScrollViewProps>({ backgroundColor, ...props });
-			if (!backgroundColor) {
-				return (
-					<ComponentWithUnistyles
-						contentContainerStyle={[scrollableStyles.contentContainer(boxProps), contentContainerStyle]}
-						style={[scrollableStyles.container(boxProps), style]}
-						{...viewProps}
-					/>
-				);
-			}
 			return (
-				<BackgroundContext.Provider value={backgroundColor}>
-					<ComponentWithUnistyles
-						contentContainerStyle={[scrollableStyles.contentContainer(boxProps), contentContainerStyle]}
-						style={[scrollableStyles.container(boxProps), style]}
-						{...viewProps}
-					/>
-				</BackgroundContext.Provider>
+				<ComponentWithUnistyles
+					contentContainerStyle={[scrollableStyles.contentContainer(boxProps), contentContainerStyle]}
+					style={[scrollableStyles.container(boxProps), style]}
+					{...viewProps}
+				/>
 			);
 		};
 		ScrollableBox.displayName = `ScrollableBox(${Component.displayName || Component.name})`;
@@ -73,14 +62,7 @@ export function createBox(
 
 	const Box = ({ style, backgroundColor, ...props }: BoxProps & ViewProps) => {
 		const { viewProps, boxProps } = extractBoxTokens<ViewProps>({ backgroundColor, ...props });
-		if (!backgroundColor) {
-			return <ComponentWithUnistyles style={[boxStyles.container(boxProps), style]} {...viewProps} />;
-		}
-		return (
-			<BackgroundContext.Provider value={backgroundColor}>
-				<ComponentWithUnistyles style={[boxStyles.container(boxProps), style]} {...viewProps} />
-			</BackgroundContext.Provider>
-		);
+		return <ComponentWithUnistyles style={[boxStyles.container(boxProps), style]} {...viewProps} />;
 	};
 	return Box;
 }

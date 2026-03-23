@@ -100,7 +100,7 @@ const styles = StyleSheet.create((theme) => ({
 			fontSize: fontSize ? fontSize * fontScale : fontSize,
 			lineHeight: lineHeight ? lineHeight * fontScale : lineHeight,
 			textDecorationLine: getTextDecoration({ underline, strikeThrough }),
-			color: resolveColor(variantColor, theme.colors),
+			color: variantColor ? resolveColor(variantColor, theme.colors) : undefined,
 			fontFamily: fontFamily as string,
 			textTransform,
 			textAlign,

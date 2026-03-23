@@ -6,7 +6,7 @@ import { ScrollView, type ScrollViewProps } from "react-native";
 import { StyleSheet, withUnistyles } from "react-native-unistyles";
 import type { ScrollableBoxProps } from "../types";
 import { resolveBoxTokens } from "./resolveBoxTokens";
-import { BackgroundContext } from "./useBackgroundColor";
+
 import { extractBoxTokens } from "./utils";
 
 type BasePageProps = Omit<ScrollableBoxProps, "edges"> & {
@@ -44,26 +44,13 @@ function PageInner<T extends ComponentType<ScrollViewProps> = typeof ScrollView>
 	const isScrollView = !scrollComponent || (scrollComponent as ComponentType<ScrollViewProps>) === ScrollView;
 	const defaultProps = isScrollView ? { contentInsetAdjustmentBehavior: "automatic" as const } : {};
 
-	if (!backgroundColor) {
-		return (
-			<ScrollComponent
-				{...defaultProps}
-				contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
-				style={[styles.container(boxProps), style]}
-				{...viewProps}
-			/>
-		);
-	}
-
 	return (
-		<BackgroundContext.Provider value={backgroundColor}>
-			<ScrollComponent
-				{...defaultProps}
-				contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
-				style={[styles.container(boxProps), style]}
-				{...viewProps}
-			/>
-		</BackgroundContext.Provider>
+		<ScrollComponent
+			{...defaultProps}
+			contentContainerStyle={[styles.contentContainer(boxProps), contentContainerStyle]}
+			style={[styles.container(boxProps), style]}
+			{...viewProps}
+		/>
 	);
 }
 

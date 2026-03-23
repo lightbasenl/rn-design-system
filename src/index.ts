@@ -1,5 +1,4 @@
 export * from "./components/Button";
-export * from "./hooks/useBackgroundColor";
 export * from "./tools/colorUtils";
 export * from "./types";
 export * from "./unistyles/createBox";
