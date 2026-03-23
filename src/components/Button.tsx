@@ -146,6 +146,7 @@ export function Button({
 	return (
 		<ButtonContext.Provider value={combinedProps}>
 			<Pressable
+				style={styles.pressable(remainingProps)}
 				onPressIn={handlePressIn}
 				onPressOut={handlePressOut}
 				onPress={onPress}
@@ -172,6 +173,20 @@ export function Button({
 }
 
 const styles = StyleSheet.create((theme) => ({
+	pressable: (props) => {
+		const { tokenStyles } = resolveBoxTokens(props, theme);
+		const pressableStyle: ViewStyle = {};
+		if (tokenStyles.width != null) pressableStyle.width = tokenStyles.width;
+		if (tokenStyles.height != null) pressableStyle.height = tokenStyles.height;
+		if (tokenStyles.flex != null) pressableStyle.flex = tokenStyles.flex;
+		if (tokenStyles.alignSelf != null) pressableStyle.alignSelf = tokenStyles.alignSelf;
+		return {
+			height: tokenStyles.height,
+			width: tokenStyles.width,
+			flex: tokenStyles.flex,
+			alignSelf: tokenStyles.alignSelf,
+		};
+	},
 	container: (props) => {
 		const { paddingValues, tokenStyles } = resolveBoxTokens(props, theme);
 		return { ...paddingValues, ...tokenStyles };
