@@ -83,7 +83,6 @@ export function Button({
 		theme: UnistylesRuntime.getTheme(),
 	});
 
-	console.log(JSON.stringify({ variants }, null, 2));
 	const combinedProps = { ...variants, ...props };
 
 	const {
