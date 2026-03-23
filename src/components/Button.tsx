@@ -1,6 +1,5 @@
 import { createContext, type ReactElement, useContext } from "react";
-import { ActivityIndicator, type ViewProps } from "react-native";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { ActivityIndicator, Pressable, type ViewProps } from "react-native";
 import Animated, {
 	type AnimatedStyle,
 	Easing,
@@ -84,6 +83,7 @@ export function Button({
 		theme: UnistylesRuntime.getTheme(),
 	});
 
+	console.log(JSON.stringify({ variants }, null, 2));
 	const combinedProps = { ...variants, ...props };
 
 	const {
@@ -109,22 +109,17 @@ export function Button({
 
 	const anim = useSharedValue(0);
 
-	const tap = Gesture.Tap()
-		.onBegin(() => {
-			if (disabled || isLoading || !onPress) return;
-			anim.set(withTiming(1, { duration: 200, easing: Easing.inOut(Easing.quad) }));
-		})
-		.onFinalize(() => {
-			if (disabled || isLoading || !onPress) return;
-			anim.set(withTiming(0, { duration: 200, easing: Easing.inOut(Easing.quad) }));
-		})
-		.onEnd((_, success) => {
-			// `Tap` will call `onEnd` even for cancelled/fail cases; rely on `success` so we only
-			// trigger `onPress` for an actual in-bounds tap.
-			if (success && !disabled && !isLoading && onPress) {
-				runOnJS(onPress)();
-			}
-		});
+	const animateTo = (toValue: number, duration: number) => {
+		anim.set(withTiming(toValue, { duration, easing: Easing.inOut(Easing.quad) }));
+	};
+
+	const handlePressIn = () => {
+		animateTo(1, 200);
+	};
+
+	const handlePressOut = () => {
+		animateTo(0, 200);
+	};
 
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
@@ -153,7 +148,12 @@ export function Button({
 
 	return (
 		<ButtonContext.Provider value={combinedProps}>
-			<GestureDetector gesture={tap}>
+			<Pressable
+				onPressIn={handlePressIn}
+				onPressOut={handlePressOut}
+				onPress={onPress}
+				disabled={disabled || isLoading || !onPress}
+			>
 				<Animated.View
 					style={[animatedStyle, styles.container(remainingProps), style]}
 					accessibilityRole="button"
@@ -169,7 +169,7 @@ export function Button({
 						{isLoading ? _LoadingComponent : children}
 					</HStack>
 				</Animated.View>
-			</GestureDetector>
+			</Pressable>
 		</ButtonContext.Provider>
 	);
 }

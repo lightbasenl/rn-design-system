@@ -44,8 +44,8 @@ export function getButtonVariants({ themeColor: buttonThemeColor, variant: butto
 			width: "100%",
 		},
 		outline: {
-			backgroundColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0).toHexString() },
-			onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).toHexString() },
+			backgroundColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0).toHex8String() },
+			onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0.2).toHex8String() },
 			borderColor: themeColor,
 			onPressBorderColor: themeColor,
 			textColor: themeColor,
@@ -53,14 +53,18 @@ export function getButtonVariants({ themeColor: buttonThemeColor, variant: butto
 			width: "100%",
 		},
 		ghost: {
-			backgroundColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0).toHexString() },
-			borderColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0).toHexString() },
-			onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).mix("#fff", 92).toHexString() },
+			backgroundColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0).toHex8String() },
+			borderColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0).toHex8String() },
+			onPressBorderColor: {
+				custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0.2).toHex8String(),
+			},
+			onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0.2).toHex8String() },
 			textColor: themeColor,
-			borderWidth: 0,
+			borderWidth: 1,
 			width: "100%",
 		},
 	};
+
 	return mergeDeepRight<Omit<ButtonVariantType, "children">>(
 		defaultProps,
 		variants[variant],

@@ -120,13 +120,13 @@ export const resolveColor = (
 	themeColors: UnistylesThemes[keyof UnistylesThemes]["colors"]
 ) => {
 	if (typeof color === "object") {
-		return new TinyColor(color.custom).toHexString();
+		return new TinyColor(color.custom).toHex8String();
 	}
 	if (typeof color === "string") {
 		if (themeColors[color] == null) {
 			throw new Error(`color value: ${color} is not included in the current theme configuration`);
 		}
-		return new TinyColor(themeColors[color]).toHexString();
+		return new TinyColor(themeColors[color]).toHex8String();
 	}
 	throw new Error(`color value: ${color} is not included in the current theme configuration`);
 };
