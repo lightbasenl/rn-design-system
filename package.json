@@ -3,36 +3,24 @@
 	"version": "2.8.0-alpha.2",
 	"description": "Lightbase internal react native design system",
 	"source": "./src/index.ts",
-	"main": "./lib/commonjs/index.js",
-	"module": "./lib/module/index.js",
-	"types": "./lib/typescript/commonjs/src/index.d.ts",
+	"main": "./src/index.ts",
+	"module": "./src/index.ts",
+	"types": "./src/index.ts",
 	"exports": {
 		".": {
-			"import": {
-				"types": "./lib/typescript/module/src/index.d.ts",
-				"default": "./lib/module/index.js"
-			},
-			"require": {
-				"types": "./lib/typescript/commonjs/src/index.d.ts",
-				"default": "./lib/commonjs/index.js"
-			}
+			"types": "./src/index.ts",
+			"default": "./src/index.ts"
 		},
 		"./config": {
-			"import": {
-				"types": "./lib/typescript/module/src/config/index.d.ts",
-				"default": "./lib/module/config/index.js"
-			},
-			"require": {
-				"types": "./lib/typescript/commonjs/src/config/index.d.ts",
-				"default": "./lib/commonjs/config/index.js"
-			}
+			"types": "./src/config/index.ts",
+			"default": "./src/config/index.ts"
 		},
 		"./package.json": "./package.json",
 		"./app.plugin.js": "./app.plugin.js"
 	},
 	"files": [
 		"src",
-		"lib",
+		"lib/commonjs/expo*",
 		"android",
 		"ios",
 		"cpp",
@@ -53,7 +41,7 @@
 		"test": "jest",
 		"typecheck": "tsc --noEmit",
 		"check": "npx @biomejs/biome check ./ --write",
-		"prepare": "bob build",
+		"prepare": "tsc src/expo.ts --outDir lib/commonjs --module commonjs --esModuleInterop --target ES2022 --skipLibCheck --resolveJsonModule --moduleResolution node",
 		"release": "release-it",
 		"updates": "npx npm-check-updates -i"
 	},
@@ -98,7 +86,6 @@
 		"expo-module-scripts": "^55.0.2",
 		"react": "19.2.0",
 		"react-native": "0.83.2",
-		"react-native-builder-bob": "^0.40.18",
 		"react-native-gesture-handler": "~2.30.0",
 		"react-native-keyboard-controller": "1.20.7",
 		"react-native-reanimated": "4.2.1",
@@ -122,30 +109,6 @@
 	},
 	"engines": {
 		"node": ">= 22.15.0"
-	},
-	"react-native-builder-bob": {
-		"source": "src",
-		"output": "lib",
-		"targets": [
-			[
-				"module",
-				{
-					"esm": true
-				}
-			],
-			[
-				"commonjs",
-				{
-					"esm": true
-				}
-			],
-			[
-				"typescript",
-				{
-					"project": "tsconfig.build.json"
-				}
-			]
-		]
 	},
 	"create-react-native-library": {
 		"languages": "js",
