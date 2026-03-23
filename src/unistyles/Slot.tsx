@@ -171,11 +171,11 @@ function getElementRef(element: React.ReactElement) {
 	return (element.props as { ref?: React.Ref<unknown> }).ref || (element as any).ref;
 }
 
+export type { SlotProps };
 export {
+	isSlottable,
 	Slot,
-	Slottable,
 	//
 	Slot as Root,
-	isSlottable,
+	Slottable,
 };
-export type { SlotProps };

@@ -1,5 +1,6 @@
 import { createContext, type ReactElement, useContext } from "react";
-import { ActivityIndicator, Pressable, type PressableProps } from "react-native";
+import { ActivityIndicator, type ViewProps } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
 	type AnimatedStyle,
 	Easing,
@@ -10,12 +11,13 @@ import Animated, {
 	withTiming,
 } from "react-native-reanimated";
 import { StyleSheet, UnistylesRuntime, withUnistyles } from "react-native-unistyles";
+import { scheduleOnRN } from "react-native-worklets";
 import { getButtonVariants } from "../tools/getButtonVariants";
 import type { BoxProps, ButtonVariants, ColorThemeKeys } from "../types";
 import { HStack, type HStackProps } from "../unistyles/HStack";
 import { resolveBoxTokens } from "../unistyles/resolveBoxTokens";
 import { Text, type TextProps } from "../unistyles/Text";
-import { resolveBorderRadius, resolveColor } from "../unistyles/utils";
+import { resolveColor } from "../unistyles/utils";
 
 type OmittedBoxProps = Omit<
 	BoxProps,
@@ -47,7 +49,9 @@ type ButtonSpecificProps = {
 	LoadingComponent?: ReactElement;
 	style?: AnimatedStyle;
 };
-export type ButtonProps = Omit<PressableProps, "style"> & OmittedBoxProps & ButtonSpecificProps;
+export type ButtonProps = Omit<ViewProps, "style"> &
+	OmittedBoxProps &
+	ButtonSpecificProps & { disabled?: boolean; onPress?: () => void };
 
 const ButtonContext = createContext<Partial<ButtonProps> | null>(null);
 function useButtonContext() {
@@ -59,7 +63,6 @@ function useButtonContext() {
 }
 
 const UniActivityIndicator = withUnistyles(ActivityIndicator);
-const UniPressable = withUnistyles(Pressable);
 
 export function Button({
 	variant,
@@ -93,31 +96,35 @@ export function Button({
 		space,
 		alignVertical = "center",
 		alignHorizontal = "center",
-		backgroundColor: backgroundColorToken,
-		borderColor: borderColorToken,
-		borderRadius: borderRadiusToken,
 		...remainingProps
 	} = combinedProps;
 
 	const { tokenStyles, paddingValues, ...rest } = resolveBoxTokens(remainingProps, theme);
 
-	const bgColor = backgroundColorToken ? resolveColor(backgroundColorToken, theme.colors) : "transparent";
-	const borderColor = borderColorToken ? resolveColor(borderColorToken, theme.colors) : "transparent";
+	const bgColor = tokenStyles.backgroundColor
+		? resolveColor(tokenStyles.backgroundColor, theme.colors)
+		: "transparent";
+	const borderColor = tokenStyles.borderColor
+		? resolveColor(tokenStyles.borderColor, theme.colors)
+		: "transparent";
 
 	const pressColor = onPressColor ? resolveColor(onPressColor, theme.colors) : bgColor;
 	const pressBorderColor = onPressBorderColor ? resolveColor(onPressBorderColor, theme.colors) : bgColor;
 
 	const anim = useSharedValue(0);
-	const animateTo = (toValue: number, duration: number) => {
-		anim.set(withTiming(toValue, { duration, easing: Easing.inOut(Easing.quad) }));
-	};
-	const handlePressIn = () => {
-		animateTo(1, 200);
-	};
 
-	const handlePressOut = () => {
-		animateTo(0, 200);
-	};
+	const tap = Gesture.Tap()
+		.onBegin(() => {
+			anim.set(withTiming(1, { duration: 200, easing: Easing.inOut(Easing.quad) }));
+		})
+		.onFinalize(() => {
+			anim.set(withTiming(0, { duration: 200, easing: Easing.inOut(Easing.quad) }));
+		})
+		.onEnd(() => {
+			if (onPress && !disabled) {
+				scheduleOnRN(() => onPress());
+			}
+		});
 
 	const animatedStyle = useAnimatedStyle(() => {
 		return {
@@ -146,24 +153,8 @@ export function Button({
 
 	return (
 		<ButtonContext.Provider value={combinedProps}>
-			<UniPressable
-				onPressIn={handlePressIn}
-				onPressOut={handlePressOut}
-				uniProps={(theme) => {
-					const borderRadius = resolveBorderRadius(borderRadiusToken, theme.radius);
-					return {
-						android_ripple: {
-							color: pressColor === "transparent" ? undefined : pressColor,
-							radius: borderRadius,
-						},
-					};
-				}}
-				onPress={onPress}
-				disabled={!!isLoading || !!disabled}
-				style={styles.button(remainingProps)}
-				{...rest}
-			>
-				<Animated.View style={[animatedStyle, styles.container(remainingProps), style]}>
+			<GestureDetector gesture={tap}>
+				<Animated.View style={[animatedStyle, styles.container(remainingProps), style]} {...rest}>
 					<HStack
 						space={space}
 						alignVertical={alignVertical}
@@ -173,16 +164,12 @@ export function Button({
 						{isLoading ? _LoadingComponent : children}
 					</HStack>
 				</Animated.View>
-			</UniPressable>
+			</GestureDetector>
 		</ButtonContext.Provider>
 	);
 }
 
 const styles = StyleSheet.create((theme) => ({
-	button: (props) => {
-		const { tokenStyles } = resolveBoxTokens(props, theme);
-		return { flex: tokenStyles.flex, width: tokenStyles.width, height: tokenStyles.height };
-	},
 	container: (props) => {
 		const { paddingValues, tokenStyles } = resolveBoxTokens(props, theme);
 		return { ...paddingValues, ...tokenStyles };
