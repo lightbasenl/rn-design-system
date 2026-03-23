@@ -5,6 +5,7 @@ import type { ButtonProps } from "../components/Button";
 import type { ButtonVariants, ColorThemeKeys } from "../types";
 import type { TextProps } from "../unistyles/Text";
 import { mergeDeepRight } from "./merge";
+import { getActiveColor } from "./colorUtils";
 
 type ButtonVariantType = Partial<ButtonProps> & {
 	backgroundColor?: ColorThemeKeys;
@@ -37,10 +38,14 @@ export function getButtonVariants({ themeColor: buttonThemeColor, variant: butto
 		solid: {
 			backgroundColor: themeColor,
 			borderColor: themeColor,
+			onPressColor: { custom: getActiveColor(resolveThemeColor(themeColor)) },
+			onPressBorderColor: { custom: getActiveColor(resolveThemeColor(themeColor)) },
 			borderWidth: 1,
 			width: "100%",
 		},
 		outline: {
+			backgroundColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0).toHexString() },
+			onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).toHexString() },
 			borderColor: themeColor,
 			onPressBorderColor: themeColor,
 			textColor: themeColor,
@@ -48,8 +53,8 @@ export function getButtonVariants({ themeColor: buttonThemeColor, variant: butto
 			width: "100%",
 		},
 		ghost: {
-			backgroundColor: "transparent",
-			borderColor: "transparent",
+			backgroundColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0).toHexString() },
+			borderColor: { custom: new TinyColor(resolveThemeColor(themeColor)).setAlpha(0).toHexString() },
 			onPressColor: { custom: new TinyColor(resolveThemeColor(themeColor)).mix("#fff", 92).toHexString() },
 			textColor: themeColor,
 			borderWidth: 0,

@@ -11,7 +11,7 @@ import Animated, {
 	withTiming,
 } from "react-native-reanimated";
 import { StyleSheet, UnistylesRuntime, withUnistyles } from "react-native-unistyles";
-import { scheduleOnRN } from "react-native-worklets";
+import { runOnJS } from "react-native-worklets";
 import { getButtonVariants } from "../tools/getButtonVariants";
 import type { BoxProps, ButtonVariants, ColorThemeKeys } from "../types";
 import { HStack, type HStackProps } from "../unistyles/HStack";
@@ -111,14 +111,18 @@ export function Button({
 
 	const tap = Gesture.Tap()
 		.onBegin(() => {
+			if (disabled || isLoading || !onPress) return;
 			anim.set(withTiming(1, { duration: 200, easing: Easing.inOut(Easing.quad) }));
 		})
 		.onFinalize(() => {
+			if (disabled || isLoading || !onPress) return;
 			anim.set(withTiming(0, { duration: 200, easing: Easing.inOut(Easing.quad) }));
 		})
-		.onEnd(() => {
-			if (onPress && !disabled) {
-				scheduleOnRN(() => onPress());
+		.onEnd((_, success) => {
+			// `Tap` will call `onEnd` even for cancelled/fail cases; rely on `success` so we only
+			// trigger `onPress` for an actual in-bounds tap.
+			if (success && !disabled && !isLoading && onPress) {
+				runOnJS(onPress)();
 			}
 		});
 
@@ -150,7 +154,12 @@ export function Button({
 	return (
 		<ButtonContext.Provider value={combinedProps}>
 			<GestureDetector gesture={tap}>
-				<Animated.View style={[animatedStyle, styles.container(remainingProps), style]} {...rest}>
+				<Animated.View
+					style={[animatedStyle, styles.container(remainingProps), style]}
+					accessibilityRole="button"
+					accessibilityState={{ disabled }}
+					{...rest}
+				>
 					<HStack
 						space={space}
 						alignVertical={alignVertical}
